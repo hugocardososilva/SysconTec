@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="syscon" transaction-type="RESOURCE_LOCAL">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		
+		<class>model.Usuario</class>
+		<class>model.Telefone</class>
+		<class>model.Condominio</class>
+		<class>model.Empresa</class>
+		<class>model.Funcionario</class>
+		<class>model.Informacao</class>
+		<class>model.Morador</class>
+		<class>model.Lote</class>
+		<class>model.Ocorrencia</class>
+		<class>model.OcorrenciaPrestadorServico</class>
+		<class>model.Pessoa</class>
+		<class>model.PessoaEsporadica</class>
+		<class>model.Prestador</class>
+		<class>model.Servico</class>
+		<class>model.ServicoCondominio</class>
+		<class>model.ServicoEsporadico</class>
+		<class>model.ServicoResidencia</class>
+		<class>model.TipoServico</class>
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
+ 
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
+		    <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/syscon" />
+		    <property name="javax.persistence.jdbc.user" value="postgres" />
+		    <property name="javax.persistence.jdbc.password" value="12345" />
+		    
+		    <property name="eclipselink.ddl-generation" value="create-or-extend-tables" />
+		    <property name="eclipselink.ddl-generation.output-mode" value="both"/>
+		    <property name="eclipselink.logging.level" value="WARNING"/>
+		    <property name="eclipselink.exclude-eclipselink-orm" value="true"/>
+		    <property name="eclipselink.target-server" value="None"/>
+		    <property name="eclipselink.target-database" value="PostgreSQL"/>
+		    <property name="eclipselink.temporal.mutable" value="true"/>	   
+		</properties>	
+		</persistence-unit>
+</persistence>
