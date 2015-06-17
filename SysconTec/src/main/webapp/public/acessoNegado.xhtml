@@ -1,0 +1,20 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui" >
+<h:head>
+</h:head>
+<h:body>
+	<ui:composition template="/template/template.xhtml">
+		<ui:define name="divLeft"/>
+		<ui:define name="divMain">
+			<h:form>
+				<h1>Acesso Negado</h1>
+				<br />
+				<h:graphicImage library="images" name="accessDenied.png" />
+				<br />
+				Você não tem autorização para ver essa pagina<br />
+				<p:commandButton action="#{loginMB.redirectAcesso}" value="Voltar" ajax="false" immediate="true" />
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

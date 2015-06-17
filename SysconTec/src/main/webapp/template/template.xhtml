@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+	<title>Condomínio</title>
+	<h:outputStylesheet library="css" name="main.css" />
+	<h:outputStylesheet library="bootstrap/css" name="bootstrap.min.css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+<h:body>
+	<f:view contentType="text/html; charset=UTF-8" encoding="UTF-8" >
+		<div class="container-fluid">
+			
+				
+				
+				
+		
+			<ui:insert name="divTop">
+				<ui:include src="top.xhtml" />
+			</ui:insert>
+				
+		
+		<div class="row">
+		<div id="divLeft" class="col-md-2" >
+			
+			<ui:insert name="divLeft">
+				<ui:include src="left.xhtml" />
+			</ui:insert>
+		</div>
+
+		<div id= "divMain" class="col-md-10">
+			
+			<p:messages id="messageGrowl" autoUpdate="true" closable="true" showDetail="true"></p:messages>
+			<ui:insert name="divMain" />
+		</div>
+		
+		<h:outputScript library="javascript" name="jscodes.js" />
+		<h:outputScript library="bootstrap/js" name="bootstrap.min.js" />
+		</div>
+		</div>
+	</f:view>
+</h:body>
+</html>

@@ -1,0 +1,41 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+
+	<ui:composition template="/template/template.xhtml">
+		<ui:define name="divMain">
+		<h3>Início</h3>
+		<p:panel toggleable="true" header="Serviços em aberto" >
+			<p:dataTable id="dataTablePrestadores" value="#{servicoPrestadorMB.servicosEmAberto}" emptyMessage="Nenhum serviço em aberto"
+			rows="10" paginator="true" var="aberto">
+			<p:column headerText="Nome" filterBy="#{aberto.pessoa.nome}">
+				<h:outputText value="#{aberto.pessoa.nome}"/>
+			</p:column>
+			<p:column headerText="Horário de entrada">
+				<h:outputText value="#{aberto.horaEntrada}">
+					<f:convertDateTime type="time"/>
+				</h:outputText>
+			</p:column>
+			<p:column headerText="Lote">
+				<h:outputText value="Quadra: #{aberto.pessoa.lote.quadra} Nº: #{aberto.pessoa.lote.numero}" />
+			</p:column>
+			<p:column headerText="Previsão de saída">
+				<h:outputText value="#{aberto.pessoa.horaSaida}">
+				<f:convertDateTime type="time"></f:convertDateTime>
+				</h:outputText>
+			</p:column>
+			
+			</p:dataTable>
+		
+		
+		</p:panel>
+		</ui:define>
+		<ui:define name="divLeft">
+		<ui:include src="/protected/funcionario/menu.xhtml"/>
+		
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

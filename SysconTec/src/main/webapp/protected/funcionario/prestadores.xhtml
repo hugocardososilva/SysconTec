@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+
+	<ui:composition template="/template/template.xhtml">
+	<ui:define name="divMain">
+		
+	
+		
+		<h:form id="prestadores" modal="true" >
+			<h3>Gerenciar Prestadores</h3>
+			<p:panel id="prestadoresGrupoBotoes">
+			
+			<p:commandButton value="Novo" action="#{prestadorPessoaMB.novoPrestador}" icon="fa fa-plus"  styleClass="btn btn-success btn-lg"  />
+			
+			</p:panel>
+			
+			<p:panel>
+			<p:spacer width="20" height="20px"/>
+			<p:dataTable id="prestadoresDataTable" var="prestador" value="#{prestadorPessoaMB.pessoas}"
+			emptyMessage="Não existem registros" rows="5" paginator="true">
+				<f:facet name="heaer">
+					<h:outputText value="Prestadores"/>
+				</f:facet>
+				
+				<p:column headerText="Nome" filterBy="#{prestador.nome}">
+					<h:outputText value="#{prestador.nome}"/>
+				</p:column>
+				<p:column headerText="Sobrenome" filterBy="#{prestador.sobrenome}">
+					<h:outputText value="#{prestador.sobrenome}"/>
+				</p:column>
+				<p:column headerText="CPF" filterBy="#{prestador.cpf}">
+					<h:outputText value="#{prestador.cpf}"/>
+				</p:column>
+				<p:column headerText="Bloqueado">
+					<h:outputText value="#{prestador.bloqueado}"/>
+				</p:column>
+				<p:column headerText="Ações">
+				
+					<p:commandButton icon="fa fa-search-plus"  value="Visualizar" action="#{prestadorPessoaMB.visualizarPrestador}"  styleClass="btn btn-info btn-xs" ajax="false" >
+						<f:setPropertyActionListener value="#{prestador}" target="#{prestadorPessoaMB.prestador}"></f:setPropertyActionListener>
+					</p:commandButton>
+					
+					<p:commandButton icon="fa fa-ban"  styleClass="btn btn-warning btn-xs" value="Bloquear" action="#{prestadorPessoaMB.bloquearPrestador}" update=":prestadores"/>
+				</p:column>
+				
+			
+			</p:dataTable>
+			
+			</p:panel>
+		</h:form>
+	
+	
+		
+		
+		
+		
+		
+		</ui:define>
+		<ui:define name="divLeft">
+		<ui:include src="/protected/funcionario/menu.xhtml"/>
+		
+		
+		</ui:define>
+	</ui:composition>
+	
+</h:body>
+</html>

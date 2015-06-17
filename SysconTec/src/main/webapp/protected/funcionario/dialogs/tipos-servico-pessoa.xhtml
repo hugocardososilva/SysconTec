@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+
+		
+		<p:dialog id="tipoServicoPessoa" widgetVar="tipoServicoPessoaWidget" modal="true" width="800px" height="800px">
+		<h:form id="tipoServicoPrestadorForm" >
+		
+		
+			<p:commandButton icon="fa fa-plus" value="Novo" styleClass="btn btn-success" action="#{prestadorPessoaMB.visualizarNovoTipo}" 
+			update=":tipoServicoPrestadorForm"  />
+			<p:panel id="novoTipoServicoPainel" rendered="#{prestadorPessoaMB.novoTipoServico == true ? true : false}">
+				
+			<p:panelGrid columns="2" id="painelAdicionarTipoGrid" >	
+							<p:outputLabel for="tipoServicoTipo" value="Tipo"  />    							
+							<p:inputText id="tipoServicoTipo" value="#{prestadorPessoaMB.tipoServico.tipo}"  label="Tipo" />
+							<p:outputLabel for="tipoServicoDescricao" value="Descrição"  />    							
+							<p:inputText id="tipoServicoDescricao" value="#{prestadorPessoaMB.tipoServico.descricao}"  label="Descricão" />
+				
+				
+				</p:panelGrid>
+				<p:panelGrid columns="3" >
+					<p:commandButton value="Salvar" icon="fa fa-save" styleClass="btn btn-success" action="#{prestadorPessoaMB.adicionarTipoServico}" update=":tipoServicoPrestadorForm:novoTipoServicoPainel :tipoServicoPrestadorForm:prestadorTipoPainel "/>
+					<p:commandButton value="Limpar" icon="fa fa-eraser" styleClass="btn btn-info" actionListener="#{prestadorPessoaMB.resetTipoServico}"  update=":tipoServicoPrestadorForm:novoTipoServicoPainel"/>
+					
+					
+				
+				</p:panelGrid>	
+			</p:panel>
+		
+		
+			<p:spacer width="20" height="20px"/>
+			
+			<p:panel id="prestadorTipoPainel">
+			<p:dataTable id="prestadorTipoData" var="tipo" value="#{prestadorPessoaMB.tipos}" emptyMessage="Não existem registros"
+			paginator="true" rows="20" widgetVar="tipoWidget">
+			 
+			 <f:facet name="header">
+		            <p:outputPanel>
+		               <h:outputText value="Tipos de Serviço"></h:outputText>
+		            </p:outputPanel>
+       		 </f:facet>
+				<p:column headerText="Tipo" filterBy="#{tipo.tipo}" >
+       				 <h:outputText value="#{tipo.tipo}" />
+    			</p:column>
+    			<p:column headerText="Descrição">
+       				 <h:outputText value="#{tipo.descricao}" />
+    			</p:column>
+    				<p:column headerText="Opções">
+       				 <p:commandButton value="Selecionar" icon="fa fa-arrow-left" styleClass="btn btn-primary btn-xs" 
+       				 oncomplete="PF('tipoServicoPessoaWidget').hide();" action="#{prestadorPessoaMB.selecionarTipoServico}"
+					update=":messageGrowl :prestadores:tipoServicoPessoa ">
+						<f:setPropertyActionListener value="#{tipo}" target="#{prestadorPessoaMB.tipoServico}"/>
+						</p:commandButton>
+    			</p:column>
+			
+			</p:dataTable>
+			</p:panel>
+			 
+			
+			 
+			
+			 			
+	
+		
+		</h:form>
+		
+		
+	</p:dialog>
+	
+</h:body>
+</html>

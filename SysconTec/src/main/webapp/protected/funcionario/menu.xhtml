@@ -1,0 +1,36 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<h:form>
+		
+	<div class="menu">
+	<p:menu toggleable="true" styleClass="menu">
+			<p:menuitem value="Início" outcome="/protected/funcionario/index.xhtml" ajax="false"/>
+		<p:submenu label="Cadastros">
+			<p:menuitem value="Gerenciar Condomínio" action="index" ajax= "false"/>
+			<p:menuitem value="Gerenciar Funcionários" action="index" ajax="false" />
+			<p:menuitem value="Gerenciar Lotes" action="#{lotesMB.redirectLotes}" ajax="false"/>
+			<p:menuitem value="Gerenciar Moradores" action="index" ajax="false"/>
+			<p:menuitem value="Gerenciar Tipos de Serviço" action="index" ajax="false"/>
+			<p:menuitem value="Gerenciar Prestadores" action="#{prestadorPessoaMB.redirectPrestadores}" ajax="false"/>
+			
+			
+		
+		</p:submenu>
+		<p:submenu label="Movimentação">
+			<p:menuitem value="Prestadores" action="#{servicoPrestadorMB.redirectMovimentacaoPrestador}" ajax="false"/>
+			<p:menuitem value="Visitantes" action="movimentacao-visitas-servico" ajax="false"/>
+			<p:menuitem value="Empresas" action="index" ajax="false"/>
+			
+		</p:submenu>
+	
+	</p:menu>
+	</div>
+			
+	</h:form>
+</h:body>
+</html>

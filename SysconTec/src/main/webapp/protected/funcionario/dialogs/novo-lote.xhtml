@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<p:dialog widgetVar="novoLoteWidiget"
+		id="novoLoteId" modal="true"
+		closable="true" draggable="false" resizable="false" width="500px" height="500px">
+		<h:form id="novoLoteForm" >
+		<p:panel>
+			<p:panelGrid columns="2">
+				<p:outputLabel for="loteNumero" value="Número" />
+				<p:inputText id="loteNumero" value="#{lotesMB.lote.numero}" required="true" label="Número" />
+				
+				
+				<p:outputLabel for="loteQuadra" value="Quadra" />
+				<p:inputText id="loteQuadra" value="#{lotesMB.lote.quadra}" required="true" label="quadra" />
+			</p:panelGrid>
+			<p:panelGrid columns="3">
+			<p:outputLabel for="loteResponsavel" value="Resposável" />
+				<p:autoComplete id="loteResponsavel" value="#{lotesMB.lote.responsavel.nome}" completeMethod="#{lotesMB.inquilinos}" label="quadra" />
+				<p:commandButton value="Novo" onclick="PF('novoLoteWidiget').show();" update=":lotes" styleClass="btn btn-success" >
+			<f:setPropertyActionListener value="#{lote}" target="#{lotesMB.lote}"></f:setPropertyActionListener>
+		</p:commandButton>
+			
+			</p:panelGrid>
+			<p:panelGrid columns="2">
+				<p:commandButton value="Salvar" icon="fa fa-plus"
+					action="#{lotesMB.salvarLote}" styleClass="btn btn-success" 
+					update=":messageGrowl :lotes:loteData"/>
+					
+				<p:commandButton value="Cancelar" icon="fa fa-remove" actionListener="#{lotesMB.resetLote}"
+					onclick="PF('novoLoteWidiget').hide();" type="button" update=":lotes :novoLoteForm" styleClass="btn btn-warning"  />
+			</p:panelGrid>
+			</p:panel>
+		</h:form>
+	</p:dialog>
+</h:body>
+</html>

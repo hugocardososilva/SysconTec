@@ -1,0 +1,45 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+
+	<ui:composition template="/template/template.xhtml">
+	<ui:define name="divMain">
+		<h:form id="novoInquilino">
+			<p:panelGrid columns="2">
+			
+				<p:outputLabel value="Email" for="email"/>
+				<p:inputText id="email" value="#{inquilinoMB.user.email}"></p:inputText>
+				
+				<p:outputLabel value="nome" for="nome"/>
+				<p:inputText id="nome" value="#{inquilinoMB.user.nome}"></p:inputText>
+				
+				<p:outputLabel value="Sobrenome" for="sobrenome"/>
+				<p:inputText id="sobrenome" value="#{inquilinoMB.user.sobrenome}"></p:inputText>
+				
+				  <p:outputLabel for="datanascimento" value="Data de nascimento" />
+       			 <p:calendar id="datanascimento" navigator="true" value="#{inquilinoMB.user.dataNascimento}" />
+				
+				<h:outputText value="#{sessionScope.user.email}"/>
+			
+			</p:panelGrid>
+			
+			<p:panelGrid columns="3" cellpadding="5">
+        <p:photoCam widgetVar="pc" listener="#{inquilinoMB.captura}" update="photo" />
+        <p:commandButton type="button" value="Capture" onclick="PF('pc').capture()"/>
+        <p:outputPanel id="photo">
+            
+            
+            <p:graphicImage value="/../imagesCmd/#{inquilinoMB.filename}.jpeg" rendered="#{not empty inquilinoMB.filename}"/>
+            
+        </p:outputPanel>
+    </p:panelGrid>
+		
+		
+		</h:form>
+		</ui:define>
+	</ui:composition>
+	
+</h:body>
+</html>

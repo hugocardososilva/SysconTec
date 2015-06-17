@@ -1,0 +1,53 @@
+
+.bs-docs-header {
+  padding-top: 60px;
+  padding-bottom: 60px;
+  font-size: 24px;
+  text-align: left;
+  position: relative;
+  padding: 30px 0;
+  color: #cdbfe3;
+  height:170px;
+  
+  text-shadow: 0 1px 0 rgba(0,0,0,.1);
+  background-color: #6f5499;
+}
+.bs-docs-header h1, .bs-docs-header p {
+	margin-top: 0;
+  	color: #fff;
+}
+
+
+.ui-menu{
+	width: 100% !important;
+}
+.ui-menu .ui-menuitem-text{
+	font-size: 100% !important;
+	font-weight: bold !important;
+	display: inline;
+}
+.ui-menu .ui-menu-list .ui-widget-header  h3{
+	font-size:135% !important;
+	font-weight: bold !important;
+	
+}
+#logo{
+	float: left;
+	margin-left: 20px;
+	
+	background-image: url("../resources/images/logo.png");
+	width: 250px;
+	height: 120px;
+	
+}
+.head-logo{
+	float: left;
+	width: 290px;
+}
+.clock{
+	font-size: 125%;
+	font-family: Arial;
+}
+.ui-clock{
+	font-family: Lucida Console!important;
+}

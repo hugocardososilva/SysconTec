@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml" 
+xmlns:f="http://java.sun.com/jsf/core" 
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<p>Ola, faça seu login</p>
+	<h:form>
+		<p:growl showDetail="false" life="3000" />
+		<h:panelGrid columns="2">
+			<h:outputLabel value="Login" />
+			<h:inputText value="#{loginMB.login}" label="Login" id="Login" required="true">
+
+			</h:inputText>
+			<h:outputLabel value="Senha" />
+			
+			<h:inputSecret value="#{loginMB.senha}" label="Senha:" id="senha" required="true" autocomplete="off" >
+
+			</h:inputSecret>
+			
+			
+		</h:panelGrid>
+		<p:commandButton action="#{loginMB.login}" value="Log in" ajax="false" />
+	</h:form>
+</h:body>
+</html>
