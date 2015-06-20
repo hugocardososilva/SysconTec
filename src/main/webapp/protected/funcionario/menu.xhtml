@@ -7,29 +7,42 @@
 <h:body>
 	<h:form>
 		
-	<div class="menu">
-	<p:menu toggleable="true" styleClass="menu">
-			<p:menuitem value="Início" outcome="/protected/funcionario/index.xhtml" ajax="false"/>
+	
+	<p:megaMenu orientation="horizontal"  >
+	
+	
+	
+	
+			<p:menuitem value="Início" outcome="/protected/funcionario/index.xhtml" ajax="false" icon="fa fa-home"/>
+	
 		<p:submenu label="Cadastros">
+		<p:column>
+			<p:submenu label="Cadastros">
 			<p:menuitem value="Gerenciar Condomínio" action="index" ajax= "false"/>
 			<p:menuitem value="Gerenciar Funcionários" action="index" ajax="false" />
 			<p:menuitem value="Gerenciar Lotes" action="#{lotesMB.redirectLotes}" ajax="false"/>
 			<p:menuitem value="Gerenciar Moradores" action="index" ajax="false"/>
 			<p:menuitem value="Gerenciar Tipos de Serviço" action="index" ajax="false"/>
 			<p:menuitem value="Gerenciar Prestadores" action="#{prestadorPessoaMB.redirectPrestadores}" ajax="false"/>
-			
+			</p:submenu>
+		</p:column>	
 			
 		
 		</p:submenu>
+ 
+ 
 		<p:submenu label="Movimentação">
+		 <p:column>
+		 	<p:submenu label="Movimentação">
 			<p:menuitem value="Prestadores" action="#{servicoPrestadorMB.redirectMovimentacaoPrestador}" ajax="false"/>
 			<p:menuitem value="Visitantes" action="movimentacao-visitas-servico" ajax="false"/>
 			<p:menuitem value="Empresas" action="index" ajax="false"/>
-			
+			</p:submenu>
+			</p:column>
 		</p:submenu>
+
+	</p:megaMenu>
 	
-	</p:menu>
-	</div>
 			
 	</h:form>
 </h:body>

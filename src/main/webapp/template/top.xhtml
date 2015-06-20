@@ -14,14 +14,11 @@
      			
      		
      	</div>
-     	<nav class="navbar navbar-default">
-     		<h:form>
-		     		<p:commandLink value="Sair" action="#{loginMB.logout}" ajax="false" styleClass="navbar-text navbar-right"  />
-     			</h:form>
-     	<div class="navbar-header">
-     		
-     	</div>
-     	</nav>	
+     	<ui:insert name="navbar">
+     	
+     	
+    
+     	</ui:insert>	
      </ui:composition>   
    </h:body>
 </html>

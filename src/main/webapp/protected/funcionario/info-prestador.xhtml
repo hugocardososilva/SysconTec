@@ -81,7 +81,7 @@
 							<p:inputText id="cpfPrestador" value="#{prestadorPessoaMB.prestador.cpf}" required="true" label="CPF" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" />			
 					</p:column>
 					
-					<p:column rowspan="3">
+					<p:column rowspan="3" style="width:150px">
 						<p:graphicImage value="/../sysconImages/#{prestadorPessoaMB.prestador.foto}.jpeg" width="150px" height="130px"/>
 					</p:column>
 					<p:column rowspan="3">
@@ -96,14 +96,14 @@
 									
 					</p:column>
 					<p:column>
-						<p:inputText id="nomePrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.nome}" required="true" label="Nome" />
+						<p:inputText id="nomePrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.nome}" required="true" label="Nome" size="30"/>
 					</p:column>
 				
 					<p:column>
 						<p:outputLabel for="sobrenomePrestador" value="Sobrenome:"  />
 					</p:column>
 					<p:column>
-						<p:inputText id="sobrenomePrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.sobrenome}" required="true" label="Sobrenome" />
+						<p:inputText id="sobrenomePrestador" size="40" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.sobrenome}" required="true" label="Sobrenome" />
 					</p:column>
 					
 					
@@ -178,10 +178,9 @@
 					<p:column colspan="2">
 						<p:inputText id="emailPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.email}" required="true" label="Email" style="width:98%" />
 					</p:column>
-					<p:column>
+					<p:column colspan="3">
 						<p:outputLabel for="lotePessoaPrestadorId" value="Lote:"  />
-					</p:column >		
-					<p:column colspan="2">					
+								
 						<p:selectOneMenu disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" id="lotePessoaPrestadorId" value="#{prestadorPessoaMB.prestador.lote}" filter="true" filterMatchMode="contains" style="width:98%">
 							 <f:selectItem itemLabel="Condomínio" itemValue="" />
 							 <f:selectItems value="#{prestadorPessoaMB.lotes}"  var="lote" itemLabel="Lote #{lote.numero} Quadra #{lote.quadra} " itemValue="#{lote}"  />									
@@ -191,7 +190,7 @@
 				</p:row>
 				<p:row>
 					<p:column>
-						<p:outputLabel for="hentradaPrestador" value="Horário de Entrada:" />
+						<p:outputLabel for="hentradaPrestador" value="Horário de Entrada:"  />
 					</p:column>
 					<p:column colspan="2">
 						<p:calendar id="hentradaPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" pattern="HH:mm" timeOnly="true"  value="#{prestadorPessoaMB.prestador.horaEntrada}" label="Horário de Entrada"  >
@@ -200,7 +199,7 @@
 					
 					</p:column>
 					<p:column>
-						<p:outputLabel for="hsaidaPrestador" value="Horário de Saídaa:" />
+						<p:outputLabel for="hsaidaPrestador" value="Horário de Saída:" style="text-align: right" />
 					</p:column>
 					<p:column colspan="2">
 						<p:calendar id="hsaidaPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" pattern="HH:mm" timeOnly="true"  value="#{prestadorPessoaMB.prestador.horaSaida}" label="Horário de Saída" >
@@ -290,7 +289,7 @@
 		
 		
 		
-		<ui:define name="divLeft">
+		<ui:define name="navbar">
 		<ui:include src="/protected/funcionario/menu.xhtml"/>
 		
 		

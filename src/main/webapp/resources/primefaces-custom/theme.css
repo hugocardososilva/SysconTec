@@ -795,7 +795,7 @@
 }
 
 .ui-menu.ui-widget li > .ui-menuitem-link {
-    padding: 0.3em 0;
+    padding: 0.3em 10px;
     width: 100%;
     border-width: 1px 0px;
 }
@@ -843,7 +843,7 @@
     margin-right: -0.2em;
 } 
 .ui-menu.ui-widget .ui-menuitem-link .ui-menuitem-text {
-    margin-left: 0.4em;
+    margin-left: 10px;
 }
 
 .ui-shadow {

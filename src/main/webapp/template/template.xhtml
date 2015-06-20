@@ -17,7 +17,8 @@
 
 <h:body>
 	<f:view contentType="text/html; charset=UTF-8" encoding="UTF-8" >
-		<div class="container-fluid">
+	
+		<div class="container">
 			
 				
 				
@@ -29,14 +30,14 @@
 				
 		
 		<div class="row">
-		<div id="divLeft" class="col-md-2" >
+		<div id="divLeft" >
 			
 			<ui:insert name="divLeft">
 				<ui:include src="left.xhtml" />
 			</ui:insert>
 		</div>
 
-		<div id= "divMain" class="col-md-10">
+		<div id= "divMain" class="col-md-12">
 			
 			<p:messages id="messageGrowl" autoUpdate="true" closable="true" showDetail="true"></p:messages>
 			<ui:insert name="divMain" />
