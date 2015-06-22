@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+
+	<ui:composition template="/template/template.xhtml">
+	<ui:define name="divMain">
+		
+		<h:form id="gerenciarFuncionarios">
+			<h3>Gerenciar Funcionários</h3>
+			<p:confirmDialog global="true">
+				<p:commandButton value="Sim" type="button"  icon="fa fa-check" styleClass="ui-confirmdialog-yes" />
+				<p:commandButton value="Não" type="button" icon="fa fa-close" styleClass="ui-confirmdialog-no"/>
+			
+			
+			</p:confirmDialog>
+			
+			<p:panel>
+				<p:panelGrid rendered="#{funcionarioMB.editar eq false}" columns="1">
+				<p:commandButton icon="fa fa-plus" styleClass="btn btn-success btn-lg" value="Novo" 
+					update=":gerenciarFuncionarios" action="#{funcionarioMB.novoFuncionario}"   />
+				</p:panelGrid>
+				
+				<p:panelGrid columns="3" id="panelGrupoBotoesNovo" rendered="#{funcionarioMB.novo eq true}" >
+				<p:commandButton value="Salvar" action="#{prestadorPessoaMB.salvarPessoa}" update=":gerenciarFuncionarios" icon="fa fa-save" styleClass="btn btn-success"/>
+				<p:commandButton icon="fa fa-eraser" styleClass="btn btn-info" value="Limpar" actionListener="#{prestadorPessoaMB.limparPrestador}" immediate="true"   update=":gerenciarFuncionarios">
+					<p:resetInput target="gerenciarFuncionarios"></p:resetInput>
+					<p:confirm header="Confimarção" message="Deseja mesmo limpar?" icon="fa fa-warning"/>
+				</p:commandButton>
+				<p:commandButton icon="fa fa-close" immediate="true" styleClass="btn btn-warning"  value="Cancelar" action="gerenciar-funcionarios" ajax="false">
+					<p:confirm header="Cancelar" message="Deseja mesmo cancelar?" icon="fa fa-warning" />
+				</p:commandButton>
+				
+				</p:panelGrid >
+			</p:panel>
+			
+			
+			<p:panel>
+				<p:panelGrid columns="2" id="panelGrupoBotoesEditar" rendered= "#{funcionarioMB.editar eq true}">
+				<p:commandButton value="Salvar" action="#{prestadorPessoaMB.salvarPessoa}"
+					update=":gerenciarFuncionarios" icon="fa fa-save" styleClass="btn btn-success"/>
+				
+				<p:commandButton icon="fa fa-close" immediate="true" styleClass="btn btn-warning"  value="Cancelar" action="gerenciar-funcionarios" ajax="false">
+				<p:confirm header="Cancelar" message="Deseja mesmo cancelar?" icon="fa fa-warning" />
+				</p:commandButton>
+			
+				</p:panelGrid>
+				<p:panelGrid columns="2" rendered="#{funcionarioMB.editar==false and funcionarioMB.novo==false}">	
+				<p:commandButton value="Editar" icon="fa fa-edit" styleClass="btn btn-warning" 
+					actionListener="#{prestadorPessoaMB.habilitarEdicao}" update=":gerenciarFuncionarios" immediate="true"/>
+				<p:commandButton value="Voltar" icon="fa fa-backward" styleClass="btn btn-info"  
+					action="#{prestadorPessoaMB.redirectPrestadores}" update=":gerenciarFuncionarios" immediate="true"/>
+				
+			</p:panelGrid>
+			</p:panel>
+			
+			
+						
+<!-- 			painel de adição ou edição -->
+				<p:panel rendered="#{funcionarioMB.novo==true or funcionarioMB.editar==true}" >
+				<p:panelGrid columns="2">
+				<p:outputLabel for="funcionarioNome" value="Nome:" />
+				<p:inputText id="funcionarioNome" value="#{prestadorPessoaMB.prestador.cpf}" required="true" label="CPF" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" />
+				
+				
+				</p:panelGrid>
+				
+				
+				
+				</p:panel>
+			
+			
+<!-- 			Painel data table -->
+			<p:panel>
+			
+			<p:spacer width="20" height="20px"/>
+		
+			<p:dataTable id="funcionarioTable" var="funcionario" value="#{lotesMB.lotes}" emptyMessage="Não existem registros"
+			paginator="true" rows="20" widgetVar="FuncionarioTableWidget" filteredValue="#{lotesMB.lotesFiltrado}">
+			 
+			 
+				<p:column headerText="Id" filterBy="#{lote.id}"  width="150" >
+       				 <h:outputText value="#{lote.id}" />
+    			</p:column>
+    			<p:column headerText="Nome" filterBy="#{lote.numero}">
+       				 <h:outputText value="#{lote.numero}" />
+    			</p:column>
+    			<p:column headerText="Sobrenome" filterBy="#{lote.quadra}" >
+       				 <h:outputText  value="#{lote.quadra}" />
+    			</p:column>
+    			<p:column headerText="Telefones" filterBy="#{lote.responsavel.nome}">
+       				 <h:outputText value="#{lote.responsavel.id} #{lote.responsavel.nome}"   />
+    			</p:column>
+    			<p:column headerText="Ações">
+    				<p:commandButton icon="fa fa-search-plus"  styleClass="btn btn-info btn-xs" value="Visualizar" />
+    				
+    			</p:column>
+			
+			</p:dataTable>
+			
+			</p:panel>
+		
+		</h:form>
+		
+		
+		</ui:define>
+		<ui:define name="navbar">
+		<ui:include src="/protected/funcionario/menu.xhtml"/>
+		
+		</ui:define>
+	</ui:composition>
+	
+</h:body>
+</html>

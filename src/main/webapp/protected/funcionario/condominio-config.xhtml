@@ -49,13 +49,7 @@
 				</f:facet>
 				
 				
-								 <p:outputLabel for="nome" value="Nome Completo do condomínio:" />
-							
-								<p:inputText id="nome" value="#{prestadorPessoaMB.prestador.senha}" required="true" 
-											readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" 
-											label="Senha" >
-											
-											</p:inputText>
+								
 							
 									<p:outputLabel for="diasSemUtilizar" value="Quantidade de dias para bloquear um prestador:" />
 								
@@ -73,7 +67,19 @@
 				</f:facet>
 						
 						<p:row>
-						
+							<p:column>
+						 		<p:outputLabel for="nome" value="Nome Completo do condomínio:" />
+							</p:column>
+							<p:column colspan="3">
+								<p:inputText id="nome" value="#{prestadorPessoaMB.prestador.senha}" required="true" 
+											readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" 
+											label="Senha" >
+											
+								</p:inputText>
+							</p:column>
+						</p:row>
+						<p:row>
+							
 							<p:column>
 								<p:outputLabel for="endereco" value="Endereço:" />
 							</p:column>
@@ -87,56 +93,56 @@
 								<p:inputText id="numero" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.numero}" size="5" label="Numero" style="width:98%" />		
 							</p:column>
 						</p:row>
-				<p:row>
-					<p:column>
-						<p:outputLabel for="bairro" value="Bairro:" />	
-					</p:column>
-					<p:column colspan="3">
-						<p:inputText id="bairro" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.bairro}"  label="Bairro" style="width:98%"/>
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column>
-						<p:outputLabel for="complemento" value="Complemento:" />
-					</p:column>
-					<p:column colspan="3">
-						<p:inputText id="complemento" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.complemento}"  label="Complemento" style="width:98%"/>
-					</p:column>
-				
-				</p:row>
-				<p:row>
-					<p:column >
-						<p:outputLabel for="cidade" value="Cidade:" />
-					</p:column>
-					<p:column colspan="1">
-						<p:inputText id="cidade" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.cidade}" label="Cidade" />
-					</p:column>
-					<p:column>
-						<p:outputLabel for="estado"  value="Estado:" />
-					</p:column>
-					<p:column>
-						<p:inputText id="estado" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.estado}"  label="Estado" maxlength="2" size="2" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column>
-						<p:outputLabel for="cep"  value="CEP:" />
-					</p:column>
-					<p:column colspan="3">
-						<p:inputText id="cep" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.cep}" label="CEP" style="width:98%"  />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column>
-						<p:outputLabel for="email" value="Email:" />
-					</p:column>
-					<p:column colspan="3">
-						<p:inputText id="email" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.email}" required="true" label="Email" style="width:98%" />
-					</p:column>
-					
-				
-				</p:row>
-				
+						<p:row>
+							<p:column>
+								<p:outputLabel for="bairro" value="Bairro:" />	
+							</p:column>
+							<p:column colspan="3">
+								<p:inputText id="bairro" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.bairro}"  label="Bairro" style="width:98%"/>
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:outputLabel for="complemento" value="Complemento:" />
+							</p:column>
+							<p:column colspan="3">
+								<p:inputText id="complemento" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.complemento}"  label="Complemento" style="width:98%"/>
+							</p:column>
+						
+						</p:row>
+						<p:row>
+							<p:column >
+								<p:outputLabel for="cidade" value="Cidade:" />
+							</p:column>
+							<p:column colspan="1">
+								<p:inputText id="cidade" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.cidade}" label="Cidade" />
+							</p:column>
+							<p:column>
+								<p:outputLabel for="estado"  value="Estado:" />
+							</p:column>
+							<p:column>
+								<p:inputText id="estado" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.estado}"  label="Estado" maxlength="2" size="2" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:outputLabel for="cep"  value="CEP:" />
+							</p:column>
+							<p:column colspan="3">
+								<p:inputText id="cep" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.cep}" label="CEP" style="width:98%"  />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:outputLabel for="email" value="Email:" />
+							</p:column>
+							<p:column colspan="3">
+								<p:inputText id="email" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.email}" required="true" label="Email" style="width:98%" />
+							</p:column>
+							
+						
+						</p:row>
+						
 			
 			
 			</p:panelGrid>
