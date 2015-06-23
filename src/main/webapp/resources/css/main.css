@@ -62,3 +62,6 @@
 .ui-inputfield, .ui-widget-content .ui-inputfield, .ui-widget-header .ui-inputfield{
 	width: 100%!important;
 }
+.ui-datalist{
+	max-width: 600px;
+}

@@ -18,19 +18,21 @@
 			
 			</p:confirmDialog>
 			
-			<p:panel>
-				<p:panelGrid rendered="#{funcionarioMB.editar eq false}" columns="1">
+			<p:panel rendered="#{funcionarioMB.editar eq false}" >
+				<p:panelGrid columns="1">
 				<p:commandButton icon="fa fa-plus" styleClass="btn btn-success btn-lg" value="Novo" 
 					update=":gerenciarFuncionarios" action="#{funcionarioMB.novoFuncionario}"   />
 				</p:panelGrid>
-				
-				<p:panelGrid columns="3" id="panelGrupoBotoesNovo" rendered="#{funcionarioMB.novo eq true}" >
+			</p:panel>
+			
+			<p:panel rendered="#{funcionarioMB.novo eq true}">	
+				<p:panelGrid columns="3" id="panelGrupoBotoesNovo"  >
 				<p:commandButton value="Salvar" action="#{prestadorPessoaMB.salvarPessoa}" update=":gerenciarFuncionarios" icon="fa fa-save" styleClass="btn btn-success"/>
 				<p:commandButton icon="fa fa-eraser" styleClass="btn btn-info" value="Limpar" actionListener="#{prestadorPessoaMB.limparPrestador}" immediate="true"   update=":gerenciarFuncionarios">
 					<p:resetInput target="gerenciarFuncionarios"></p:resetInput>
 					<p:confirm header="Confimarção" message="Deseja mesmo limpar?" icon="fa fa-warning"/>
 				</p:commandButton>
-				<p:commandButton icon="fa fa-close" immediate="true" styleClass="btn btn-warning"  value="Cancelar" action="gerenciar-funcionarios" ajax="false">
+				<p:commandButton icon="fa fa-close"  styleClass="btn btn-warning" immediate="true" value="Cancelar" outcome="gerenciar-funcionarios?faces-redirect=true" >
 					<p:confirm header="Cancelar" message="Deseja mesmo cancelar?" icon="fa fa-warning" />
 				</p:commandButton>
 				
@@ -38,8 +40,8 @@
 			</p:panel>
 			
 			
-			<p:panel>
-				<p:panelGrid columns="2" id="panelGrupoBotoesEditar" rendered= "#{funcionarioMB.editar eq true}">
+			<p:panel rendered= "#{funcionarioMB.editar eq true}">
+				<p:panelGrid columns="2" id="panelGrupoBotoesEditar" >
 				<p:commandButton value="Salvar" action="#{prestadorPessoaMB.salvarPessoa}"
 					update=":gerenciarFuncionarios" icon="fa fa-save" styleClass="btn btn-success"/>
 				
@@ -48,25 +50,76 @@
 				</p:commandButton>
 			
 				</p:panelGrid>
-				<p:panelGrid columns="2" rendered="#{funcionarioMB.editar==false and funcionarioMB.novo==false}">	
-				<p:commandButton value="Editar" icon="fa fa-edit" styleClass="btn btn-warning" 
-					actionListener="#{prestadorPessoaMB.habilitarEdicao}" update=":gerenciarFuncionarios" immediate="true"/>
-				<p:commandButton value="Voltar" icon="fa fa-backward" styleClass="btn btn-info"  
-					action="#{prestadorPessoaMB.redirectPrestadores}" update=":gerenciarFuncionarios" immediate="true"/>
 				
-			</p:panelGrid>
+			</p:panel>
+			<p:panel rendered="#{funcionarioMB.editar==true and funcionarioMB.novo==true}">	
+				
+				<p:panelGrid columns="2" >	
+					<h:outputText value="#{funcionarioMB.editar==true and funcionarioMB.novo==true}"></h:outputText>
+					<p:commandButton value="Editar" icon="fa fa-edit" styleClass="btn btn-warning" 
+						actionListener="#{prestadorPessoaMB.habilitarEdicao}" update=":gerenciarFuncionarios" immediate="true"/>
+					<p:commandButton value="Voltar" icon="fa fa-backward" styleClass="btn btn-info"  
+						action="#{prestadorPessoaMB.redirectPrestadores}" update=":gerenciarFuncionarios" immediate="true"/>
+				
+				
+				</p:panelGrid>
 			</p:panel>
 			
 			
 						
 <!-- 			painel de adição ou edição -->
-				<p:panel rendered="#{funcionarioMB.novo==true or funcionarioMB.editar==true}" >
-				<p:panelGrid columns="2">
-				<p:outputLabel for="funcionarioNome" value="Nome:" />
-				<p:inputText id="funcionarioNome" value="#{prestadorPessoaMB.prestador.cpf}" required="true" label="CPF" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" />
+				<p:panel rendered="#{funcionarioMB.novo eq true or funcionarioMB.editar eq true}" >
 				
+				<p:panelGrid columns="2">
+				
+				<p:outputLabel for="funcionarioLogin" value="Login:"  />
+				<p:inputText id="funcionarioLogin" size="60" value="#{funcionarioMB.funcionario.login}" required="true" label="Login" readonly="#{funcionarioMB.editar eq false and funcionarioMB.novo eq false}" />
+				
+				<p:outputLabel for="funcionarioNome" value="Nome:" />
+				<p:inputText id="funcionarioNome" value="#{funcionarioMB.funcionario.nome}" required="true" label="Nome" readonly="#{funcionarioMB.editar eq false and funcionarioMB.novo eq false}" />
+				
+				<p:outputLabel for="funcionarioSobrenome" value="Sobrenome:" />
+				<p:inputText id="funcionarioSobrenome" value="#{funcionarioMB.funcionario.sobrenome}" required="true" label="Sobrenome" readonly="#{funcionarioMB.editar eq false and funcionarioMB.novo eq false}" />
+				
+				<p:outputLabel for="funcionarioCPF" value="CPF:" />
+				<p:inputText id="funcionarioCPF" value="#{funcionarioMB.funcionario.cpf}" required="true" label="CPF" readonly="#{funcionarioMB.editar eq false and funcionarioMB.novo eq false}" />
+				
+				<p:outputLabel for="funcionarioEmail" value="Email:" />
+				<p:inputText id="funcionarioEmail" value="#{funcionarioMB.funcionario.email}" required="true" label="Email" readonly="#{funcionarioMB.editar eq false and funcionarioMB.novo eq false}" />
+				
+				<p:outputLabel for="funcionarioEcivil" value="Estado Civil:" />
+				<p:inputText id="funcionarioEcivil" value="#{funcionarioMB.funcionario.estadoCivil}" required="true" label="Estado Civil" readonly="#{funcionarioMB.editar eq false and funcionarioMB.novo eq false}" />
+				
+				<p:outputLabel for="funcionarioEndereco" value="Endereço:" />
+				<p:inputText id="funcionarioEndereco" value="#{funcionarioMB.funcionario.informacao.endereco}" required="true" label="Endereco" readonly="#{funcionarioMB.editar eq false and funcionarioMB.novo eq false}" />
+				
+				<p:outputLabel for="funcionarioNumero" value="Número:" />
+				<p:inputText id="funcionarioNumero" value="#{funcionarioMB.funcionario.informacao.numero}" required="true" label="Numero" readonly="#{funcionarioMB.editar eq false and funcionarioMB.novo eq false}" />
+				
+				<p:outputLabel for="funcionarioComplemento" value="Complemento:" />
+				<p:inputText id="funcionarioComplemento" value="#{funcionarioMB.funcionario.informacao.complemento}" required="true" label="Complemento" readonly="#{funcionarioMB.editar eq false and funcionarioMB.novo eq false}" />
+				
+				<p:outputLabel for="funcionarioBairro" value="Bairro:" />
+				<p:inputText id="funcionarioBairro" value="#{funcionarioMB.funcionario.informacao.bairro}" required="true" label="Bairro" readonly="#{funcionarioMB.editar eq false and funcionarioMB.novo eq false}" />
+				
+				<p:outputLabel for="funcionarioCidade" value="Cidade:" />
+				<p:inputText id="funcionarioCidade" value="#{funcionarioMB.funcionario.informacao.cidade}" required="true" label="Cidade" readonly="#{funcionarioMB.editar eq false and funcionarioMB.novo eq false}" />
+				
+				<p:outputLabel for="funcionarioEstado" value="Estado:" />
+				<p:inputText id="funcionarioEstado" value="#{funcionarioMB.funcionario.informacao.estado}" required="true" label="Cidade" readonly="#{funcionarioMB.editar eq false and funcionarioMB.novo eq false}" />
 				
 				</p:panelGrid>
+				 <p:dataList value="#{funcionarioMB.funcionario.telefones}"  var="telefone" type="unordered" itemType="none" paginator="true" rows="5" styleClass="paginated" style="width: 200px">
+				        <f:facet name="header">
+				        	<p:commandButton style="float:left" icon="fa fa-plus" styleClass="btn btn-success" update=":gerenciarFuncionarios" action="#{funcionarioMB.novoFuncionario}"   />
+				           <h:outputText value="Telefones"/>
+				        </f:facet>
+				        <p:commandButton update=":gerenciarFuncionarios" action="#{funcionarioMB.removerTelefone}" title="Detalhes" styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px">
+				            <f:setPropertyActionListener value="#{telefone}" target="#{funcionarioMB.telefone}" />
+				            <h:outputText value="#{car.brand}, #{car.year}" />
+				        </p:commandButton>
+				        <h:outputText value="(#{telefone.ddd}) #{telefone.numero}" style="display:inline-block"/>
+				    </p:dataList>
 				
 				
 				
@@ -74,27 +127,27 @@
 			
 			
 <!-- 			Painel data table -->
-			<p:panel>
+			<p:panel rendered="#{funcionarioMB.novo eq false and funcionarioMB.editar eq false}">
 			
 			<p:spacer width="20" height="20px"/>
 		
-			<p:dataTable id="funcionarioTable" var="funcionario" value="#{lotesMB.lotes}" emptyMessage="Não existem registros"
-			paginator="true" rows="20" widgetVar="FuncionarioTableWidget" filteredValue="#{lotesMB.lotesFiltrado}">
+			<p:dataTable id="funcionarioTable"  var="funcionario" value="#{funcionarioMB.funcionarios}" emptyMessage="Não existem registros"
+			paginator="true" rows="20" widgetVar="FuncionarioTableWidget" >
 			 
 			 
-				<p:column headerText="Id" filterBy="#{lote.id}"  width="150" >
-       				 <h:outputText value="#{lote.id}" />
+				<p:column headerText="Id" filterBy="#{funcionario.id}"  width="70" >
+       				 <h:outputText value="#{funcionario.id}" />
     			</p:column>
-    			<p:column headerText="Nome" filterBy="#{lote.numero}">
-       				 <h:outputText value="#{lote.numero}" />
+    			<p:column headerText="Nome" filterBy="#{funcionario.nome}">
+       				 <h:outputText value="#{funcionario.nome}" />
     			</p:column>
-    			<p:column headerText="Sobrenome" filterBy="#{lote.quadra}" >
-       				 <h:outputText  value="#{lote.quadra}" />
+    			<p:column headerText="Sobrenome" filterBy="#{funcionario.nome}" >
+       				 <h:outputText  value="#{funcionario.nome}" />
     			</p:column>
     			<p:column headerText="Telefones" filterBy="#{lote.responsavel.nome}">
        				 <h:outputText value="#{lote.responsavel.id} #{lote.responsavel.nome}"   />
     			</p:column>
-    			<p:column headerText="Ações">
+    			<p:column headerText="Ações" width="130">
     				<p:commandButton icon="fa fa-search-plus"  styleClass="btn btn-info btn-xs" value="Visualizar" />
     				
     			</p:column>

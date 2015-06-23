@@ -3,7 +3,10 @@ package mb;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -13,6 +16,7 @@ import org.primefaces.event.CaptureEvent;
 
 import model.Funcionario;
 import model.Morador;
+import model.Telefone;
 import model.Usuario;
 
 @ManagedBean
@@ -26,13 +30,34 @@ public class FuncionarioMB extends AbstractMB implements Serializable {
 	private Funcionario funcionario;
 	private boolean novo;
 	private boolean editar;
+	private Telefone telefone;
+	private List<Funcionario> funcionarios= new ArrayList<Funcionario>();
 	
 	public FuncionarioMB() {
 		System.out.println("novo mb de funcionario " + this.toString());
+		
+	}
+	@PostConstruct
+	public void init(){
 		this.novo= false;
 		this.editar= false;
+		this.funcionario= new Funcionario();
+		
 	}
-
+	
+	
+	public List<Funcionario> getFuncionarios() {
+		return funcionarios;
+	}
+	public void setFuncionarios(List<Funcionario> funcionarios) {
+		this.funcionarios = funcionarios;
+	}
+	public Telefone getTelefone() {
+		return telefone;
+	}
+	public void setTelefone(Telefone telefone) {
+		this.telefone = telefone;
+	}
 	public Funcionario getFuncionario() {
 		return funcionario;
 	}
@@ -60,7 +85,10 @@ public class FuncionarioMB extends AbstractMB implements Serializable {
 	public void novoFuncionario(){
 		this.novo= true;
 	}
-
+	public void removerTelefone(){
+		
+	}
+	
 	@Override
 	public String toString() {
 		return "FuncionarioMB [funcionario=" + funcionario + ", novo=" + novo
