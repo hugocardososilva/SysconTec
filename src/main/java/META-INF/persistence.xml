@@ -17,6 +17,8 @@
 		<class>model.PessoaEsporadica</class>
 		<class>model.Prestador</class>
 		<class>model.Servico</class>
+		
+		
 		<class>model.ServicoCondominio</class>
 		<class>model.ServicoEsporadico</class>
 		<class>model.ServicoResidencia</class>

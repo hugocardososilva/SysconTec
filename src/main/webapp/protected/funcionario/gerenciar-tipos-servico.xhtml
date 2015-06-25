@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+
+	<ui:composition template="/template/template.xhtml">
+	<ui:define name="divMain">
+		
+				<h:form id="tipoServicoPrestadorForm" >
+			<p:confirmDialog global="true">
+				<p:commandButton value="Sim" type="button"  icon="fa fa-check" styleClass="ui-confirmdialog-yes" />
+				<p:commandButton value="Não" type="button" icon="fa fa-close" styleClass="ui-confirmdialog-no"/>
+			
+			</p:confirmDialog>
+		
+			
+			<p:panel id="novoTipoServicoPainel" >
+				
+			<p:panelGrid columns="2" id="painelAdicionarTipoGrid" >	
+				 <f:facet name="header">
+		            <p:outputPanel>
+		               <h:outputText value="Novo Tipo"></h:outputText>
+		            </p:outputPanel>
+       			 </f:facet>
+					<p:outputLabel for="tipoServicoTipo" value="Tipo"  />    							
+					<p:inputText id="tipoServicoTipo" value="#{tipoServicoMB.tipoServico.tipo}"  label="Tipo" />
+					
+					<p:outputLabel for="tipoServicoDescricao" value="Descrição"  />    							
+					<p:inputText id="tipoServicoDescricao" value="#{tipoServicoMB.tipoServico.descricao}"  label="Descricão" />
+		
+		
+			</p:panelGrid>
+				<p:panelGrid columns="3" >
+				
+					<p:commandButton value="Salvar" icon="fa fa-save" styleClass="btn btn-success" action="#{prestadorPessoaMB.adicionarTipoServico}" update=":tipoServicoPrestadorForm:novoTipoServicoPainel :tipoServicoPrestadorForm:prestadorTipoPainel "/>
+					<p:commandButton icon="fa fa-eraser" styleClass="btn btn-info" value="Limpar" immediate="true"   update=":tipoServicoPrestadorForm">
+						<p:resetInput target="tipoServicoPrestadorForm"></p:resetInput>
+						<p:confirm header="Confimarção" message="Deseja mesmo limpar?" icon="fa fa-warning"/>
+					</p:commandButton>
+					
+				
+				</p:panelGrid>	
+			</p:panel>
+		
+		
+			<p:spacer width="20" height="20px"/>
+			
+			<p:panel id="prestadorTipoPainel">
+			<p:dataTable id="prestadorTipoData" var="tipo" value="#{tipoServicoMB.tiposServico}" emptyMessage="Não existem registros"
+			paginator="true" rows="20" widgetVar="tipoWidget">
+			 
+				 <f:facet name="header">
+			            <p:outputPanel>
+			               <h:outputText value="Tipos de Serviço"></h:outputText>
+			            </p:outputPanel>
+	       		 </f:facet>
+					<p:column headerText="Tipo" filterBy="#{tipo.tipo}" >
+	       				 <h:outputText value="#{tipo.tipo}" />
+	    			</p:column>
+	    			<p:column headerText="Descrição">
+	       				 <h:outputText value="#{tipo.descricao}" />
+	    			</p:column>
+	    				<p:column headerText="Opções">
+	       				 <p:commandButton value="Remover" icon="fa fa-arrow-left" styleClass="btn btn-error" 
+	       				 action="#{prestadorPessoaMB.selecionarTipoServico}"
+						update="tipoServicoPrestadorForm">
+							<f:setPropertyActionListener value="#{tipo}" target="#{prestadorPessoaMB.tipoServico}"/>
+							</p:commandButton>
+	    			</p:column>
+			
+			</p:dataTable>
+			</p:panel>
+			 
+			
+			 
+			
+			 			
+	
+		
+		</h:form>
+
+		
+		</ui:define>
+		<ui:define name="navbar">
+		<ui:include src="/protected/funcionario/menu.xhtml"/>
+		
+		</ui:define>
+	</ui:composition>
+	
+</h:body>
+</html>

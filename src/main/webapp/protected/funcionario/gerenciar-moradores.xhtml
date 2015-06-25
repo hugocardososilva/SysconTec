@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+
+	<ui:composition template="/template/template.xhtml">
+	<ui:define name="divMain">
+		
+		<h:form id="gerenciarmoradors">
+			<h3>Gerenciar Moradores</h3>
+			<p:confirmDialog global="true">
+				<p:commandButton value="Sim" type="button"  icon="fa fa-check" styleClass="ui-confirmdialog-yes" />
+				<p:commandButton value="Não" type="button" icon="fa fa-close" styleClass="ui-confirmdialog-no"/>
+			
+			
+			</p:confirmDialog>
+			
+			<p:panel rendered="#{moradorMB.editar eq false}" >
+				<p:panelGrid columns="1">
+				<p:commandButton icon="fa fa-plus" styleClass="btn btn-success btn-lg" value="Novo" 
+					update=":gerenciarmoradors" action="#{moradorMB.novoMorador}"   />
+				</p:panelGrid>
+			</p:panel>
+			
+			<p:panel rendered="#{moradorMB.novo eq true}">	
+				<p:panelGrid columns="3" id="panelGrupoBotoesNovo"  >
+				<p:commandButton value="Salvar" action="#{prestadorPessoaMB.salvarPessoa}" update=":gerenciarmoradors" icon="fa fa-save" styleClass="btn btn-success"/>
+				<p:commandButton icon="fa fa-eraser" styleClass="btn btn-info" value="Limpar" actionListener="#{prestadorPessoaMB.limparPrestador}" immediate="true"   update=":gerenciarmoradors">
+					<p:resetInput target="gerenciarmoradors"></p:resetInput>
+					<p:confirm header="Confimarção" message="Deseja mesmo limpar?" icon="fa fa-warning"/>
+				</p:commandButton>
+				<p:commandButton icon="fa fa-close"  styleClass="btn btn-warning" immediate="true" value="Cancelar" action="gerenciar-moradores?faces-redirect=true" >
+					<p:confirm header="Cancelar" message="Deseja mesmo cancelar?" icon="fa fa-warning" />
+				</p:commandButton>
+				
+				</p:panelGrid >
+			</p:panel>
+			
+			
+			<p:panel rendered= "#{moradorMB.editar eq true}">
+				<p:panelGrid columns="2" id="panelGrupoBotoesEditar" >
+				<p:commandButton value="Salvar" action="#{prestadorPessoaMB.salvarPessoa}"
+					update=":gerenciarmoradors" icon="fa fa-save" styleClass="btn btn-success"/>
+				
+				<p:commandButton icon="fa fa-close" immediate="true" styleClass="btn btn-warning"  value="Cancelar" action="gerenciar-moradores" ajax="false">
+				<p:confirm header="Cancelar" message="Deseja mesmo cancelar?" icon="fa fa-warning" />
+				</p:commandButton>
+			
+				</p:panelGrid>
+				
+			</p:panel>
+			<p:panel rendered="#{moradorMB.editar==true and moradorMB.novo==true}">	
+				
+				<p:panelGrid columns="2" >	
+					<h:outputText value="#{moradorMB.editar==true and moradorMB.novo==true}"></h:outputText>
+					<p:commandButton value="Editar" icon="fa fa-edit" styleClass="btn btn-warning" 
+						actionListener="#{prestadorPessoaMB.habilitarEdicao}" update=":gerenciarmoradors" immediate="true"/>
+					<p:commandButton value="Voltar" icon="fa fa-backward" styleClass="btn btn-info"  
+						action="#{prestadorPessoaMB.redirectPrestadores}" update=":gerenciarmoradors" immediate="true"/>
+				
+				
+				</p:panelGrid>
+			</p:panel>
+			
+			
+						
+<!-- 			painel de adição ou edição -->
+				<p:panel rendered="#{moradorMB.novo eq true or moradorMB.editar eq true}" >
+				
+				<p:panelGrid columns="2">
+				
+				<p:outputLabel for="moradorLogin" value="Login:"  />
+				<p:inputText id="moradorLogin" size="60" value="#{moradorMB.morador.login}" required="true" label="Login" readonly="#{moradorMB.editar eq false and moradorMB.novo eq false}" />
+				
+				<p:outputLabel for="moradorNome" value="Nome:" />
+				<p:inputText id="moradorNome" value="#{moradorMB.morador.nome}" required="true" label="Nome" readonly="#{moradorMB.editar eq false and moradorMB.novo eq false}" />
+				
+				<p:outputLabel for="moradorSobrenome" value="Sobrenome:" />
+				<p:inputText id="moradorSobrenome" value="#{moradorMB.morador.sobrenome}" required="true" label="Sobrenome" readonly="#{moradorMB.editar eq false and moradorMB.novo eq false}" />
+				
+				<p:outputLabel for="moradorCPF" value="CPF:" />
+				<p:inputText id="moradorCPF" value="#{moradorMB.morador.cpf}" required="true" label="CPF" readonly="#{moradorMB.editar eq false and moradorMB.novo eq false}" />
+				
+				<p:outputLabel for="moradorDtNascimento" value="Data de nascimento:" />
+				<p:calendar id="moradorDtNascimento" value="#{moradorMB.morador.dataNascimento}" required="true" pattern="dd/MM/yyyy" mask="true" navigator="true" label="Data de nascimento" readonly="#{moradorMB.editar eq false and moradorMB.novo eq false}" />
+				
+				<p:outputLabel for="moradorEmail" value="Email:" />
+				<p:inputText id="moradorEmail" value="#{moradorMB.morador.email}" required="true" label="Email" readonly="#{moradorMB.editar eq false and moradorMB.novo eq false}" />
+				
+				<p:outputLabel for="moradorEcivil" value="Estado Civil:" />
+				<p:inputText id="moradorEcivil" value="#{moradorMB.morador.estadoCivil}" required="true" label="Estado Civil" readonly="#{moradorMB.editar eq false and moradorMB.novo eq false}" />
+				
+				
+				
+				</p:panelGrid>
+				 <p:dataList value="#{moradorMB.morador.telefones}"  var="telefone"  itemType="none" paginator="true" rows="5" styleClass="paginated" style="width: 200px">
+				        <f:facet name="header">
+				        	<p:commandButton style="float:left" icon="fa fa-plus" process="@none" styleClass="btn btn-success" update=":gerenciarmoradors" onclick="PF('novoTelefoneWidiget').show();"   />
+				           <h:outputText value="Telefones"/>
+				        </f:facet>
+				        <p:commandButton update=":gerenciarmoradors" action="#{moradorMB.removerTelefone}" title="Remover" styleClass="btn btn-danger btn-xs" icon="fa fa-remove" style="float:right;margin-right:10px">
+				            <f:setPropertyActionListener value="#{telefone}" target="#{moradorMB.telefone}" />
+				            
+				        </p:commandButton>
+				        <h:outputText value="(#{telefone.ddd})  #{telefone.numero}" style="display:inline-block"/>
+				    </p:dataList>
+				
+				
+				
+				</p:panel>
+			
+			
+<!-- 			Painel data table -->
+			<p:panel rendered="#{moradorMB.novo eq false and moradorMB.editar eq false}">
+			
+			<p:spacer width="20" height="20px"/>
+		
+			<p:dataTable id="moradorTable"  var="morador" value="#{moradorMB.moradores}" emptyMessage="Não existem registros"
+			paginator="true" rows="20" widgetVar="moradorTableWidget" >
+			 
+			 
+				<p:column headerText="Id" filterBy="#{morador.id}"  width="70" >
+       				 <h:outputText value="#{morador.id}" />
+    			</p:column>
+    			<p:column headerText="Nome" filterBy="#{morador.nome}">
+       				 <h:outputText value="#{morador.nome}" />
+    			</p:column>
+    			<p:column headerText="Sobrenome" filterBy="#{morador.nome}" >
+       				 <h:outputText  value="#{morador.nome}" />
+    			</p:column>
+    			<p:column headerText="Telefones" filterBy="#{lote.responsavel.nome}">
+       				 <h:outputText value="#{lote.responsavel.id} #{lote.responsavel.nome}"   />
+    			</p:column>
+    			<p:column headerText="Ações" width="130">
+    				<p:commandButton icon="fa fa-search-plus"  styleClass="btn btn-info btn-xs" value="Visualizar" />
+    				
+    			</p:column>
+			
+			</p:dataTable>
+			
+			</p:panel>
+		
+		</h:form>
+		<p:dialog widgetVar="novoTelefoneWidiget"
+		id="novoTelefoneId" modal="true"
+		closable="true" draggable="false" resizable="false" width="500px" height="200px">
+		<f:facet name="header">
+			<p:outputPanel>
+				<h:outputText value="Adicionar Telefone"></h:outputText>
+			</p:outputPanel>
+		</f:facet>
+		<h:form id="novoTelefoneForm" modal="true">
+		
+			<p:panelGrid columns="2">
+				<h:outputText value="DDD" />
+				<p:inputText value="#{moradorMB.telefone.ddd}" required="true" label="DDD" >
+				
+				</p:inputText>
+				<h:outputText value="Número" />
+				<p:inputText value="#{moradorMB.telefone.numero}" required="true" label="Número" />
+				
+				<h:outputText value="Observações" />
+				<p:inputText value="#{moradorMB.telefone.observacoes}" label="Observações" />
+				
+			</p:panelGrid>
+			
+			<p:panelGrid columns="2">
+				<p:commandButton value="Salvar" icon="ui-icon-plus"
+					action="#{moradorMB.salvarTelefone}"
+					oncomplete="PF('novoTelefoneWidiget').hide();"
+					update=":gerenciarmoradors :novoTelefoneForm "/>
+					
+				<p:commandButton value="Cancelar" icon="ui-icon-cancel" actionListener="#{moradorMB.resetTelefone}"
+					onclick="PF('novoTelefoneWidiget').hide();" type="button" />
+			</p:panelGrid>
+		</h:form>
+	</p:dialog>
+		
+		
+		</ui:define>
+		<ui:define name="navbar">
+		<ui:include src="/protected/funcionario/menu.xhtml"/>
+		
+		</ui:define>
+	</ui:composition>
+	
+</h:body>
+</html>

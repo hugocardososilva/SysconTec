@@ -32,7 +32,7 @@
 					<p:resetInput target="gerenciarFuncionarios"></p:resetInput>
 					<p:confirm header="Confimarção" message="Deseja mesmo limpar?" icon="fa fa-warning"/>
 				</p:commandButton>
-				<p:commandButton icon="fa fa-close"  styleClass="btn btn-warning" immediate="true" value="Cancelar" outcome="gerenciar-funcionarios?faces-redirect=true" >
+				<p:commandButton icon="fa fa-close"  styleClass="btn btn-warning" immediate="true" value="Cancelar" action="gerenciar-funcionarios?faces-redirect=true" >
 					<p:confirm header="Cancelar" message="Deseja mesmo cancelar?" icon="fa fa-warning" />
 				</p:commandButton>
 				
@@ -84,6 +84,9 @@
 				<p:outputLabel for="funcionarioCPF" value="CPF:" />
 				<p:inputText id="funcionarioCPF" value="#{funcionarioMB.funcionario.cpf}" required="true" label="CPF" readonly="#{funcionarioMB.editar eq false and funcionarioMB.novo eq false}" />
 				
+				<p:outputLabel for="funcionarioDtNascimento" value="Data de nascimento:" />
+				<p:calendar id="funcionarioDtNascimento" value="#{funcionarioMB.funcionario.dataNascimento}" required="true" pattern="dd/MM/yyyy" mask="true" navigator="true" label="Data de nascimento" readonly="#{funcionarioMB.editar eq false and funcionarioMB.novo eq false}" />
+				
 				<p:outputLabel for="funcionarioEmail" value="Email:" />
 				<p:inputText id="funcionarioEmail" value="#{funcionarioMB.funcionario.email}" required="true" label="Email" readonly="#{funcionarioMB.editar eq false and funcionarioMB.novo eq false}" />
 				
@@ -111,14 +114,14 @@
 				</p:panelGrid>
 				 <p:dataList value="#{funcionarioMB.funcionario.telefones}"  var="telefone" type="unordered" itemType="none" paginator="true" rows="5" styleClass="paginated" style="width: 200px">
 				        <f:facet name="header">
-				        	<p:commandButton style="float:left" icon="fa fa-plus" styleClass="btn btn-success" update=":gerenciarFuncionarios" action="#{funcionarioMB.novoFuncionario}"   />
+				        	<p:commandButton style="float:left" icon="fa fa-plus" process="@none" styleClass="btn btn-success" update=":gerenciarFuncionarios" onclick="PF('novoTelefoneWidiget').show();"   />
 				           <h:outputText value="Telefones"/>
 				        </f:facet>
-				        <p:commandButton update=":gerenciarFuncionarios" action="#{funcionarioMB.removerTelefone}" title="Detalhes" styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px">
+				        <p:commandButton update=":gerenciarFuncionarios" action="#{funcionarioMB.removerTelefone}" title="Remover" styleClass="btn btn-danger btn-xs" icon="fa fa-remove" style="float:right;margin-right:10px">
 				            <f:setPropertyActionListener value="#{telefone}" target="#{funcionarioMB.telefone}" />
-				            <h:outputText value="#{car.brand}, #{car.year}" />
+				            
 				        </p:commandButton>
-				        <h:outputText value="(#{telefone.ddd}) #{telefone.numero}" style="display:inline-block"/>
+				        <h:outputText value="(#{telefone.ddd})  #{telefone.numero}" style="display:inline-block"/>
 				    </p:dataList>
 				
 				
@@ -157,6 +160,40 @@
 			</p:panel>
 		
 		</h:form>
+		<p:dialog widgetVar="novoTelefoneWidiget"
+		id="novoTelefoneId" modal="true"
+		closable="true" draggable="false" resizable="false" width="500px" height="200px">
+		<f:facet name="header">
+			<p:outputPanel>
+				<h:outputText value="Adicionar Telefone"></h:outputText>
+			</p:outputPanel>
+		</f:facet>
+		<h:form id="novoTelefoneForm" modal="true">
+		
+			<p:panelGrid columns="2">
+				<h:outputText value="DDD" />
+				<p:inputText value="#{funcionarioMB.telefone.ddd}" required="true" label="DDD" >
+				
+				</p:inputText>
+				<h:outputText value="Número" />
+				<p:inputText value="#{funcionarioMB.telefone.numero}" required="true" label="Número" />
+				
+				<h:outputText value="Observações" />
+				<p:inputText value="#{funcionarioMB.telefone.observacoes}" label="Observações" />
+				
+			</p:panelGrid>
+			
+			<p:panelGrid columns="2">
+				<p:commandButton value="Salvar" icon="ui-icon-plus"
+					action="#{funcionarioMB.salvarTelefone}"
+					oncomplete="PF('novoTelefoneWidiget').hide();"
+					update=":gerenciarFuncionarios :novoTelefoneForm "/>
+					
+				<p:commandButton value="Cancelar" icon="ui-icon-cancel" actionListener="#{funcionarioMB.resetTelefone}"
+					onclick="PF('novoTelefoneWidiget').hide();" type="button" />
+			</p:panelGrid>
+		</h:form>
+	</p:dialog>
 		
 		
 		</ui:define>

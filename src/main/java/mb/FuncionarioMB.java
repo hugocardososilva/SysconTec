@@ -42,6 +42,8 @@ public class FuncionarioMB extends AbstractMB implements Serializable {
 		this.novo= false;
 		this.editar= false;
 		this.funcionario= new Funcionario();
+		this.telefone= new Telefone();
+		
 		
 	}
 	
@@ -86,7 +88,15 @@ public class FuncionarioMB extends AbstractMB implements Serializable {
 		this.novo= true;
 	}
 	public void removerTelefone(){
+		this.funcionario.removeTelefone(telefone);
 		
+	}
+	public void salvarTelefone(){
+		this.funcionario.addTelefone(this.telefone);
+		this.telefone= new Telefone();
+	}
+	public void resetTelefone(){
+		this.telefone= new Telefone();
 	}
 	
 	@Override
