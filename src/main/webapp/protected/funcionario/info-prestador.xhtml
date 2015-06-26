@@ -71,6 +71,7 @@
 									readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" 
 									label="Senha" >
 									<f:validateLength minimum="6" maximum="6"/>
+									
 									</p:inputText>
 					</p:column>
 					<p:column>
@@ -82,10 +83,10 @@
 					</p:column>
 					
 					<p:column rowspan="3" style="width:150px">
-						<p:graphicImage value="/../sysconImages/#{prestadorPessoaMB.prestador.foto}.jpeg" width="150px" height="130px"/>
+						<p:graphicImage value="/../sysconImages/#{prestadorPessoaMB.prestador.foto}.jpeg" width="150px" height="130px" />
 					</p:column>
 					<p:column rowspan="3">
-							<p:commandButton disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" styleClass="btn btn-primary btn-lg" icon="fa fa-camera" type="button" value="Capturar" onclick="PF('capturarImagemWidget').show();" update=":prestadores" rendered="#{empty prestadorPessoaMB.prestador.foto}"/>
+							<p:commandButton disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" styleClass="btn btn-primary btn-lg" process="@none" icon="fa fa-camera"  value="Capturar" onclick="PF('capturarImagemWidget').show();" rendered="#{empty prestadorPessoaMB.prestador.foto}"/>
 									<p:commandButton disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="Remover" process="@none" onclick="PF('capturarImagemWidget').show();" update=":prestadores" rendered="#{not empty prestadorPessoaMB.prestador.foto}"/>
 					</p:column>
 					
@@ -127,13 +128,13 @@
 						<p:outputLabel for="enderecoPrestador" value="Endereço:" />
 					</p:column>
 					<p:column colspan="3">
-						<p:inputText id="enderecoPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.endereco}" required="true" label="Endereco" style="width:98%" />	
+						<p:inputText id="enderecoPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.endereco}" required="true" label="Endereco" style="width:98%" />	
 					</p:column >
 					<p:column>
 						<p:outputLabel for="numeroPrestador" value="Número:" />	
 					</p:column>
 					<p:column>
-						<p:inputText id="numeroPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.numero}" label="Numero" style="width:98%" />		
+						<p:inputText id="numeroPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.numero}" label="Numero" style="width:98%" />		
 					</p:column>
 				</p:row>
 				<p:row>
@@ -141,13 +142,13 @@
 						<p:outputLabel for="bairroPrestador" value="Bairro:" />	
 					</p:column>
 					<p:column colspan="2">
-						<p:inputText id="bairroPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.bairro}"  label="Bairro" style="width:98%"/>
+						<p:inputText id="bairroPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.bairro}"  label="Bairro" style="width:98%"/>
 					</p:column>
 					<p:column>
 						<p:outputLabel for="complementoPrestador" value="Complemento:" />
 					</p:column>
 					<p:column colspan="2">
-						<p:inputText id="complementoPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.complemento}"  label="Complemento" style="width:98%"/>
+						<p:inputText id="complementoPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.complemento}"  label="Complemento" style="width:98%"/>
 					</p:column>
 				
 				</p:row>
@@ -156,19 +157,19 @@
 						<p:outputLabel for="cidadePrestador" value="Cidade:" />
 					</p:column>
 					<p:column>
-						<p:inputText id="cidadePrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.cidade}" label="Cidade" />
+						<p:inputText id="cidadePrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.cidade}" label="Cidade" />
 					</p:column>
 					<p:column>
 						<p:outputLabel for="estadoPrestador"  value="Estado:" />
 					</p:column>
 					<p:column>
-						<p:inputText id="estadoPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.estado}"  label="Estado" maxlength="2" size="2" />
+						<p:inputText id="estadoPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.estado}"  label="Estado" maxlength="2" size="2" />
 					</p:column>
 					<p:column>
 						<p:outputLabel for="cepPrestador"  value="CEP:" />
 					</p:column>
 					<p:column>
-						<p:inputText id="cepPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.cep}" label="CEP" style="width:98%"  />
+						<p:inputText id="cepPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.cep}" label="CEP" style="width:98%"  />
 					</p:column>
 				</p:row>
 				<p:row>
@@ -225,8 +226,8 @@
 				</p:column>
 				<p:column colspan="4">
 							
-						<p:selectOneMenu disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" id="tipoPessoaPrestadorId" value="#{prestadorPessoaMB.prestador.tipoServico}" filter="true" filterMatchMode="contains" style="width:98%;">
-							 
+						<p:selectOneMenu  disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" id="tipoPessoaPrestadorId" value="#{prestadorPessoaMB.prestador.tipoServico}" filter="true" filterMatchMode="contains" style="width:98%;">
+							 <f:selectItem itemLabel="Selecione o tipo de serviço" itemValue="" />
 							 <f:selectItems value="#{prestadorPessoaMB.tipos}"  var="tipo"  itemLabel="#{tipo.tipo}" itemValue="#{tipo}"  />									
 						</p:selectOneMenu>
 				</p:column>

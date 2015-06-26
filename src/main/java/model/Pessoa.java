@@ -39,7 +39,7 @@ public class Pessoa extends Prestador{
 	
 	private List<Servico> servicos;
 	
-	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	private Lote lote;
 	
 	
@@ -196,6 +196,17 @@ public class Pessoa extends Prestador{
 	}
 	public void removeServico(Servico s){
 		this.servicos.remove(s);
+	}
+
+
+	@Override
+	public String toString() {
+		return "Pessoa [nome=" + nome + ", sobrenome=" + sobrenome + ", cpf="
+				+ cpf + ", rg=" + rg + ", orgaoExpeditor=" + orgaoExpeditor
+				+ ", email=" + email + ", foto=" + foto + ", horaEntrada="
+				+ horaEntrada + ", horaSaida=" + horaSaida + ", senha=" + senha
+				+ ", bloqueado=" + bloqueado + ", ultimoAcesso=" + ultimoAcesso
+				+ ", lote=" + lote + "]";
 	}
 	
 	

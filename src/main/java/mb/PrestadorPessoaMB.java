@@ -8,11 +8,13 @@ import java.util.Set;
 
 
 
+
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
+
 
 
 
@@ -25,6 +27,7 @@ import dao.DAOLote;
 import dao.DAOPrestadorPessoa;
 import dao.DAOTelefone;
 import dao.DAOTipoServico;
+import facade.PrestadorPessoaFacade;
 import model.Informacao;
 import model.Lote;
 import model.Pessoa;
@@ -49,8 +52,9 @@ public class PrestadorPessoaMB  extends AbstractMB{
 	private TipoServico tipoServico;	
 	private List<Pessoa> prestadores;
 	private List<Lote> lotes;
+	PrestadorPessoaFacade pessoaFacade;
 
-	private Informacao informacao;
+//	private Informacao informacao;
 	private Lote lote;
 
 	
@@ -69,7 +73,7 @@ public class PrestadorPessoaMB  extends AbstractMB{
 		this.tipos= new ArrayList<TipoServico>();
 		this.tipoServico= new TipoServico();
 		this.prestador= new Pessoa();
-		this.informacao= new Informacao();
+//		this.informacao= new Informacao();
 		
 		this.novoTipoServico= false;
 		this.prestadores= new ArrayList<Pessoa>();
@@ -91,10 +95,7 @@ public class PrestadorPessoaMB  extends AbstractMB{
 
 
 
-	public Informacao getInformacao() {
-		return informacao;
-	}
-
+	
 
 	public List<Pessoa> getPrestadores() {
 		return prestadores;
@@ -121,10 +122,7 @@ public class PrestadorPessoaMB  extends AbstractMB{
 	}
 
 
-	public void setInformacao(Informacao informacao) {
-		this.informacao = informacao;
-	}
-
+	
 
 	public Pessoa getPrestador() {
 		return prestador;
@@ -313,51 +311,74 @@ public class PrestadorPessoaMB  extends AbstractMB{
 		String filename = imb.oncapture(ctx, cEvent);
 		prestador.setFoto(filename);
 		System.out.println("imagem no prestador  " + prestador.getFoto());
-		
+		System.out.println(this.toString());
+		System.out.println(prestador.getSenha());
 		
 		
 	}
 	public void salvarPessoa(){
+		
+		getNow();
+		
 		System.out.println("Adicionando novo prestador");
 		System.out.println("hora inicio  " + prestador.getHoraEntrada() );
-//		dao.open();
-//		dao.begin();
-//		getNow();
+		dao.open();
+		dao.begin();
+		
 //		
 //		daotipo.merge(tipoServico);
 //		prestador.setInformacao(informacao);
+//		prestador.setTipoServico(tipoServico);
 //		daoi.persist(informacao);
-//		daop.persist(prestador);
+		daop.persist(prestador);
 //		
-//		dao.commit();
+		dao.commit();
 		displayInfoMessageToUser("Prestador adicionado com sucesso!");
 		this.editar= false;
 		this.novo= false;
+		limparPrestador();
 		
 		
 	}
+	
 	
 	public void limparPrestador(){
 		System.out.println("limpar prestador");
 		resetPrestador();
 		resetTelefone();
 		resetTipoServico();
+		
 	}
 	public String visualizarPrestador(){
 		
 		this.novo= false;
 		this.editar= false;
-		System.out.println(prestador.getNome());
+		System.out.println(prestador.toString());
 		displayInfoMessageToUser("visualizando prestador! = " +" novo : " + novo + "editar : " + editar );
 		return "info-prestador";
 		
 	}
 	public void bloquearPrestador(){
+		
+		prestador.setBloqueado(true);
+		dao.open();
+		dao.begin();
+		daop.merge(prestador);
+		dao.commit();
+		getPessoas();
 		displayInfoMessageToUser("Prestador Bloqueado!");
 	}
 	public void habilitarEdicao(){
 		this.editar= true;
 		this.novo= false;
 	}
+
+	@Override
+	public String toString() {
+		return "PrestadorPessoaMB [prestador=" + prestador + ", editar="
+				+ editar + ", novo=" + novo + ", novoTipoServico="
+				+ novoTipoServico + ", telefone=" + telefone + "]";
+	}
+	
 	
 }

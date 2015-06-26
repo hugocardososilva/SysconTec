@@ -37,7 +37,7 @@ public class TipoServicoConverter implements Converter {
 	public String getAsString(FacesContext context, UIComponent component,
 			Object value) {
 		if(value== null){
-			return "";
+			return null;
 		}
 		TipoServico tipo = (TipoServico) value;
 		return String.valueOf(tipo.getId());

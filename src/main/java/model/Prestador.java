@@ -27,7 +27,7 @@ public class Prestador {
 	
 //	@ManyToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 //	private List<TipoServico> tipos;
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	private TipoServico tipoServico;
 	
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
@@ -42,6 +42,8 @@ public class Prestador {
 		this.telefones= new ArrayList<Telefone>();
 		this.ocorrencias= new ArrayList<OcorrenciaPrestadorServico>();
 //		this.servicos= new ArrayList<Servico>();
+		this.informacao= new Informacao();
+		this.tipoServico= new TipoServico();
 	}
 
 	public long getId() {

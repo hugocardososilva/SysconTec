@@ -16,8 +16,8 @@
 		<h:form id="capturarImagemForm" modal="true">
 		<p:panelGrid columns="3" cellpadding="5">
         <p:photoCam widgetVar="pc" listener="#{prestadorPessoaMB.captura}" />
-        <p:commandButton value="Capturar" onclick="PF('pc').capture();"
-        oncomplete="PF('capturarImagemWidget').hide();"
+        <p:commandButton value="Capturar" onclick="PF('pc').capture()"
+        oncomplete="PF('capturarImagemWidget').hide();" process="@parent"
         update=":prestadores"/>
        
         
