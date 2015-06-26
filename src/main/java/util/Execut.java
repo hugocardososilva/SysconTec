@@ -84,7 +84,7 @@ public class Execut {
 		prestador.addTelefone(t2);
 		prestador.setInformacao(ip);
 		prestador.setLote(lote);
-		prestador.addTipo(ts);
+		prestador.setTipoServico(ts);
 		ts.addPrestador(prestador);
 		lote.setResponsavel(morador);
 		lote.addPessoa(prestador);

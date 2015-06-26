@@ -25,8 +25,10 @@ public class Prestador {
 	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	private Informacao informacao;
 	
-	@ManyToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
-	private List<TipoServico> tipos;
+//	@ManyToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+//	private List<TipoServico> tipos;
+	@ManyToOne(cascade=CascadeType.ALL)
+	private TipoServico tipoServico;
 	
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	private List<Telefone> telefones;
@@ -36,7 +38,7 @@ public class Prestador {
 //	private List<Servico> servicos;
 	
 	public Prestador() {
-		this.tipos= new ArrayList<TipoServico>();
+//		this.tipos= new ArrayList<TipoServico>();
 		this.telefones= new ArrayList<Telefone>();
 		this.ocorrencias= new ArrayList<OcorrenciaPrestadorServico>();
 //		this.servicos= new ArrayList<Servico>();
@@ -58,13 +60,13 @@ public class Prestador {
 		this.id = id;
 	}
 
-	public List<TipoServico> getTipos() {
-		return tipos;
-	}
-
-	public void setTipos(List<TipoServico> tipos) {
-		this.tipos = tipos;
-	}
+//	public List<TipoServico> getTipos() {
+//		return tipos;
+//	}
+//
+//	public void setTipos(List<TipoServico> tipos) {
+//		this.tipos = tipos;
+//	}
 
 	public List<Telefone> getTelefones() {
 		return telefones;
@@ -74,6 +76,14 @@ public class Prestador {
 		this.telefones = telefones;
 	}
 	
+
+	public TipoServico getTipoServico() {
+		return tipoServico;
+	}
+
+	public void setTipoServico(TipoServico tipoServico) {
+		this.tipoServico = tipoServico;
+	}
 
 	public Informacao getInformacao() {
 		return informacao;
@@ -98,12 +108,12 @@ public class Prestador {
 		this.telefones.remove(telefone);
 	}
 	
-	public void addTipo(TipoServico ts){
-		this.tipos.add(ts);
-	}
-	public void removeTipo(TipoServico ts){
-		this.tipos.remove(ts);
-	}
+//	public void addTipo(TipoServico ts){
+//		this.tipos.add(ts);
+//	}
+//	public void removeTipo(TipoServico ts){
+//		this.tipos.remove(ts);
+//	}
 	public void addOcorrencia(OcorrenciaPrestadorServico ops){
 		this.ocorrencias.add(ops);
 	}

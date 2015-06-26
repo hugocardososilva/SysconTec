@@ -7,11 +7,13 @@ import java.util.List;
 import java.util.Set;
 
 
+
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
+
 
 
 import org.primefaces.context.RequestContext;
@@ -47,13 +49,19 @@ public class PrestadorPessoaMB  extends AbstractMB{
 	private TipoServico tipoServico;	
 	private List<Pessoa> prestadores;
 	private List<Lote> lotes;
+
 	private Informacao informacao;
 	private Lote lote;
 
 	
 	
 	public PrestadorPessoaMB() {
-		System.out.println("MB nasceu!!  "+this.toString() );
+	
+	}
+	
+	@PostConstruct
+	private void init(){
+	System.out.println("MB nasceu!!  "+this.toString() );
 		
 		this.lote= new Lote();
 		this.lotes = new ArrayList<Lote>();
@@ -67,8 +75,6 @@ public class PrestadorPessoaMB  extends AbstractMB{
 		this.prestadores= new ArrayList<Pessoa>();
 		getPessoas();
 	}
-	
-	
 
 
 	public Lote getLote() {
@@ -289,13 +295,13 @@ public class PrestadorPessoaMB  extends AbstractMB{
 	}
 	public void selecionarTipoServico(){
 		System.out.println("selecionando tipo de servico para prestador");
-		this.prestador.addTipo(tipoServico);
+		this.prestador.setTipoServico(tipoServico);
 		tipoServico.addPrestador(prestador);
 		resetTipoServico();
 	}
 	public void removerTipoServico() {
 		System.out.println("removendo tipo de servico do prestador");
-		this.prestador.removeTipo(tipoServico);
+		this.prestador.setTipoServico(null);
 		resetTipoServico();
 	}
 	

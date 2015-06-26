@@ -7,27 +7,30 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 
-import model.Lote;
-import dao.DAOLote;
-@FacesConverter(forClass= model.Lote.class)
-public class LoteConverter implements Converter {
+
+import model.TipoServico;
+
+import dao.DAOTipoServico;
 
 
+@FacesConverter(forClass= TipoServico.class)
+public class TipoServicoConverter implements Converter {
+	
 	public Object getAsObject(FacesContext context, UIComponent component,
 			String value) {
-		DAOLote dao = new DAOLote();
+		DAOTipoServico dao= new DAOTipoServico();
 		dao.open();
 		dao.begin();
-		Lote lote= new Lote();
+		TipoServico tipo= new TipoServico();
 		try {
 			Long id= Long.parseLong(value);
-			lote =dao.find(id);
-			System.out.println("convertendo lote   " + id);
+			tipo =dao.find(id);
+			System.out.println("convertendo tipo   " + id);
 		} catch (NumberFormatException e) {
-			throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro:", "Tipo de lote inválido"));
+			throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro:", "Tipo inválido"));
 		}
 
-		return lote;
+		return tipo;
 	}
 
 
@@ -36,8 +39,9 @@ public class LoteConverter implements Converter {
 		if(value== null){
 			return "";
 		}
-		Lote lote = (Lote) value;
-		return String.valueOf(lote.getId());
+		TipoServico tipo = (TipoServico) value;
+		return String.valueOf(tipo.getId());
 	}
+
 
 }
