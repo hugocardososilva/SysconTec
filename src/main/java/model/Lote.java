@@ -25,7 +25,7 @@ public class Lote implements GenericInterface{
 	private Long numero;
 	private String quadra;
 	
-	@ManyToOne(cascade= CascadeType.PERSIST, fetch=FetchType.EAGER)
+	@ManyToOne(cascade= CascadeType.ALL, fetch=FetchType.EAGER)
 	private Morador responsavel;
 	
 	@OneToMany(cascade= CascadeType.ALL, mappedBy="lote",fetch=FetchType.LAZY)

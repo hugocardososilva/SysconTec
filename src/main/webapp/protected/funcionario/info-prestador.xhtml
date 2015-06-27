@@ -67,19 +67,19 @@
 						 <p:outputLabel for="senhaPrestador" value="Senha:" />
 					</p:column>
 					<p:column>
-						<p:inputText id="senhaPrestador" value="#{prestadorPessoaMB.prestador.senha}" required="true" 
+						<p:inputMask mask="999999" id="senhaPrestador" value="#{prestadorPessoaMB.prestador.senha}" required="true" 
 									readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" 
 									label="Senha" >
 									<f:validateLength minimum="6" maximum="6"/>
 									
-									</p:inputText>
+									</p:inputMask>
 					</p:column>
 					<p:column>
 							<p:outputLabel for="cpfPrestador" value="CPF:" />
 												
 					</p:column>
 					<p:column>
-							<p:inputText id="cpfPrestador" value="#{prestadorPessoaMB.prestador.cpf}" required="true" label="CPF" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" />			
+							<p:inputMask mask="999.999.999-99" id="cpfPrestador" value="#{prestadorPessoaMB.prestador.cpf}" required="true" label="CPF" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" />			
 					</p:column>
 					
 					<p:column rowspan="3" style="width:150px">
@@ -87,7 +87,7 @@
 					</p:column>
 					<p:column rowspan="3">
 							<p:commandButton disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" styleClass="btn btn-primary btn-lg" process="@none" icon="fa fa-camera"  value="Capturar" onclick="PF('capturarImagemWidget').show();" rendered="#{empty prestadorPessoaMB.prestador.foto}"/>
-									<p:commandButton disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="Remover" process="@none" onclick="PF('capturarImagemWidget').show();" update=":prestadores" rendered="#{not empty prestadorPessoaMB.prestador.foto}"/>
+							<p:commandButton disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="Remover" process="@none" onclick="PF('capturarImagemWidget').show();" update=":prestadores" rendered="#{not empty prestadorPessoaMB.prestador.foto}"/>
 					</p:column>
 					
 				</p:row>	
@@ -131,7 +131,7 @@
 						<p:inputText id="enderecoPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.endereco}" required="true" label="Endereco" style="width:98%" />	
 					</p:column >
 					<p:column>
-						<p:outputLabel for="numeroPrestador" value="Número:" />	
+						<p:outputLabel for="numeroPrestador" value="Número:" style="float:right" />	
 					</p:column>
 					<p:column>
 						<p:inputText id="numeroPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.numero}" label="Numero" style="width:98%" />		
@@ -145,7 +145,7 @@
 						<p:inputText id="bairroPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.bairro}"  label="Bairro" style="width:98%"/>
 					</p:column>
 					<p:column>
-						<p:outputLabel for="complementoPrestador" value="Complemento:" />
+						<p:outputLabel for="complementoPrestador" value="Complemento:" style="float:right"/>
 					</p:column>
 					<p:column colspan="2">
 						<p:inputText id="complementoPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.complemento}"  label="Complemento" style="width:98%"/>
@@ -156,46 +156,46 @@
 					<p:column>
 						<p:outputLabel for="cidadePrestador" value="Cidade:" />
 					</p:column>
-					<p:column>
+					<p:column colspan="3">
 						<p:inputText id="cidadePrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.cidade}" label="Cidade" />
 					</p:column>
+					
 					<p:column>
-						<p:outputLabel for="estadoPrestador"  value="Estado:" />
+						<p:outputLabel for="cepPrestador"  value="CEP:" style="float:right"/>
 					</p:column>
 					<p:column>
-						<p:inputText id="estadoPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.estado}"  label="Estado" maxlength="2" size="2" />
-					</p:column>
-					<p:column>
-						<p:outputLabel for="cepPrestador"  value="CEP:" />
-					</p:column>
-					<p:column>
-						<p:inputText id="cepPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.cep}" label="CEP" style="width:98%"  />
+						<p:inputMask mask="99.999-999" id="cepPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.cep}" label="CEP" style="width:98%"  />
 					</p:column>
 				</p:row>
 				<p:row>
 					<p:column>
 						<p:outputLabel for="emailPrestador" value="Email:" />
 					</p:column>
-					<p:column colspan="5">
+					<p:column colspan="3">
 						<p:inputText id="emailPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.email}" required="true" label="Email" style="width:98%" />
 					</p:column>
-					
+					<p:column>
+						<p:outputLabel for="estadoPrestador"  value="Estado:" style="float:right" />
+					</p:column>
+					<p:column>
+						<p:inputText id="estadoPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.estado}"  label="Estado" maxlength="2" size="2" />
+					</p:column>
 				
 				</p:row>
 				<p:row>
 					<p:column>
 						<p:outputLabel for="hentradaPrestador" value="Horário de Entrada:"  />
 					</p:column>
-					<p:column colspan="2">
+					<p:column colspan="1">
 						<p:calendar id="hentradaPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" pattern="HH:mm" timeOnly="true"  value="#{prestadorPessoaMB.prestador.horaEntrada}" label="Horário de Entrada"  >
 									
 						</p:calendar>
 					
 					</p:column>
 					<p:column>
-						<p:outputLabel for="hsaidaPrestador" value="Horário de Saída:" style="text-align: right" />
+						<p:outputLabel for="hsaidaPrestador" value="Horário de Saída:" style="float:right" />
 					</p:column>
-					<p:column colspan="2">
+					<p:column colspan="1">
 						<p:calendar id="hsaidaPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" pattern="HH:mm" timeOnly="true"  value="#{prestadorPessoaMB.prestador.horaSaida}" label="Horário de Saída" >
 									
 						</p:calendar>
@@ -215,7 +215,7 @@
 						</p:selectOneMenu>
 				</p:column>
 				<p:column>									
-						<p:commandButton icon="fa fa-plus" type="button"  value="Novo" disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" onclick="PF('novoTelefoneWidiget').show();" update=":novoTelefonePessoaForm" styleClass="btn btn-success" />
+						<p:commandButton icon="fa fa-plus" type="button"  value="Novo" disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" onclick="PF('novoLoteWidiget').show();" update=":novoTelefonePessoaForm" styleClass="btn btn-success" />
 				
 				</p:column>
 				
@@ -232,7 +232,7 @@
 						</p:selectOneMenu>
 				</p:column>
 				<p:column>									
-						<p:commandButton icon="fa fa-plus" type="button"  value="Novo" disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" onclick="PF('novoTelefoneWidiget').show();" update=":novoTelefonePessoaForm" styleClass="btn btn-success" />
+						<p:commandButton icon="fa fa-plus" type="button"  value="Novo" disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" onclick="PF('novoLoteWidiget').show();" update=":novoTelefonePessoaForm" styleClass="btn btn-success" />
 				
 				</p:column>
 				
@@ -246,7 +246,7 @@
 			</p:panelGrid>
 		
 					</p:panel>			
-					<p:panel id="telPessoa" toggleable="true" header="Telefones" style="margin-bottom:20px">
+					<p:panel id="telPessoa" toggleable="true" header="Telefones" style="margin-bottom:20px; width:600px;">
 						<p:panelGrid columns="2">
 							<p:dataTable  id="telefonesPessoa" var="tel" value="#{prestadorPessoaMB.prestador.telefones}"
 							emptyMessage="Não existem registros" rows="5" paginator="true">
@@ -278,11 +278,42 @@
 							</p:dataTable>
 						</p:panelGrid>
 					</p:panel>
+
 					
-			
+		
 		</h:form>
-	
-	
+		<!-- 					Dialogs -->
+		
+		<p:dialog widgetVar="novoLoteWidiget"
+			id="novoLoteId" modal="true"
+			closable="true" draggable="false" resizable="false" width="500px" height="500px">
+			<h:form id="novoLoteForm" >
+				<p:panel>
+					<p:panelGrid columns="2">
+					<f:facet name="header">
+					<h:outputText value="Novo Lote"/>
+					</f:facet>
+						<p:outputLabel for="loteNumero" value="Número" />
+						<p:inputText id="loteNumero" value="#{prestadorPessoaMB.lote.numero}" required="true" label="Número" />
+						
+						
+						<p:outputLabel for="loteQuadra" value="Quadra" />
+						<p:inputText id="loteQuadra" value="#{prestadorPessoaMB.lote.quadra}" required="true" label="quadra" />
+					</p:panelGrid>
+					
+					<p:panelGrid columns="2">
+						<p:commandButton value="Salvar" icon="fa fa-plus"
+							action="#{prestadorPessoaMB.salvarLote}" styleClass="btn btn-success" 
+							update=":prestadores :novoLoteForm" oncomplete="PF('novoLoteWidiget').hide();"/>
+							
+						<p:commandButton value="Cancelar" icon="fa fa-remove" actionListener="#{prestadorPessoaMB.resetLote}" immediate="true" 
+							oncomplete="PF('novoLoteWidiget').hide();" update=":prestadores :novoLoteForm" styleClass="btn btn-warning"  >
+							<p:resetInput target="novoLoteForm"/>
+							</p:commandButton>
+					</p:panelGrid>
+					</p:panel>
+			</h:form>
+	</p:dialog>
 		
 		
 		

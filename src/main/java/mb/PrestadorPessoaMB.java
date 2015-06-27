@@ -53,6 +53,7 @@ public class PrestadorPessoaMB  extends AbstractMB{
 	private List<Pessoa> prestadores;
 	private List<Lote> lotes;
 	PrestadorPessoaFacade pessoaFacade;
+	
 
 //	private Informacao informacao;
 	private Lote lote;
@@ -239,6 +240,20 @@ public class PrestadorPessoaMB  extends AbstractMB{
 		
 		
 	}
+	public void salvarLote(){
+		lote.setMoradores(null);
+		lote.setPessoas(null);
+		lote.setResponsavel(null);
+		dao.open();
+		dao.begin();
+		daol.persist(lote);
+		dao.commit();
+		getLotes();
+		resetLote();
+	}
+	public void resetLote(){
+		lote= new Lote();
+	}
 	
 	public void newTipoServico(){
 		System.out.println("novo tipos");
@@ -319,6 +334,8 @@ public class PrestadorPessoaMB  extends AbstractMB{
 	public void salvarPessoa(){
 		
 		getNow();
+//		this.lote.addPessoa(prestador);
+		prestador.getLote().addPessoa(prestador);
 		
 		System.out.println("Adicionando novo prestador");
 		System.out.println("hora inicio  " + prestador.getHoraEntrada() );
