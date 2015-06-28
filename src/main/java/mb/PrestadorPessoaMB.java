@@ -9,11 +9,14 @@ import java.util.Set;
 
 
 
+
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
+
 
 
 
@@ -35,7 +38,7 @@ import model.Telefone;
 import model.TipoServico;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class PrestadorPessoaMB  extends AbstractMB{
 	private DAOPrestadorPessoa daop= new DAOPrestadorPessoa();
 	private DAO dao = new DAO();
@@ -57,6 +60,7 @@ public class PrestadorPessoaMB  extends AbstractMB{
 
 //	private Informacao informacao;
 	private Lote lote;
+	private boolean ver;
 
 	
 	
@@ -75,9 +79,11 @@ public class PrestadorPessoaMB  extends AbstractMB{
 		this.tipoServico= new TipoServico();
 		this.prestador= new Pessoa();
 //		this.informacao= new Informacao();
-		
+		this.ver= false;
 		this.novoTipoServico= false;
 		this.prestadores= new ArrayList<Pessoa>();
+		this.editar= false;
+		this.novo= false;
 		getPessoas();
 	}
 
@@ -231,12 +237,12 @@ public class PrestadorPessoaMB  extends AbstractMB{
 		System.out.println("redirecionando para prestadore.xhtml");
 		return "prestadores?faces-redirect=true";
 	}
-	public String novoPrestador(){
+	public void novoPrestador(){
 		System.out.println("novo prestador");
 		resetPrestador();
 		this.editar= false;
 		this.novo= true;
-		return "info-prestador";
+		
 		
 		
 	}
@@ -255,6 +261,15 @@ public class PrestadorPessoaMB  extends AbstractMB{
 		lote= new Lote();
 	}
 	
+	
+	public boolean isVer() {
+		return ver;
+	}
+
+	public void setVer(boolean ver) {
+		this.ver = ver;
+	}
+
 	public void newTipoServico(){
 		System.out.println("novo tipos");
 		RequestContext.getCurrentInstance().openDialog("dialogs/tipos-servico-pessoa");
@@ -366,13 +381,13 @@ public class PrestadorPessoaMB  extends AbstractMB{
 		resetTipoServico();
 		
 	}
-	public String visualizarPrestador(){
-		
+	public void visualizarPrestador(){
+		this.ver= true;
 		this.novo= false;
 		this.editar= false;
 		System.out.println(prestador.toString());
 		displayInfoMessageToUser("visualizando prestador! = " +" novo : " + novo + "editar : " + editar );
-		return "info-prestador";
+		
 		
 	}
 	public void bloquearPrestador(){
