@@ -93,12 +93,12 @@
 							<p:inputMask mask="999.999.999-99" id="cpfPrestador" value="#{prestadorPessoaMB.prestador.cpf}" required="true" label="CPF" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" />			
 					</p:column>
 					
-					<p:column rowspan="3" style="width:150px">
-						<p:graphicImage value="/../sysconImages/#{prestadorPessoaMB.prestador.foto}.jpeg" width="150px" height="130px" />
+					<p:column rowspan="3" style="width:150px" >
+						<p:graphicImage id="imgCol" value="/../sysconImages/#{prestadorPessoaMB.prestador.foto}.jpeg" width="150px" height="130px" />
 					</p:column>
-					<p:column rowspan="3">
-							<p:commandButton disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" styleClass="btn btn-primary btn-lg" process="@none" icon="fa fa-camera"  value="Capturar" onclick="PF('capturarImagemWidget').show();" rendered="#{empty prestadorPessoaMB.prestador.foto}"/>
-							<p:commandButton disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="Remover" process="@none" onclick="PF('capturarImagemWidget').show();" update=":prestadores" rendered="#{not empty prestadorPessoaMB.prestador.foto}"/>
+					<p:column rowspan="3" >
+							<p:commandButton id="imgBtCol" disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" styleClass="btn btn-primary btn-lg" process="@none" icon="fa fa-camera"  value="Capturar" onclick="PF('capturarImagemWidget').show();" rendered="#{empty prestadorPessoaMB.prestador.foto}"/>
+							<p:commandButton id="imgBtCol2" disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="Remover" process="@none" onclick="PF('capturarImagemWidget').show();" update=":prestadores" rendered="#{not empty prestadorPessoaMB.prestador.foto}"/>
 					</p:column>
 					
 				</p:row>	
@@ -371,6 +371,7 @@
 		<ui:define name="navbar">
 		<ui:include src="/protected/funcionario/menu.xhtml"/>
 		<ui:include src="/protected/funcionario/dialogs/novo-telefone.xhtml"/>
+		<ui:include src="/protected/funcionario/dialogs/capturar-imagem.xhtml"/>
 		
 		</ui:define>
 	</ui:composition>
