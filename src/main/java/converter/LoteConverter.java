@@ -9,7 +9,7 @@ import javax.faces.convert.FacesConverter;
 
 import model.Lote;
 import dao.DAOLote;
-@FacesConverter(forClass= model.Lote.class)
+@FacesConverter(value="loteConverter")
 public class LoteConverter implements Converter {
 
 
@@ -22,22 +22,26 @@ public class LoteConverter implements Converter {
 		try {
 			Long id= Long.parseLong(value);
 			lote =dao.find(id);
-			System.out.println("convertendo lote   " + id);
+			System.out.println("convertendo lote   " + lote.toString());
+			return lote;
 		} catch (NumberFormatException e) {
 			throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro:", "Tipo de lote inválido"));
 		}
 
-		return lote;
+		
 	}
 
 
 	public String getAsString(FacesContext context, UIComponent component,
 			Object value) {
-		if(value== null){
-			return "";
+		if(value!= null){
+			Lote lote = (Lote) value;
+			System.out.println(lote.toString());
+			return String.valueOf(lote.getId());
+		}else{
+			return null;
+		
 		}
-		Lote lote = (Lote) value;
-		return String.valueOf(lote.getId());
 	}
 
 }

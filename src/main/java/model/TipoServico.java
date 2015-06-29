@@ -75,6 +75,14 @@ public class TipoServico {
 	public void removePrestador(Prestador prestador){
 		this.prestadores.remove(prestador);
 	}
+
+
+	@Override
+	public String toString() {
+		return "TipoServico [id=" + id + ", tipo=" + tipo + ", descricao="
+				+ descricao + "]";
+	}
+	
 	
 
 }

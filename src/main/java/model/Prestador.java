@@ -128,4 +128,12 @@ public class Prestador {
 //	public void removeServico(Servico servico){
 //		this.servicos.remove(servico);
 //	}
+
+	@Override
+	public String toString() {
+		return "Prestador [id=" + id + ", informacao=" + informacao
+				+ ", tipoServico=" + tipoServico + ", telefones=" + telefones
+				+ ", ocorrencias=" + ocorrencias + "]";
+	}
+	
 }

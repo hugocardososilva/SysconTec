@@ -5,24 +5,26 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 <h:body>
-	<p:dialog widgetVar="capturarImagemWidget"
-		id="capturarImagemId" modal="true"
-		closable="true" draggable="false" resizable="false" width="500px" height="300px">
-		<f:facet name="header">
-			<p:outputPanel>
-				<h:outputText value="Capturar Imagem"></h:outputText>
-			</p:outputPanel>
-		</f:facet>
-		<h:form id="capturarImagemForm" modal="true">
-		<p:panelGrid columns="3" cellpadding="5">
-        <p:photoCam widgetVar="pc" listener="#{prestadorPessoaMB.captura}" />
-        <p:commandButton value="Capturar" onclick="PF('pc').capture()"
-        oncomplete="PF('capturarImagemWidget').hide();" process="@parent"
-        update=":prestadores:imgCol :prestadores:imgBtCol :prestadores:imgBtCol2" />
+	<h:form id="capturarImagemForm" modal="true">
+		<p:dialog widgetVar="capturarImagemWidget" rendered="#{prestadorPessoaMB.editar eq true or prestadorPessoaMB.novo eq true}"
+			id="capturarImagemId" modal="true"
+			closable="true" draggable="false" resizable="false" width="500px" height="300px">
+			<f:facet name="header">
+				<p:outputPanel>
+					<h:outputText value="Capturar Imagem"></h:outputText>
+				</p:outputPanel>
+			</f:facet>
+		
+			<p:panelGrid columns="3" cellpadding="5">
+	        <p:photoCam widgetVar="pc" listener="#{prestadorPessoaMB.captura}" />
+	        <p:commandButton value="Capturar" onclick="PF('pc').capture()"
+	        oncomplete="PF('capturarImagemWidget').hide();" process="@parent"
+	        update=":prestadores:imgCol :prestadores:imgBtCol :prestadores:imgBtCol2" />
        
         
-		</p:panelGrid>	
-		</h:form>
-	</p:dialog>
+			</p:panelGrid>	
+		
+		</p:dialog>
+	</h:form>
 </h:body>
 </html>

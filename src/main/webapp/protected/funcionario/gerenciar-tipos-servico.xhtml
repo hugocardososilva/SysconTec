@@ -35,7 +35,7 @@
 			</p:panelGrid>
 				<p:panelGrid columns="3" >
 				
-					<p:commandButton value="Salvar" icon="fa fa-save" styleClass="btn btn-success" action="#{prestadorPessoaMB.adicionarTipoServico}" update=":tipoServicoPrestadorForm:novoTipoServicoPainel :tipoServicoPrestadorForm:prestadorTipoPainel "/>
+					<p:commandButton value="Salvar" icon="fa fa-save" styleClass="btn btn-success" action="#{tipoServicoMB.adicionarTipoServico}" update=":tipoServicoPrestadorForm"/>
 					<p:commandButton icon="fa fa-eraser" styleClass="btn btn-info" value="Limpar" immediate="true"   update=":tipoServicoPrestadorForm">
 						<p:resetInput target="tipoServicoPrestadorForm"></p:resetInput>
 						<p:confirm header="Confimarção" message="Deseja mesmo limpar?" icon="fa fa-warning"/>
@@ -67,7 +67,7 @@
 	       				 <p:commandButton value="Remover" icon="fa fa-arrow-left" styleClass="btn btn-error" 
 	       				 action="#{prestadorPessoaMB.selecionarTipoServico}"
 						update="tipoServicoPrestadorForm">
-							<f:setPropertyActionListener value="#{tipo}" target="#{prestadorPessoaMB.tipoServico}"/>
+							<f:setPropertyActionListener value="#{tipo}" target="#{tipoServicoMB.tipoServico}"/>
 							</p:commandButton>
 	    			</p:column>
 			

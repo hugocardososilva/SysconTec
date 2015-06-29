@@ -206,7 +206,7 @@ public class Pessoa extends Prestador{
 				+ ", email=" + email + ", foto=" + foto + ", horaEntrada="
 				+ horaEntrada + ", horaSaida=" + horaSaida + ", senha=" + senha
 				+ ", bloqueado=" + bloqueado + ", ultimoAcesso=" + ultimoAcesso
-				+ ", lote=" + lote + "]";
+				+ ", lote=" + lote + "tiposervico " + super.toString();
 	}
 	
 	

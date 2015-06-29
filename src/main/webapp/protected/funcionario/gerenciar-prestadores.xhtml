@@ -23,27 +23,27 @@
 			
 			<p:panel id="prestadoresGrupoBotoes" rendered="#{prestadorPessoaMB.novo eq false and prestadorPessoaMB.ver eq false and prestadorPessoaMB.editar eq false }">
 			
-			<p:commandButton value="Novo" action="#{prestadorPessoaMB.novoPrestador}" icon="fa fa-plus"  styleClass="btn btn-success btn-lg" update="prestadores" />
+			<p:commandButton value="Novo" action="#{prestadorPessoaMB.novoPrestador}" icon="fa fa-plus"  styleClass="btn btn-success btn-lg" update=":prestadores :capturarImagemForm" />
 			
 			</p:panel>
 			
 			<p:panel rendered="#{prestadorPessoaMB.novo eq true}" >
 				<p:panelGrid columns="3" id="panelGrupoBotoesNovo" >
 					<p:commandButton value="Salvar" action="#{prestadorPessoaMB.salvarPessoa}" update=":prestadores" icon="fa fa-save" styleClass="btn btn-success"/>
-					<p:commandButton icon="fa fa-eraser" styleClass="btn btn-info" value="Limpar" actionListener="#{prestadorPessoaMB.limparPrestador}" immediate="true"   update=":prestadores :prestadores:painelImagemGrid">
+					<p:commandButton icon="fa fa-eraser" styleClass="btn btn-info" value="Limpar" actionListener="#{prestadorPessoaMB.limparPrestador}" immediate="true"   update=":prestadores :prestadores:painelImagemGrid :capturarImagemForm">
 						<p:resetInput target="prestadores"></p:resetInput>
 						<p:confirm header="Confimarção" message="Deseja mesmo limpar?" icon="fa fa-warning"/>
 					</p:commandButton>
-					<p:commandButton icon="fa fa-close" immediate="true" styleClass="btn btn-warning"  value="Cancelar" action="#{prestadorPessoaMB.redirectPrestadores}" ajax="false">
+					<p:commandButton icon="fa fa-close" immediate="true" styleClass="btn btn-warning"  value="Cancelar" action="gerenciar-prestadores"  update=":prestadores :prestadores:painelImagemGrid :capturarImagemForm" >
 						<p:confirm header="Cancelar" message="Deseja mesmo cancelar?" icon="fa fa-warning" />
 					</p:commandButton>
 				
 				</p:panelGrid >
 			</p:panel>
-			
+<!-- 			Painel de botoes para edição -->
 			<p:panel rendered= "#{prestadorPessoaMB.editar eq true }">
 				<p:panelGrid columns="2" id="panelGrupoBotoesEditar" >
-					<p:commandButton value="Salvar" action="#{prestadorPessoaMB.salvarPessoa}" update=":prestadores" icon="fa fa-save" styleClass="btn btn-success"/>
+					<p:commandButton value="Salvar" action="#{prestadorPessoaMB.editarPessoa}" update=":prestadores" icon="fa fa-save" styleClass="btn btn-success"/>
 					
 					<p:commandButton icon="fa fa-close" immediate="true" styleClass="btn btn-warning"  value="Cancelar" action="#{prestadorPessoaMB.redirectPrestadores}" ajax="false">
 					<p:confirm header="Cancelar" message="Deseja mesmo cancelar?" icon="fa fa-warning" />
@@ -54,8 +54,8 @@
 			
 			<p:panel rendered="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false and prestadorPessoaMB.ver eq true}">
 				<p:panelGrid columns="2" >	
-					<p:commandButton value="Editar" icon="fa fa-edit" styleClass="btn btn-warning" actionListener="#{prestadorPessoaMB.habilitarEdicao}" update=":prestadores" immediate="true"/>
-					<p:commandButton value="Voltar" icon="fa fa-backward" styleClass="btn btn-info"  action="#{prestadorPessoaMB.redirectPrestadores}" update=":prestadores" immediate="true"/>
+					<p:commandButton value="Editar" icon="fa fa-edit" styleClass="btn btn-warning" actionListener="#{prestadorPessoaMB.habilitarEdicao}" update=":prestadores :capturarImagemForm" process="@this"/>
+					<p:commandButton value="Voltar" icon="fa fa-backward" styleClass="btn btn-info"  action="#{prestadorPessoaMB.redirectPrestadores}" update=":prestadores :capturarImagemForm" immediate="true"/>
 					
 				</p:panelGrid>
 			</p:panel>
@@ -220,9 +220,16 @@
 				</p:column>
 				<p:column colspan="4">
 							
-						<p:selectOneMenu disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" id="lotePessoaPrestadorId" value="#{prestadorPessoaMB.prestador.lote}" filter="true" filterMatchMode="contains" style="width:98%;">
+						<p:selectOneMenu converter="#{loteConverter}" var="p"  disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" id="lotePessoaPrestadorId" value="#{prestadorPessoaMB.prestador.lote}" filter="true" filterMatchMode="contains" style="width:98%;">
+							
 							 <f:selectItem itemLabel="Condomínio" itemValue="" />
-							 <f:selectItems value="#{prestadorPessoaMB.lotes}"  var="lote"  itemLabel="Lote #{lote.numero} Quadra #{lote.quadra} " itemValue="#{lote}"  />									
+							 <f:selectItems  value="#{prestadorPessoaMB.lotes}"  var="lote"  itemLabel="Lote #{lote.numero} Quadra #{lote.quadra} " itemValue="#{lote}"  />	
+							 <p:column>
+							 	Lote: #{p.numero}
+							 </p:column>	
+							  <p:column>
+							 	Quadra #{p.quadra}
+							 </p:column>								
 						</p:selectOneMenu>
 				</p:column>
 				<p:column>									
@@ -257,7 +264,7 @@
 			</p:panelGrid>
 		
 					</p:panel>			
-					<p:panel rendered="#{prestadorPessoaMB.editar eq true or prestadorPessoaMB.novo eq true}" id="telPessoa" toggleable="true" header="Telefones" style="margin-bottom:20px; width:600px;">
+					<p:panel rendered="#{prestadorPessoaMB.editar eq true or prestadorPessoaMB.novo eq true or prestadorPessoaMB.ver eq true}" id="telPessoa" toggleable="true" header="Telefones" style="margin-bottom:20px; width:600px;">
 						<p:panelGrid columns="2">
 							<p:dataTable  id="telefonesPessoa" var="tel" value="#{prestadorPessoaMB.prestador.telefones}"
 							emptyMessage="Não existem registros" rows="5" paginator="true">
