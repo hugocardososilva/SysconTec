@@ -9,7 +9,7 @@ import javax.faces.convert.FacesConverter;
 
 import model.Lote;
 import dao.DAOLote;
-@FacesConverter(value="loteConverter")
+@FacesConverter(forClass= Lote.class)
 public class LoteConverter implements Converter {
 
 
@@ -37,7 +37,7 @@ public class LoteConverter implements Converter {
 		if(value!= null){
 			Lote lote = (Lote) value;
 			System.out.println(lote.toString());
-			return String.valueOf(lote.getId());
+			return String.valueOf((Long)lote.getId());
 		}else{
 			return null;
 		

@@ -54,7 +54,7 @@
 			
 			<p:panel rendered="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false and prestadorPessoaMB.ver eq true}">
 				<p:panelGrid columns="2" >	
-					<p:commandButton value="Editar" icon="fa fa-edit" styleClass="btn btn-warning" actionListener="#{prestadorPessoaMB.habilitarEdicao}" update=":prestadores :capturarImagemForm" process="@this"/>
+					<p:commandButton value="Editar" icon="fa fa-edit" styleClass="btn btn-warning" actionListener="#{prestadorPessoaMB.habilitarEdicao}" update=":prestadores :capturarImagemForm " immediate="true"/>
 					<p:commandButton value="Voltar" icon="fa fa-backward" styleClass="btn btn-info"  action="#{prestadorPessoaMB.redirectPrestadores}" update=":prestadores :capturarImagemForm" immediate="true"/>
 					
 				</p:panelGrid>
@@ -220,10 +220,11 @@
 				</p:column>
 				<p:column colspan="4">
 							
-						<p:selectOneMenu converter="#{loteConverter}" var="p"  disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" id="lotePessoaPrestadorId" value="#{prestadorPessoaMB.prestador.lote}" filter="true" filterMatchMode="contains" style="width:98%;">
+						<p:selectOneMenu  var="p"  disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" id="lotePessoaPrestadorId"  value="#{prestadorPessoaMB.prestador.lote}"  style="width:98%;">
 							
 							 <f:selectItem itemLabel="Condomínio" itemValue="" />
 							 <f:selectItems  value="#{prestadorPessoaMB.lotes}"  var="lote"  itemLabel="Lote #{lote.numero} Quadra #{lote.quadra} " itemValue="#{lote}"  />	
+							 
 							 <p:column>
 							 	Lote: #{p.numero}
 							 </p:column>	
@@ -244,7 +245,7 @@
 				</p:column>
 				<p:column colspan="4">
 							
-						<p:selectOneMenu  disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" id="tipoPessoaPrestadorId" value="#{prestadorPessoaMB.prestador.tipoServico}" filter="true" filterMatchMode="contains" style="width:98%;">
+						<p:selectOneMenu widgetVar="t"  disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" id="tipoPessoaPrestadorId" value="#{prestadorPessoaMB.prestador.tipoServico}" filter="true" filterMatchMode="contains" style="width:98%;">
 							 <f:selectItem itemLabel="Selecione o tipo de serviço" itemValue="" />
 							 <f:selectItems value="#{prestadorPessoaMB.tipos}"  var="tipo"  itemLabel="#{tipo.tipo}" itemValue="#{tipo}"  />									
 						</p:selectOneMenu>
@@ -254,6 +255,11 @@
 				
 				</p:column>
 				
+				</p:row>
+				<p:row>
+					<p:column>
+					<h:outputText value="#{prestadorPessoaMB.prestador.lote}"></h:outputText>
+					</p:column>
 				</p:row>
 			
 			</p:panelGrid>
