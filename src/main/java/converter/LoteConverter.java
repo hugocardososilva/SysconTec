@@ -9,19 +9,18 @@ import javax.faces.convert.FacesConverter;
 
 import model.Lote;
 import dao.DAOLote;
+import facade.LoteFacade;
 @FacesConverter(forClass= Lote.class)
 public class LoteConverter implements Converter {
 
 
 	public Object getAsObject(FacesContext context, UIComponent component,
 			String value) {
-		DAOLote dao = new DAOLote();
-		dao.open();
-		dao.begin();
+		LoteFacade facade= new LoteFacade();
 		Lote lote= new Lote();
 		try {
 			Long id= Long.parseLong(value);
-			lote =dao.find(id);
+			lote =facade.pesquisarLote(id);
 			System.out.println("convertendo lote   " + lote.toString());
 			return lote;
 		} catch (NumberFormatException e) {

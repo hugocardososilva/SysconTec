@@ -12,8 +12,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.ManyToMany;
+
+import converter.GenericInterface;
 @Entity
-public class TipoServico {
+public class TipoServico implements GenericInterface{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;

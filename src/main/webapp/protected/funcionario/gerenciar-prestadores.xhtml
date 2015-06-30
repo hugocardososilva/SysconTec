@@ -21,13 +21,13 @@
 			
 			</p:confirmDialog>
 			
-			<p:panel id="prestadoresGrupoBotoes" rendered="#{prestadorPessoaMB.novo eq false and prestadorPessoaMB.ver eq false and prestadorPessoaMB.editar eq false }">
+			<p:panel styleClass="botoes" id="prestadoresGrupoBotoes" rendered="#{prestadorPessoaMB.novo eq false and prestadorPessoaMB.ver eq false and prestadorPessoaMB.editar eq false }">
 			
 			<p:commandButton value="Novo" action="#{prestadorPessoaMB.novoPrestador}" icon="fa fa-plus"  styleClass="btn btn-success btn-lg" update=":prestadores :capturarImagemForm" />
 			
 			</p:panel>
 			
-			<p:panel rendered="#{prestadorPessoaMB.novo eq true}" >
+			<p:panel rendered="#{prestadorPessoaMB.novo eq true}"  styleClass="botoes">
 				<p:panelGrid columns="3" id="panelGrupoBotoesNovo" >
 					<p:commandButton value="Salvar" action="#{prestadorPessoaMB.salvarPessoa}" update=":prestadores" icon="fa fa-save" styleClass="btn btn-success"/>
 					<p:commandButton icon="fa fa-eraser" styleClass="btn btn-info" value="Limpar" actionListener="#{prestadorPessoaMB.limparPrestador}" immediate="true"   update=":prestadores :prestadores:painelImagemGrid :capturarImagemForm">
@@ -41,8 +41,8 @@
 				</p:panelGrid >
 			</p:panel>
 <!-- 			Painel de botoes para edição -->
-			<p:panel rendered= "#{prestadorPessoaMB.editar eq true }">
-				<p:panelGrid columns="2" id="panelGrupoBotoesEditar" >
+			<p:panel id="panelEditar" styleClass="botoes">
+				<p:panelGrid columns="2" id="panelGrupoBotoesEditar" rendered= "#{prestadorPessoaMB.editar eq true }" >
 					<p:commandButton value="Salvar" action="#{prestadorPessoaMB.editarPessoa}" update=":prestadores" icon="fa fa-save" styleClass="btn btn-success"/>
 					
 					<p:commandButton icon="fa fa-close" immediate="true" styleClass="btn btn-warning"  value="Cancelar" action="#{prestadorPessoaMB.redirectPrestadores}" ajax="false">
@@ -52,15 +52,16 @@
 				</p:panelGrid>
 			</p:panel>
 			
-			<p:panel rendered="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false and prestadorPessoaMB.ver eq true}">
-				<p:panelGrid columns="2" >	
-					<p:commandButton value="Editar" icon="fa fa-edit" styleClass="btn btn-warning" actionListener="#{prestadorPessoaMB.habilitarEdicao}" update=":prestadores :capturarImagemForm " immediate="true"/>
+			<p:panel id="panelVer" styleClass="botoes">
+				<p:panelGrid id="grupoBotoesVer" rendered="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false and prestadorPessoaMB.ver eq true}"   columns="2" >	
+					<p:commandButton   value="Editar" icon="fa fa-edit" styleClass="btn btn-warning" action="#{prestadorPessoaMB.habilitarEdicao}"  
+					update="grupoBotoesVer panelGrupoBotoesEditar panelEditar panelVer panelInfo telPessoa  :capturarImagemForm "  />
 					<p:commandButton value="Voltar" icon="fa fa-backward" styleClass="btn btn-info"  action="#{prestadorPessoaMB.redirectPrestadores}" update=":prestadores :capturarImagemForm" immediate="true"/>
 					
 				</p:panelGrid>
 			</p:panel>
 			
-			<p:panel rendered="#{prestadorPessoaMB.editar eq true or prestadorPessoaMB.novo eq true or prestadorPessoaMB.ver eq true}">
+			<p:panel id="panelInfo" rendered="#{prestadorPessoaMB.editar eq true or prestadorPessoaMB.novo eq true or prestadorPessoaMB.ver eq true}">
 				<p:panelGrid columns="3" id="painelImagemGrid" >
 						<h:outputText value="Bloqueado?" style=" color:red;"/>		
 						<p:selectBooleanButton id="value2" disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.bloqueado}" onLabel="Sim" offLabel="Não" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:260px;">
@@ -214,13 +215,18 @@
 					
 				
 				</p:row>
+				</p:panelGrid>
+				</p:panel>
+				<p:panel id="panelSelectMenus"  rendered="#{prestadorPessoaMB.editar eq true or prestadorPessoaMB.novo eq true or prestadorPessoaMB.ver eq true}">
+				
+				<p:panelGrid >
 				<p:row>
 				<p:column>
 					<p:outputLabel for="lotePessoaPrestadorId" value="Lote:"  />
 				</p:column>
 				<p:column colspan="4">
 							
-						<p:selectOneMenu  var="p"  disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" id="lotePessoaPrestadorId"  value="#{prestadorPessoaMB.prestador.lote}"  style="width:98%;">
+						<p:selectOneMenu  var="p"   id="lotePessoaPrestadorId"  value="#{prestadorPessoaMB.prestador.lote}" style="width:98%;">
 							
 							 <f:selectItem itemLabel="Condomínio" itemValue="" />
 							 <f:selectItems  value="#{prestadorPessoaMB.lotes}"  var="lote"  itemLabel="Lote #{lote.numero} Quadra #{lote.quadra} " itemValue="#{lote}"  />	
@@ -234,7 +240,7 @@
 						</p:selectOneMenu>
 				</p:column>
 				<p:column>									
-						<p:commandButton icon="fa fa-plus" type="button"  value="Novo" disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" onclick="PF('novoLoteWidiget').show();" update=":novoTelefonePessoaForm" styleClass="btn btn-success" />
+						<p:commandButton icon="fa fa-plus" type="button"  value="Novo" onclick="PF('novoLoteWidiget').show();" update=":novoTelefonePessoaForm" styleClass="btn btn-success" />
 				
 				</p:column>
 				
@@ -245,24 +251,26 @@
 				</p:column>
 				<p:column colspan="4">
 							
-						<p:selectOneMenu widgetVar="t"  disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" id="tipoPessoaPrestadorId" value="#{prestadorPessoaMB.prestador.tipoServico}" filter="true" filterMatchMode="contains" style="width:98%;">
-							 <f:selectItem itemLabel="Selecione o tipo de serviço" itemValue="" />
-							 <f:selectItems value="#{prestadorPessoaMB.tipos}"  var="tipo"  itemLabel="#{tipo.tipo}" itemValue="#{tipo}"  />									
+						<p:selectOneMenu var="t"  id="tipoPessoaPrestadorId" value="#{prestadorPessoaMB.prestador.tipoServico}" style="width:98%;">
+							 <f:selectItem itemLabel="Selecione" itemValue=""  />
+							 <f:selectItems value="#{prestadorPessoaMB.tipos}"  var="tipo"  itemLabel="Tipo #{tipo.tipo}" itemValue="#{tipo}"  />
+							  <p:column>
+							 	Tipo: #{t.tipo}
+							 </p:column>	
+							  <p:column>
+							 	Descrição: #{t.descricao}
+							 </p:column>											
 						</p:selectOneMenu>
 				</p:column>
 				<p:column>									
-						<p:commandButton icon="fa fa-plus" type="button"  value="Novo" disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" onclick="PF('novoLoteWidiget').show();" update=":novoTelefonePessoaForm" styleClass="btn btn-success" />
+						<p:commandButton icon="fa fa-plus" type="button"  value="Novo"  onclick="PF('novoLoteWidiget').show();" update=":novoTelefonePessoaForm" styleClass="btn btn-success" />
 				
 				</p:column>
 				
 				</p:row>
-				<p:row>
-					<p:column>
-					<h:outputText value="#{prestadorPessoaMB.prestador.lote}"></h:outputText>
-					</p:column>
-				</p:row>
+				</p:panelGrid>
+				
 			
-			</p:panelGrid>
 			<p:panelGrid columns="3" >
 				
 						

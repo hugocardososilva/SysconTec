@@ -220,6 +220,7 @@ public class PrestadorPessoaMB  extends AbstractMB{
 		getNow();
 //		this.lote.addPessoa(prestador);
 		prestador.getLote().addPessoa(prestador);
+		prestador.getTipoServico().addPrestador(prestador);
 		
 		System.out.println("Adicionando novo prestador");
 		System.out.println("hora inicio  " + prestador.getHoraEntrada() );
