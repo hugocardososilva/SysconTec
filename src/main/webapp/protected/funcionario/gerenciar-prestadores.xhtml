@@ -82,7 +82,9 @@
 						<p:inputMask mask="999999" id="senhaPrestador" value="#{prestadorPessoaMB.prestador.senha}" required="true" 
 									readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" 
 									label="Senha" >
+									<f:validator validatorId="senhaValidator"></f:validator>
 									<f:validateLength minimum="6" maximum="6"/>
+									<f:attribute name="colSenha" value="senhaPrestador"></f:attribute>
 									
 									</p:inputMask>
 					</p:column>
@@ -176,7 +178,7 @@
 						<p:outputLabel for="cepPrestador"  value="CEP:" style="float:right"/>
 					</p:column>
 					<p:column>
-						<p:inputMask mask="99.999-999" id="cepPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.cep}" label="CEP" style="width:98%"  />
+						<p:inputMask mask="99999 999" id="cepPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.cep}" label="CEP" style="width:98%"  />
 					</p:column>
 				</p:row>
 				<p:row>
@@ -333,7 +335,7 @@
 					<h:outputText value="#{prestador.cpf}"/>
 				</p:column>
 				<p:column headerText="Bloqueado">
-					<h:outputText value="#{prestador.bloqueado}"/>
+					<h:outputText value="#{prestador.bloqueado eq true ? 'SIM' : 'NÃO'}"/>
 				</p:column>
 				<p:column headerText="Ações">
 				

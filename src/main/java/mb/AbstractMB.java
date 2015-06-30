@@ -18,14 +18,14 @@ public class AbstractMB {
 		
 		FacesMessage messagem = new FacesMessage(FacesMessage.SEVERITY_INFO, "Erro:", message);  
         
-        FacesContext.getCurrentInstance().addMessage(null, messagem);  
+//        FacesContext.getCurrentInstance().addMessage(null, messagem);  
 	}
 	
 	protected void displayInfoMessageToUser(String message) {
 		
 			FacesMessage messagem = new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação:", message);  
         
-        FacesContext.getCurrentInstance().addMessage(null, messagem); 
+//        FacesContext.getCurrentInstance().addMessage(null, messagem); 
 	}
 	
 	protected void closeDialog(){

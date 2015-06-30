@@ -55,7 +55,7 @@ public class Execut {
 	//inserindo prestador
 		Informacao ip= new Informacao();
 		ip.setBairro("bairro");
-		ip.setCep((long) 12345678);
+		ip.setCep("12345678");
 		ip.setCidade("cidade");
 		ip.setComplemento("complemento");
 		ip.setEndereco("endereco");

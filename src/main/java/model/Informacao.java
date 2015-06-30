@@ -17,7 +17,7 @@ public class Informacao {
 	private String cidade;
 	private String estado;
 	private String webSite;
-	private Long cep;
+	private String cep;
 	
 	public Informacao() {
 		
@@ -87,11 +87,11 @@ public class Informacao {
 		this.webSite = webSite;
 	}
 
-	public Long getCep() {
+	public String getCep() {
 		return cep;
 	}
 
-	public void setCep(Long cep) {
+	public void setCep(String cep) {
 		this.cep = cep;
 	}
 	
