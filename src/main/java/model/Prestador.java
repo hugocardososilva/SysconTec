@@ -43,7 +43,7 @@ public class Prestador {
 		this.ocorrencias= new ArrayList<OcorrenciaPrestadorServico>();
 //		this.servicos= new ArrayList<Servico>();
 		this.informacao= new Informacao();
-		this.tipoServico= new TipoServico();
+//		this.tipoServico= new TipoServico();
 	}
 
 	public long getId() {

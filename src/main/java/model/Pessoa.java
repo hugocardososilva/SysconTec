@@ -38,7 +38,9 @@ public class Pessoa extends Prestador{
 	private Date ultimoAcesso;
 	
 	private List<Servico> servicos;
-	
+//	@ManyToOne
+//	private TipoServico tipoServico;
+//	
 	@ManyToOne(fetch=FetchType.LAZY)
 	private Lote lote;
 	
@@ -47,6 +49,7 @@ public class Pessoa extends Prestador{
 		super();
 		this.servicos= new ArrayList<Servico>();
 		lote= new Lote();
+//		this.tipoServico= new TipoServico();
 	}
 
 
@@ -88,6 +91,16 @@ public class Pessoa extends Prestador{
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
+//
+//	public TipoServico getTipoServico() {
+//		return tipoServico;
+//	}
+//
+//
+//	public void setTipoServico(TipoServico tipoServico) {
+//		this.tipoServico = tipoServico;
+//	}
 
 
 	public String getSobrenome() {
@@ -201,12 +214,12 @@ public class Pessoa extends Prestador{
 
 	@Override
 	public String toString() {
-		return "Pessoa [nome=" + nome + ", sobrenome=" + sobrenome + ", cpf="
+		return super.toString()+"  Pessoa [nome=" + nome + ", sobrenome=" + sobrenome + ", cpf="
 				+ cpf + ", rg=" + rg + ", orgaoExpeditor=" + orgaoExpeditor
 				+ ", email=" + email + ", foto=" + foto + ", horaEntrada="
 				+ horaEntrada + ", horaSaida=" + horaSaida + ", senha=" + senha
 				+ ", bloqueado=" + bloqueado + ", ultimoAcesso=" + ultimoAcesso
-				+ ", lote=" + lote + "tiposervico " + super.toString();
+				+ ", servicos=" + servicos + ", lote=" + lote + "]";
 	}
 	
 	

@@ -179,6 +179,8 @@ public class PrestadorPessoaMB  extends AbstractMB{
 	}
 	
 	public void adicionarTipoServico(){
+		tipoServico.setPrestadores(null);
+		
 		System.out.println("adicionar tipo de servico");
 		dao.open();
 		dao.begin();
@@ -256,7 +258,7 @@ public class PrestadorPessoaMB  extends AbstractMB{
 		this.novo= false;
 		this.editar= false;
 		System.out.println(prestador.toString());
-		displayInfoMessageToUser("visualizando prestador! = " +" novo : " + novo + "editar : " + editar );
+//		displayInfoMessageToUser("visualizando prestador! = " +" novo : " + novo + "editar : " + editar );
 		
 		
 	}

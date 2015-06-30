@@ -45,7 +45,7 @@
 				<p:panelGrid columns="2" id="panelGrupoBotoesEditar" rendered= "#{prestadorPessoaMB.editar eq true }" >
 					<p:commandButton value="Salvar" action="#{prestadorPessoaMB.editarPessoa}" update=":prestadores" icon="fa fa-save" styleClass="btn btn-success"/>
 					
-					<p:commandButton icon="fa fa-close" immediate="true" styleClass="btn btn-warning"  value="Cancelar" action="#{prestadorPessoaMB.redirectPrestadores}" ajax="false">
+					<p:commandButton icon="fa fa-close" immediate="true" styleClass="btn btn-warning"  value="Cancelar" action="gerenciar-prestadores" update=":prestadores :prestadores:painelImagemGrid :capturarImagemForm" >
 					<p:confirm header="Cancelar" message="Deseja mesmo cancelar?" icon="fa fa-warning" />
 					</p:commandButton>
 				
@@ -56,7 +56,7 @@
 				<p:panelGrid id="grupoBotoesVer" rendered="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false and prestadorPessoaMB.ver eq true}"   columns="2" >	
 					<p:commandButton   value="Editar" icon="fa fa-edit" styleClass="btn btn-warning" action="#{prestadorPessoaMB.habilitarEdicao}"  
 					update="grupoBotoesVer panelGrupoBotoesEditar panelEditar panelVer panelInfo telPessoa  :capturarImagemForm "  />
-					<p:commandButton value="Voltar" icon="fa fa-backward" styleClass="btn btn-info"  action="#{prestadorPessoaMB.redirectPrestadores}" update=":prestadores :capturarImagemForm" immediate="true"/>
+					<p:commandButton value="Voltar" icon="fa fa-backward" styleClass="btn btn-info"  action="gerenciar-prestadores" update=":prestadores :capturarImagemForm" immediate="true"/>
 					
 				</p:panelGrid>
 			</p:panel>
@@ -226,7 +226,7 @@
 				</p:column>
 				<p:column colspan="4">
 							
-						<p:selectOneMenu  var="p"   id="lotePessoaPrestadorId"  value="#{prestadorPessoaMB.prestador.lote}" style="width:98%;">
+						<p:selectOneMenu  var="p"   id="lotePessoaPrestadorId"  value="#{prestadorPessoaMB.prestador.lote}" style="width:400px;">
 							
 							 <f:selectItem itemLabel="Condomínio" itemValue="" />
 							 <f:selectItems  value="#{prestadorPessoaMB.lotes}"  var="lote"  itemLabel="Lote #{lote.numero} Quadra #{lote.quadra} " itemValue="#{lote}"  />	
@@ -251,9 +251,9 @@
 				</p:column>
 				<p:column colspan="4">
 							
-						<p:selectOneMenu var="t"  id="tipoPessoaPrestadorId" value="#{prestadorPessoaMB.prestador.tipoServico}" style="width:98%;">
+						<p:selectOneMenu var="t"  id="tipoPessoaPrestadorId" value="#{prestadorPessoaMB.prestador.tipoServico}" style="width:400px;">
 							 <f:selectItem itemLabel="Selecione" itemValue=""  />
-							 <f:selectItems value="#{prestadorPessoaMB.tipos}"  var="tipo"  itemLabel="Tipo #{tipo.tipo}" itemValue="#{tipo}"  />
+							 <f:selectItems value="#{prestadorPessoaMB.tipos}"  var="tipo"  itemLabel="#{tipo.tipo}" itemValue="#{tipo}"  />
 							  <p:column>
 							 	Tipo: #{t.tipo}
 							 </p:column>	
@@ -263,7 +263,7 @@
 						</p:selectOneMenu>
 				</p:column>
 				<p:column>									
-						<p:commandButton icon="fa fa-plus" type="button"  value="Novo"  onclick="PF('novoLoteWidiget').show();" update=":novoTelefonePessoaForm" styleClass="btn btn-success" />
+						<p:commandButton icon="fa fa-plus" type="button"  value="Novo"  onclick="PF('tipoServicoPessoaWidget').show();" update=":novoTelefonePessoaForm" styleClass="btn btn-success" />
 				
 				</p:column>
 				
@@ -381,6 +381,40 @@
 					</p:panel>
 			</h:form>
 	</p:dialog>
+	
+	<h:form id="tipoServicoPrestadorForm" >
+		<p:dialog id="tipoServicoPessoa" widgetVar="tipoServicoPessoaWidget" modal="true" width="800px" height="800px">
+	
+		
+		
+			
+			<p:panel id="novoTipoServicoPainel">
+				
+			<p:panelGrid columns="2" id="painelAdicionarTipoGrid" >	
+							<p:outputLabel for="tipoServicoTipo" value="Tipo"  />    							
+							<p:inputText id="tipoServicoTipo" value="#{prestadorPessoaMB.tipoServico.tipo}"  label="Tipo" />
+							<p:outputLabel for="tipoServicoDescricao" value="Descrição"  />    							
+							<p:inputText id="tipoServicoDescricao" value="#{prestadorPessoaMB.tipoServico.descricao}"  label="Descricão" />
+				
+				
+				</p:panelGrid>
+				<p:panelGrid columns="3" >
+					<p:commandButton value="Salvar" icon="fa fa-save" styleClass="btn btn-success" oncomplete="PF('tipoServicoPessoaWidget').hide();" action="#{prestadorPessoaMB.adicionarTipoServico}" update=":tipoServicoPrestadorForm :prestadores "/>
+					<p:commandButton value="Cancelar" icon="fa fa-remove" actionListener="#{prestadorPessoaMB.resetTipoServico}" immediate="true" oncomplete="PF('tipoServicoPessoaWidget').hide();" update=":prestadores :tipoServicoPrestadorForm" styleClass="btn btn-warning"  >
+							<p:resetInput target="tipoServicoPrestadorForm"/>
+							</p:commandButton>
+					
+					
+				
+				</p:panelGrid>	
+			</p:panel>
+		
+		
+		
+		
+		
+	</p:dialog>
+	</h:form>
 			
 	
 		

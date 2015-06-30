@@ -5,9 +5,9 @@
 
 <h:body>
 
-		
+	<h:form id="tipoServicoPrestadorForm" >
 		<p:dialog id="tipoServicoPessoa" widgetVar="tipoServicoPessoaWidget" modal="true" width="800px" height="800px">
-		<h:form id="tipoServicoPrestadorForm" >
+	
 		
 		
 			<p:commandButton icon="fa fa-plus" value="Novo" styleClass="btn btn-success" action="#{prestadorPessoaMB.visualizarNovoTipo}" 
@@ -59,17 +59,10 @@
 			
 			</p:dataTable>
 			</p:panel>
-			 
-			
-			 
-			
-			 			
-	
-		
-		</h:form>
 		
 		
 	</p:dialog>
+	</h:form>
 	
 </h:body>
 </html>
