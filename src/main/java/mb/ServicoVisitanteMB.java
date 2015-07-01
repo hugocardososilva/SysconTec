@@ -1,5 +1,6 @@
 package mb;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import model.TipoServico;
 
 @ManagedBean
 @ViewScoped
-public class ServicoVisitanteMB extends AbstractMB{
+public class ServicoVisitanteMB extends AbstractMB implements Serializable{
 
 	private ServicoEsporadico servicoEsporadico;
 	private PessoaEsporadica pessoaEsporadica;
@@ -81,7 +82,7 @@ public class ServicoVisitanteMB extends AbstractMB{
 	
 	
 	public String redirectServicoVisitante(){
-		System.out.println("entrando em serviço visita");
+		System.out.println("entrando em serviï¿½o visita");
 		return "movimentacao-visitas-servico";
 	}
 }

@@ -25,7 +25,7 @@ import javax.persistence.TemporalType;
 public abstract class Usuario {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long id;
+	protected Long id;
 	private String login;
 	private String senha;
 	private String nome;
@@ -51,10 +51,10 @@ public abstract class Usuario {
 	public Usuario() {
 		this.telefones= new ArrayList<Telefone>();
 	}
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getLogin() {

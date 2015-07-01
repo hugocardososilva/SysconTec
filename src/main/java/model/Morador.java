@@ -56,5 +56,18 @@ public class Morador extends Usuario {
 	public void removeResposabilidade(Lote lote){
 		this.responsabilidade.remove(lote);
 	}
+	@Override
+	public boolean equals(Object other) {
+		return (other != null && getClass() == other.getClass() && this.id != null)
+	            ? id.equals(((Morador) other).id)
+	            : (other == this);
+	}
+	@Override
+	public int hashCode() {
+		return (id != null) 
+	            ? (getClass().hashCode() + id.hashCode())
+	            : super.hashCode();
+	}
+	
 
 }

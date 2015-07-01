@@ -1,6 +1,7 @@
 package mb;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
@@ -18,7 +19,7 @@ import model.Usuario;
 
 @ManagedBean
 @SessionScoped
-public class LoginMB extends AbstractMB {
+public class LoginMB extends AbstractMB implements Serializable {
 	
 	private Usuario user;
 	
@@ -91,7 +92,7 @@ public class LoginMB extends AbstractMB {
 					}
 			
 		}
-		displayErrorMessageToUser("Usuário ou senha inválidos");
+		displayErrorMessageToUser("Usuï¿½rio ou senha invï¿½lidos");
 		} catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

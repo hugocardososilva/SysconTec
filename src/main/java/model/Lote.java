@@ -139,7 +139,8 @@ public class Lote implements GenericInterface{
 	@Override
 	public String toString() {
 		return "Lote [id=" + id + ", numero=" + numero + ", quadra=" + quadra
-				+ "]";
+				+ ", responsavel=" + responsavel + ", moradores=" + moradores
+				+ ", pessoas=" + pessoas + ", servicos=" + servicos + "]";
 	}
 	
 

@@ -1,5 +1,6 @@
 package mb;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +16,7 @@ import model.ServicoResidencia;
 
 @ManagedBean
 @ViewScoped
-public class ServicoPrestadorMB extends AbstractMB {
+public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 		private List<Pessoa> prestadores;
 		private List<ServicoResidencia> servicosEmAberto;
 		private DAOPrestadorPessoa daop= new DAOPrestadorPessoa();

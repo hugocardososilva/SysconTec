@@ -1,12 +1,14 @@
 package model;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Funcionario extends Usuario {
+public class Funcionario extends Usuario implements Serializable{
 	
 	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	private Informacao informacao;

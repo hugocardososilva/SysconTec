@@ -1,10 +1,12 @@
 package mb;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 
 
 
@@ -16,6 +18,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
+
 
 
 
@@ -39,7 +42,7 @@ import model.TipoServico;
 
 @ManagedBean
 @ViewScoped
-public class PrestadorPessoaMB  extends AbstractMB{
+public class PrestadorPessoaMB  extends AbstractMB implements Serializable{
 	private DAOPrestadorPessoa daop= new DAOPrestadorPessoa();
 	private DAO dao = new DAO();
 	private DAOLote daol= new DAOLote();

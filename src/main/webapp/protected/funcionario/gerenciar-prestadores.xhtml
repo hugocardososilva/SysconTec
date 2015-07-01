@@ -85,6 +85,7 @@
 									<f:validator validatorId="senhaValidator"></f:validator>
 									<f:validateLength minimum="6" maximum="6"/>
 									<f:attribute name="colSenha" value="senhaPrestador"></f:attribute>
+									<f:attribute name= "idSenha" value="#{prestadorPessoaMB.prestador.id}"></f:attribute>
 									
 									</p:inputMask>
 					</p:column>
@@ -148,7 +149,7 @@
 						<p:outputLabel for="numeroPrestador" value="Número:" style="float:right" />	
 					</p:column>
 					<p:column>
-						<p:inputText id="numeroPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.numero}" label="Numero" style="width:98%" />		
+						<p:inputText id="numeroPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" required="true"  value="#{prestadorPessoaMB.prestador.informacao.numero}" label="Numero" style="width:98%" />		
 					</p:column>
 				</p:row>
 				<p:row>
@@ -173,13 +174,13 @@
 					<p:column colspan="3">
 						<p:inputText id="cidadePrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.cidade}" label="Cidade" />
 					</p:column>
+					<p:column>
+						<p:outputLabel for="estadoPrestador"  value="Estado:" style="float:right" />
+					</p:column>
+					<p:column>
+						<p:inputText id="estadoPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.estado}"  label="Estado" maxlength="2" size="2" />
+					</p:column>
 					
-					<p:column>
-						<p:outputLabel for="cepPrestador"  value="CEP:" style="float:right"/>
-					</p:column>
-					<p:column>
-						<p:inputMask mask="99999 999" id="cepPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.cep}" label="CEP" style="width:98%"  />
-					</p:column>
 				</p:row>
 				<p:row>
 					<p:column>
@@ -189,11 +190,12 @@
 						<p:inputText id="emailPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.email}" required="true" label="Email" style="width:98%" />
 					</p:column>
 					<p:column>
-						<p:outputLabel for="estadoPrestador"  value="Estado:" style="float:right" />
+						<p:outputLabel for="cepPrestador"  value="CEP:" style="float:right"/>
 					</p:column>
 					<p:column>
-						<p:inputText id="estadoPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.estado}"  label="Estado" maxlength="2" size="2" />
+						<p:inputMask mask="99999 999" id="cepPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.cep}" label="CEP" style="width:98%"  />
 					</p:column>
+					
 				
 				</p:row>
 				<p:row>

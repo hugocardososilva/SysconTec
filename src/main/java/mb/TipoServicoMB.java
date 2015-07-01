@@ -1,5 +1,6 @@
 package mb;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import model.TipoServico;
 
 @ManagedBean
 @ViewScoped
-public class TipoServicoMB extends AbstractMB{
+public class TipoServicoMB extends AbstractMB implements Serializable{
 	private TipoServico tipoServico;
 	private List<TipoServico> tiposServico = new ArrayList<TipoServico>();
 	private DAO dao= new DAO();

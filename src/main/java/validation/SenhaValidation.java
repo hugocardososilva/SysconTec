@@ -30,10 +30,19 @@ public class SenhaValidation implements Validator, Serializable {
 		
 		boolean isValid= false;
 		String coluna= (String) component.getAttributes().get("colSenha");
+		Long idEdit= (Long) component.getAttributes().get("idSenha");
+		
 			try {
 				dao.open();
 				dao.begin();
 				Prestador p= dao.findBySenha((String) value);
+				System.out.println("Validate Edicao : " + idEdit);
+				
+				if(p.getId()== idEdit){
+					isValid= true;
+					
+				}
+				
 				System.out.println(p.toString()	);
 				
 				
