@@ -25,10 +25,10 @@ public class Lote implements GenericInterface{
 	private Long numero;
 	private String quadra;
 	
-	@ManyToOne(cascade= CascadeType.ALL, fetch=FetchType.EAGER)
+	@ManyToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE}, fetch=FetchType.EAGER)
 	private Morador responsavel;
 	
-	@OneToMany(cascade= CascadeType.ALL, mappedBy="lote",fetch=FetchType.LAZY)
+	@OneToMany(cascade={CascadeType.PERSIST,CascadeType.MERGE} , mappedBy="lote",fetch=FetchType.LAZY)
 	private List<Morador> moradores;
 	
 	@OneToMany(cascade= CascadeType.ALL, mappedBy="lote", fetch=FetchType.LAZY)

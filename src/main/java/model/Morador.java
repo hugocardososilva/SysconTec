@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 public class Morador extends Usuario {
 	private boolean responsavel;
 	
-	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+	@ManyToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE},fetch=FetchType.LAZY)
 	private Lote lote;
 	
 	@OneToMany(mappedBy="responsavel",cascade=CascadeType.ALL,fetch=FetchType.LAZY)

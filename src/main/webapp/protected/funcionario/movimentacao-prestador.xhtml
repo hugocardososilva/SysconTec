@@ -110,14 +110,14 @@
 										
 						</p:column>
 						<p:column>
-							<p:inputText disabled="true" id="nomePrestador" value="#{prestadorPessoaMB.prestador.nome}" label="Nome" size="30" />
+							<p:inputText disabled="true" id="nomePrestador" value="#{servicoPrestadorMB.prestador.nome}" label="Nome" size="30" />
 						</p:column>
 					
 						<p:column>
 							<p:outputLabel for="sobrenomePrestador" value="Sobrenome:" />
 						</p:column>
 						<p:column>
-							<p:inputText disabled="true" id="sobrenomePrestador" value="#{prestadorPessoaMB.prestador.sobrenome}" label="Sobrenome" size="40" />
+							<p:inputText disabled="true" id="sobrenomePrestador" value="#{servicoPrestadorMB.prestador.sobrenome}" label="Sobrenome" size="40" />
 						</p:column>
 						<p:column rowspan="4">
 							<p:graphicImage value="/../sysconImages/#{servicoPrestadorMB.prestador.foto}.jpeg" width="150px" height="180px"/>
@@ -131,9 +131,8 @@
 										
 						</p:column>
 						<p:column colspan="3">
-							<p:dataList emptyMessage="Nenhuma função associada" id="funcaoPrestador" value="#{servicoPrestadorMB.prestador.tipos}" var="tipo" >
-								#{tipo.tipo}
-							</p:dataList>
+							<p:inputText disabled="true" id="funcaoPrestador" value="#{servicoPrestadorMB.prestador.tipoServico.tipo}"  />
+							
 						</p:column>
 					
 						

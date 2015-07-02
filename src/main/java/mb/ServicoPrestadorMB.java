@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -34,6 +35,10 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 		
 		
 		public ServicoPrestadorMB() {
+			
+		}
+		@PostConstruct
+		public void init(){
 			this.prestadores= new ArrayList<Pessoa>();
 			this.saiu= false;
 			this.iniciarServico= false;
@@ -41,6 +46,62 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 			this.prestador= new Pessoa();
 		}
 
+		
+		public void keyPressSenha(){
+			System.out.println("digitou");
+			this.iniciarServico= true;
+//			displayInfoMessageToUser("senha digitada: " + senha.toString());
+			if(!senha.equalsIgnoreCase(senhaEntrada) && !senha.equalsIgnoreCase("")){
+				this.entrou= true;
+				this.saiu= false;
+			}else{
+				this.entrou = false;
+				this.saiu= true;
+			}
+			
+			
+			
+		}
+		public void registrarMovimentacao(){
+		}
+		public void registrarSaida(){
+			servico.setDataSaida(new Date(System.currentTimeMillis()));
+			servico.setHoraSaida(new Date(System.currentTimeMillis()));
+			servico.setConcluido(true);
+			saiu= true;
+			this.iniciarServico= false;
+			resetSenha();
+			senhaEntrada= null;
+			displayInfoMessageToUser("Horario de saida: "+ servico.getDataSaida().toString() + servico.getHoraSaida().toString());
+			
+			
+		}
+		public void registrarEntrada(){
+			senhaEntrada = senha;
+			servico.setDataEntrada(new Date(System.currentTimeMillis()));
+			servico.setHoraEntrada(new Date(System.currentTimeMillis()));
+			this.entrou=false;
+			this.saiu= false;
+			resetSenha();
+			servico.setConcluido(false);
+			this.iniciarServico= false;
+			displayInfoMessageToUser("Horario de entrada: "+ servico.getDataEntrada().toString() + servico.getHoraEntrada().toString());
+			
+			
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		public List<Pessoa> getPrestadores() {
 			dao.open();
 			dao.begin();
@@ -147,49 +208,7 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 		public void resetSenha(){
 			this.senha= null;
 		}
-		public void keyPressSenha(){
-			System.out.println("digitou");
-			this.iniciarServico= true;
-//			displayInfoMessageToUser("senha digitada: " + senha.toString());
-			if(!senha.equalsIgnoreCase(senhaEntrada) && !senha.equalsIgnoreCase("")){
-				this.entrou= true;
-				this.saiu= false;
-			}else{
-				this.entrou = false;
-				this.saiu= true;
-			}
-			
-			
-			
-		}
-		public void registrarMovimentacao(){
-		}
-		public void registrarSaida(){
-			servico.setDataSaida(new Date(System.currentTimeMillis()));
-			servico.setHoraSaida(new Date(System.currentTimeMillis()));
-			servico.setConcluido(true);
-			saiu= true;
-			this.iniciarServico= false;
-			resetSenha();
-			senhaEntrada= null;
-			displayInfoMessageToUser("Horario de saida: "+ servico.getDataSaida().toString() + servico.getHoraSaida().toString());
-			
-			
-		}
-		public void registrarEntrada(){
-			senhaEntrada = senha;
-			servico.setDataEntrada(new Date(System.currentTimeMillis()));
-			servico.setHoraEntrada(new Date(System.currentTimeMillis()));
-			this.entrou=false;
-			this.saiu= false;
-			resetSenha();
-			servico.setConcluido(false);
-			this.iniciarServico= false;
-			displayInfoMessageToUser("Horario de entrada: "+ servico.getDataEntrada().toString() + servico.getHoraEntrada().toString());
-			
-			
-			
-		}
+	
 		
 		
 

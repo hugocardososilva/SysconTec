@@ -23,7 +23,7 @@ public class TipoServico {
 	@Column(unique= true)
 	private String tipo;
 	private String descricao;
-	@OneToMany(mappedBy="tipoServico", cascade= CascadeType.ALL, fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="tipoServico",cascade={CascadeType.PERSIST,CascadeType.MERGE}, fetch=FetchType.LAZY)
 	private List<Prestador> prestadores;
 	
 	

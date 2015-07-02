@@ -9,15 +9,55 @@
 	<ui:composition template="/template/template.xhtml">
 	<ui:define name="divMain">
 		
-				<h:form id="tipoServicoPrestadorForm" >
+				<h:form id="tipoServico" >
 			<p:confirmDialog global="true">
 				<p:commandButton value="Sim" type="button"  icon="fa fa-check" styleClass="ui-confirmdialog-yes" />
 				<p:commandButton value="Não" type="button" icon="fa fa-close" styleClass="ui-confirmdialog-no"/>
 			
 			</p:confirmDialog>
+			
+			
+			<p:panel styleClass="botoes" id="tipoServicoGrupoBotoes" rendered="#{tipoServicoMB.novo eq false and tipoServicoMB.editar eq false }">
+			
+			<p:commandButton value="Novo" action="#{tipoServicoMB.novoTipoServico}" icon="fa fa-plus"  styleClass="btn btn-success btn-lg" update=":tipoServico " />
+			
+			</p:panel>
+			
+			<p:panel rendered="#{tipoServicoMB.novo eq true}"  styleClass="botoes">
+				<p:panelGrid columns="3" id="panelGrupoBotoesNovo" >
+					<p:commandButton value="Salvar" action="#{tipoServicoMB.salvarTipoServico}" update=":tipoServico" icon="fa fa-save" styleClass="btn btn-success"/>
+					<p:commandButton icon="fa fa-eraser" styleClass="btn btn-info" value="Limpar" actionListener="#{tipoServicoMB.resetTipoServico}" immediate="true"   update=":tipoServico ">
+						<p:resetInput target="tipoServico"></p:resetInput>
+						<p:confirm header="Confimarção" message="Deseja mesmo limpar?" icon="fa fa-warning"/>
+					</p:commandButton>
+					<p:commandButton icon="fa fa-close" immediate="true" styleClass="btn btn-warning"  value="Cancelar" action="gerenciar-tipos-servico"  update=":tipoServico" >
+						<p:confirm header="Cancelar" message="Deseja mesmo cancelar?" icon="fa fa-warning" />
+					</p:commandButton>
+				
+				</p:panelGrid >
+			</p:panel>
+<!-- 			Painel de botoes para edição -->
+			<p:panel id="panelEditar" styleClass="botoes">
+				<p:panelGrid columns="3" id="panelGrupoBotoesEditar" rendered= "#{tipoServicoMB.editar eq true }" >
+					<p:commandButton value="Salvar" action="#{tipoServicoMB.editarTipoServico}" update=":tipoServico" icon="fa fa-save" styleClass="btn btn-success"/>
+					
+					<p:commandButton icon="fa fa-close" immediate="true" styleClass="btn btn-warning"  value="Cancelar" action="gerenciar-tipos-servico" update=":tipoServico" >
+					<p:confirm header="Cancelar" message="Deseja mesmo cancelar?" icon="fa fa-warning" />
+					</p:commandButton>
+					
+					<p:commandButton icon="fa fa-remove" immediate="true" actionListener="#{tipoServicoMB.removerTipoServico}"  styleClass="btn btn-danger" value="Remover" update=":tipoServico" >
+						<p:confirm header="Cancelar"  message="Tem certeza que deseja remover?" icon="fa fa-warning" />
+					</p:commandButton>
+				
+				</p:panelGrid>
+			</p:panel>
+			
+			
+			
+			
 		
 			
-			<p:panel id="novoTipoServicoPainel" >
+			<p:panel id="novoTipoServicoPainel" rendered="#{tipoServicoMB.editar eq true or tipoServicoMB.novo eq true}" >
 				
 			<p:panelGrid columns="2" id="painelAdicionarTipoGrid" >	
 				 <f:facet name="header">
@@ -26,29 +66,20 @@
 		            </p:outputPanel>
        			 </f:facet>
 					<p:outputLabel for="tipoServicoTipo" value="Tipo"  />    							
-					<p:inputText id="tipoServicoTipo" value="#{tipoServicoMB.tipoServico.tipo}"  label="Tipo" />
+					<p:inputText id="tipoServicoTipo" value="#{tipoServicoMB.tipoServico.tipo}" required="true"  label="Tipo" />
 					
 					<p:outputLabel for="tipoServicoDescricao" value="Descrição"  />    							
 					<p:inputText id="tipoServicoDescricao" value="#{tipoServicoMB.tipoServico.descricao}"  label="Descricão" />
 		
 		
 			</p:panelGrid>
-				<p:panelGrid columns="3" >
 				
-					<p:commandButton value="Salvar" icon="fa fa-save" styleClass="btn btn-success" action="#{tipoServicoMB.adicionarTipoServico}" update=":tipoServicoPrestadorForm"/>
-					<p:commandButton icon="fa fa-eraser" styleClass="btn btn-info" value="Limpar" immediate="true"   update=":tipoServicoPrestadorForm">
-						<p:resetInput target="tipoServicoPrestadorForm"></p:resetInput>
-						<p:confirm header="Confimarção" message="Deseja mesmo limpar?" icon="fa fa-warning"/>
-					</p:commandButton>
-					
-				
-				</p:panelGrid>	
 			</p:panel>
 		
 		
 			<p:spacer width="20" height="20px"/>
 			
-			<p:panel id="prestadorTipoPainel">
+			<p:panel id="prestadorTipoPainel" rendered="#{tipoServicoMB.novo eq false and tipoServicoMB.editar eq false}">
 			<p:dataTable id="prestadorTipoData" var="tipo" value="#{tipoServicoMB.tiposServico}" emptyMessage="Não existem registros"
 			paginator="true" rows="20" widgetVar="tipoWidget">
 			 
@@ -63,10 +94,10 @@
 	    			<p:column headerText="Descrição">
 	       				 <h:outputText value="#{tipo.descricao}" />
 	    			</p:column>
-	    				<p:column headerText="Opções">
-	       				 <p:commandButton value="Remover" icon="fa fa-arrow-left" styleClass="btn btn-error" 
-	       				 action="#{prestadorPessoaMB.selecionarTipoServico}"
-						update="tipoServicoPrestadorForm">
+	    				<p:column headerText="Opções" width="100">
+	       				 <p:commandButton value="Editar" icon="fa fa-edit" styleClass="btn btn-warning btn-xs" 
+	       				 action="#{tipoServicoMB.habilitarEdicao}"
+						update="tipoServico">
 							<f:setPropertyActionListener value="#{tipo}" target="#{tipoServicoMB.tipoServico}"/>
 							</p:commandButton>
 	    			</p:column>

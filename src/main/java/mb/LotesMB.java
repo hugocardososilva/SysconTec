@@ -77,23 +77,10 @@ public class LotesMB extends AbstractMB implements Serializable {
 	}
 	public void removerLote(){
 		System.out.println("removendo lote: " + lote.toString());
-		if(lote.getServicos().isEmpty()){
-			
-			
-			lote.getResponsavel().setLote(null);
+	
 			
 			System.out.println("verificando ligações");
-			for(Pessoa p : lote.getPessoas()){
-				p.setLote(null);
-				
-			}
-			lote.setPessoas(null);
 			
-			for(Morador m : lote.getMoradores()){
-				m.setLote(null);
-				lote.getMoradores().remove(m.getId());
-			}
-			lote.setMoradores(null);
 			
 			dao.open();
 			dao.begin();
@@ -108,9 +95,7 @@ public class LotesMB extends AbstractMB implements Serializable {
 			editar= false;
 			resetLote();
 			
-		}else{
-			displayErrorMessageToUser("Não é possível remover o lote, pois o mesmo possui prestadores de serviço e serviços");
-		}
+	
 		
 		
 	}
