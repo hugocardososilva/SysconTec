@@ -50,8 +50,8 @@ public class LotesMB extends AbstractMB implements Serializable {
 	public void salvarLote(){
 		lote.setMoradores(null);
 		lote.setPessoas(null);
-		lote.getResponsavel().addResponsabilidade(lote);
-		lote.getResponsavel().setResponsavel(true);
+//		lote.getResponsavel().addResponsabilidade(lote);
+//		lote.getResponsavel().setResponsavel(true);
 		
 		dao.open();
 		dao.begin();

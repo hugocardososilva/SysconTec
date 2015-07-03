@@ -11,6 +11,7 @@ import model.Usuario;
 import dao.DAO;
 import dao.DAOMorador;
 import dao.DAOPrestadorPessoa;
+import dao.DAOTipoServico;
 import dao.DAOUser;
 
 public class Execut {
@@ -89,7 +90,7 @@ public class Execut {
 		lote.setResponsavel(morador);
 		lote.addPessoa(prestador);
 		
-		
+		DAOTipoServico daots= new DAOTipoServico();
 		DAO dao= new DAO();
 		DAOUser daou= new DAOUser();
 		DAOPrestadorPessoa daop= new DAOPrestadorPessoa();
@@ -97,7 +98,7 @@ public class Execut {
 		
 		dao.open();
 		dao.begin();
-		
+		daots.persist(ts);
 		daou.persist(admin);
 		daom.persist(morador);
 		

@@ -75,7 +75,7 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 					}else{
 						displayErrorMessageToUser("Prestador não existe!");
 						System.out.println("prestador nao existe");
-						this.iniciarServico= true;
+						this.iniciarServico= false;
 					}
 				
 				
