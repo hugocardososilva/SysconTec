@@ -47,7 +47,7 @@ public class TestCad {
 	dao.begin();
 	ts= daot.find(1l);
 	
-	p.addTipo(ts);
+//	p.addTipo(ts);
 	ts.addPrestador(p);
 	
 	

@@ -25,8 +25,10 @@ public class Prestador {
 	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	private Informacao informacao;
 	
-	@ManyToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
-	private List<TipoServico> tipos;
+//	@ManyToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+//	private List<TipoServico> tipos;
+	@ManyToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE})
+	private TipoServico tipoServico;
 	
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	private List<Telefone> telefones;
@@ -35,11 +37,17 @@ public class Prestador {
 	private List<OcorrenciaPrestadorServico> ocorrencias;
 //	private List<Servico> servicos;
 	
+	@OneToMany(cascade={CascadeType.PERSIST,CascadeType.MERGE}, mappedBy="prestador")
+	private List<Servico> servicos;
+	
 	public Prestador() {
-		this.tipos= new ArrayList<TipoServico>();
+//		this.tipos= new ArrayList<TipoServico>();
+		this.servicos= new ArrayList<Servico>();
 		this.telefones= new ArrayList<Telefone>();
 		this.ocorrencias= new ArrayList<OcorrenciaPrestadorServico>();
 //		this.servicos= new ArrayList<Servico>();
+		this.informacao= new Informacao();
+//		this.tipoServico= new TipoServico();
 	}
 
 	public long getId() {
@@ -58,13 +66,13 @@ public class Prestador {
 		this.id = id;
 	}
 
-	public List<TipoServico> getTipos() {
-		return tipos;
-	}
-
-	public void setTipos(List<TipoServico> tipos) {
-		this.tipos = tipos;
-	}
+//	public List<TipoServico> getTipos() {
+//		return tipos;
+//	}
+//
+//	public void setTipos(List<TipoServico> tipos) {
+//		this.tipos = tipos;
+//	}
 
 	public List<Telefone> getTelefones() {
 		return telefones;
@@ -74,6 +82,14 @@ public class Prestador {
 		this.telefones = telefones;
 	}
 	
+
+	public TipoServico getTipoServico() {
+		return tipoServico;
+	}
+
+	public void setTipoServico(TipoServico tipoServico) {
+		this.tipoServico = tipoServico;
+	}
 
 	public Informacao getInformacao() {
 		return informacao;
@@ -97,13 +113,27 @@ public class Prestador {
 	public void removeTelefone(Telefone telefone){
 		this.telefones.remove(telefone);
 	}
-	
-	public void addTipo(TipoServico ts){
-		this.tipos.add(ts);
+	public List<Servico> getServicos() {
+		return servicos;
 	}
-	public void removeTipo(TipoServico ts){
-		this.tipos.remove(ts);
+
+
+	public void setServicos(List<Servico> servicos) {
+		this.servicos = servicos;
+	}	
+	public void addServico(Servico s){
+		this.servicos.add(s);
 	}
+	public void removeServico(Servico s){
+		this.servicos.remove(s);
+	}
+
+//	public void addTipo(TipoServico ts){
+//		this.tipos.add(ts);
+//	}
+//	public void removeTipo(TipoServico ts){
+//		this.tipos.remove(ts);
+//	}
 	public void addOcorrencia(OcorrenciaPrestadorServico ops){
 		this.ocorrencias.add(ops);
 	}
@@ -116,4 +146,13 @@ public class Prestador {
 //	public void removeServico(Servico servico){
 //		this.servicos.remove(servico);
 //	}
+
+	@Override
+	public String toString() {
+		return "Prestador [id=" + id + ", informacao=" + informacao
+				+ ", tipoServico=" + tipoServico + ", telefones=" + telefones
+				+ ", ocorrencias=" + ocorrencias + ", servicos=" + servicos
+				+ "]";
+	}
+	
 }

@@ -45,7 +45,9 @@
 						<f:setPropertyActionListener value="#{prestador}" target="#{prestadorPessoaMB.prestador}"></f:setPropertyActionListener>
 					</p:commandButton>
 					
-					<p:commandButton icon="fa fa-ban"  styleClass="btn btn-warning btn-xs" value="Bloquear" action="#{prestadorPessoaMB.bloquearPrestador}" update=":prestadores"/>
+					<p:commandButton icon="fa fa-ban"  styleClass="btn btn-warning btn-xs" value="Bloquear" action="#{prestadorPessoaMB.bloquearPrestador}" update=":prestadores">
+						<f:setPropertyActionListener value="#{prestador}" target="#{prestadorPessoaMB.prestador}"></f:setPropertyActionListener>	
+					</p:commandButton>
 				</p:column>
 				
 			

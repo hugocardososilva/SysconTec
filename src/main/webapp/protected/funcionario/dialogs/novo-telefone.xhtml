@@ -17,9 +17,9 @@
 		
 			<p:panelGrid columns="2">
 				<h:outputText value="DDD" />
-				<p:inputText value="#{prestadorPessoaMB.telefone.ddd}" required="true" label="DDD" >
+				<p:inputMask mask="99" value="#{prestadorPessoaMB.telefone.ddd}" required="true" label="DDD" >
 				
-				</p:inputText>
+				</p:inputMask>
 				<h:outputText value="Número" />
 				<p:inputText value="#{prestadorPessoaMB.telefone.numero}" required="true" label="Número" />
 				

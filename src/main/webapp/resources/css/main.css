@@ -65,3 +65,15 @@
 .ui-datalist{
 	max-width: 600px;
 }
+.botoes{
+	border: 0!important;
+}
+.botoes td{
+	border: 0!important;
+}
+.botoes tr{
+	border: 1px #fff !important;
+}
+.botoes .ui-panelgrid .ui-panelgrid-cell {
+	boder:0!important;
+}

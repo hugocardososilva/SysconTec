@@ -12,15 +12,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+import converter.GenericInterface;
 @Entity
 public class TipoServico {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	@Column(unique= true)
 	private String tipo;
 	private String descricao;
-	@ManyToMany(fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="tipoServico",cascade={CascadeType.PERSIST,CascadeType.MERGE}, fetch=FetchType.LAZY)
 	private List<Prestador> prestadores;
 	
 	
@@ -30,12 +33,12 @@ public class TipoServico {
 	}
 
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -74,6 +77,25 @@ public class TipoServico {
 	}
 	public void removePrestador(Prestador prestador){
 		this.prestadores.remove(prestador);
+	}
+
+
+	@Override
+	public String toString() {
+		return "TipoServico [id=" + id + ", tipo=" + tipo + ", descricao="
+				+ descricao + "]";
+	}
+	@Override
+	public boolean equals(Object other) {
+		return (other != null && getClass() == other.getClass() && this.id != null)
+	            ? id.equals(((TipoServico) other).id)
+	            : (other == this);
+	}
+	@Override
+	public int hashCode() {
+		return (id != null) 
+	            ? (getClass().hashCode() + id.hashCode())
+	            : super.hashCode();
 	}
 	
 

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+
+	<ui:composition template="/template/template.xhtml">
+	<ui:define name="divMain">
+		
+		<h:form id="lotes">
+			<h3>Gerenciar Lotes</h3>
+			
+			<p:confirmDialog global="true">
+				<p:commandButton value="Sim" type="button"  icon="fa fa-check" styleClass="ui-confirmdialog-yes" />
+				<p:commandButton value="Não" type="button" icon="fa fa-close" styleClass="ui-confirmdialog-no"/>
+			
+			
+			</p:confirmDialog>
+			
+			<p:panel styleClass="botoes" id="lotesGrupoBotoes" rendered="#{lotesMB.novo eq false and lotesMB.editar eq false }">
+			
+			<p:commandButton value="Novo" action="#{lotesMB.novoLote}" icon="fa fa-plus"  styleClass="btn btn-success btn-lg" update=":lotes " />
+			
+			</p:panel>
+			
+			<p:panel rendered="#{lotesMB.novo eq true}"  styleClass="botoes">
+				<p:panelGrid columns="3" id="panelGrupoBotoesNovo" >
+					<p:commandButton value="Salvar" action="#{lotesMB.salvarLote}" update=":lotes" icon="fa fa-save" styleClass="btn btn-success"/>
+					<p:commandButton icon="fa fa-eraser" styleClass="btn btn-info" value="Limpar" actionListener="#{lotesMB.resetLote}" immediate="true"   update=":lotes ">
+						<p:resetInput target="lotes"></p:resetInput>
+						<p:confirm header="Confimarção" message="Deseja mesmo limpar?" icon="fa fa-warning"/>
+					</p:commandButton>
+					<p:commandButton icon="fa fa-close" immediate="true" styleClass="btn btn-warning"  value="Cancelar" action="gerenciar-lotes"  update=":lotes" >
+						<p:confirm header="Cancelar" message="Deseja mesmo cancelar?" icon="fa fa-warning" />
+					</p:commandButton>
+				
+				</p:panelGrid >
+			</p:panel>
+<!-- 			Painel de botoes para edição -->
+			<p:panel id="panelEditar" styleClass="botoes">
+				<p:panelGrid columns="3" id="panelGrupoBotoesEditar" rendered= "#{lotesMB.editar eq true }" >
+					<p:commandButton value="Salvar" action="#{lotesMB.editarLote}" update=":lotes" icon="fa fa-save" styleClass="btn btn-success"/>
+					
+					<p:commandButton icon="fa fa-close" immediate="true" styleClass="btn btn-warning"  value="Cancelar" action="gerenciar-lotes" update=":lotes" >
+					<p:confirm header="Cancelar" message="Deseja mesmo cancelar?" icon="fa fa-warning" />
+					</p:commandButton>
+					
+					<p:commandButton icon="fa fa-remove" immediate="true" actionListener="#{lotesMB.removerLote}"  styleClass="btn btn-danger" value="Remover" update=":lotes" >
+						<p:confirm header="Cancelar"  message="Tem certeza que deseja remover?" icon="fa fa-warning" />
+					</p:commandButton>
+				
+				</p:panelGrid>
+			</p:panel>
+			
+			
+			
+			
+			
+			<p:panel id= "loteInfo" rendered="#{lotesMB.editar eq true or lotesMB.novo eq true}">
+			<p:panelGrid columns="2">
+				<p:outputLabel for="loteNumero" value="Número" />
+				<p:inputText id="loteNumero" value="#{lotesMB.lote.numero}" required="true" label="Número" />
+				
+				
+				<p:outputLabel for="loteQuadra" value="Quadra" />
+				<p:inputText id="loteQuadra" value="#{lotesMB.lote.quadra}" required="true" label="quadra" />
+			</p:panelGrid>
+			<p:panelGrid columns="2">
+				<p:outputLabel for="responsavelLoteId" value="Responsável:"  />
+				
+				<p:selectOneMenu  var="r"   id="responsavelLoteId" value="#{lotesMB.lote.responsavel}" style="width:400px;">
+							
+							 <f:selectItem itemLabel="Selecione o morador responsável" itemValue="" />
+							 <f:selectItems  value="#{lotesMB.moradores}"  var="resp"  itemLabel="#{resp.nome} #{resp.sobrenome} #{resp.cpf} " itemValue="#{resp}"  />	
+							 
+							 <p:column>
+							 	#{r.nome}
+							 </p:column>	
+							  <p:column>
+							 	#{r.sobrenome}
+							 </p:column>								
+						</p:selectOneMenu>
+			</p:panelGrid>
+		
+			</p:panel>
+			
+			
+					
+			<p:panel rendered="#{lotesMB.novo eq false and lotesMB.editar eq false}">
+		
+			<p:dataTable id="loteData" var="lote" value="#{lotesMB.lotes}" emptyMessage="Não existem registros"
+			paginator="true" rows="20" widgetVar="loteWidget" filteredValue="#{lotesMB.lotesFiltrado}">
+			 
+			 
+				<p:column headerText="Id" filterBy="#{lote.id}"  width="150" >
+       				 <h:outputText value="#{lote.id}" />
+    			</p:column>
+    			<p:column headerText="Número" filterBy="#{lote.numero}">
+       				 <h:outputText value="#{lote.numero}" />
+    			</p:column>
+    			<p:column headerText="Quadra" filterBy="#{lote.quadra}" >
+       				 <h:outputText  value="#{lote.quadra}" />
+    			</p:column>
+    			<p:column headerText="Responsável" filterBy="#{lote.responsavel.nome}">
+       				 <h:outputText value="#{lote.responsavel.nome}"   />
+    			</p:column>
+    			<p:column headerText="Ações">
+    				<p:commandButton icon="fa fa-edit"  styleClass="btn btn-warning btn-xs" value="Editar" action="#{lotesMB.habilitarEdicao}" update=":lotes" >
+    					<f:setPropertyActionListener value="#{lote}" target="#{lotesMB.lote}"/>
+    				</p:commandButton>
+    				
+    			</p:column>
+			
+			</p:dataTable>
+			
+			</p:panel>
+		
+		</h:form>
+		
+		</ui:define>
+		<ui:define name="navbar">
+		<ui:include src="/protected/funcionario/menu.xhtml"/>
+		
+		</ui:define>
+	</ui:composition>
+	
+</h:body>
+</html>

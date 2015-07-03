@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+
+	<ui:composition template="/template/template.xhtml">
+	<ui:define name="divMain">
+		
+	
+		
+		<h:form id="prestadores" modal="true" >
+			<h3>Gerenciar Prestadores</h3>
+			
+			<p:confirmDialog global="true">
+				<p:commandButton value="Sim" type="button"  icon="fa fa-check" styleClass="ui-confirmdialog-yes" />
+				<p:commandButton value="Não" type="button" icon="fa fa-close" styleClass="ui-confirmdialog-no"/>
+			
+			
+			</p:confirmDialog>
+			
+			<p:panel styleClass="botoes" id="prestadoresGrupoBotoes" rendered="#{prestadorPessoaMB.novo eq false and prestadorPessoaMB.ver eq false and prestadorPessoaMB.editar eq false }">
+			
+			<p:commandButton value="Novo" action="#{prestadorPessoaMB.novoPrestador}" icon="fa fa-plus"  styleClass="btn btn-success btn-lg" update=":prestadores :capturarImagemForm" />
+			
+			</p:panel>
+			
+			<p:panel rendered="#{prestadorPessoaMB.novo eq true}"  styleClass="botoes">
+				<p:panelGrid columns="3" id="panelGrupoBotoesNovo" >
+					<p:commandButton value="Salvar" action="#{prestadorPessoaMB.salvarPessoa}" update=":prestadores" icon="fa fa-save" styleClass="btn btn-success"/>
+					<p:commandButton icon="fa fa-eraser" styleClass="btn btn-info" value="Limpar" actionListener="#{prestadorPessoaMB.limparPrestador}" immediate="true"   update=":prestadores :prestadores:painelImagemGrid :capturarImagemForm">
+						<p:resetInput target="prestadores"></p:resetInput>
+						<p:confirm header="Confimarção" message="Deseja mesmo limpar?" icon="fa fa-warning"/>
+					</p:commandButton>
+					<p:commandButton icon="fa fa-close" immediate="true" styleClass="btn btn-warning"  value="Cancelar" action="gerenciar-prestadores"  update=":prestadores :prestadores:painelImagemGrid :capturarImagemForm" >
+						<p:confirm header="Cancelar" message="Deseja mesmo cancelar?" icon="fa fa-warning" />
+					</p:commandButton>
+				
+				</p:panelGrid >
+			</p:panel>
+<!-- 			Painel de botoes para edição -->
+			<p:panel id="panelEditar" styleClass="botoes">
+				<p:panelGrid columns="2" id="panelGrupoBotoesEditar" rendered= "#{prestadorPessoaMB.editar eq true }" >
+					<p:commandButton value="Salvar" action="#{prestadorPessoaMB.editarPessoa}" update=":prestadores" icon="fa fa-save" styleClass="btn btn-success"/>
+					
+					<p:commandButton icon="fa fa-close" immediate="true" styleClass="btn btn-warning"  value="Cancelar" action="gerenciar-prestadores" update=":prestadores :prestadores:painelImagemGrid :capturarImagemForm" >
+					<p:confirm header="Cancelar" message="Deseja mesmo cancelar?" icon="fa fa-warning" />
+					</p:commandButton>
+				
+				</p:panelGrid>
+			</p:panel>
+			
+			<p:panel id="panelVer" styleClass="botoes">
+				<p:panelGrid id="grupoBotoesVer" rendered="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false and prestadorPessoaMB.ver eq true}"   columns="2" >	
+					<p:commandButton   value="Editar" icon="fa fa-edit" styleClass="btn btn-warning" action="#{prestadorPessoaMB.habilitarEdicao}"  
+					update="grupoBotoesVer panelGrupoBotoesEditar panelEditar panelVer panelInfo telPessoa  :capturarImagemForm "  />
+					<p:commandButton value="Voltar" icon="fa fa-backward" styleClass="btn btn-info"  action="gerenciar-prestadores" update=":prestadores :capturarImagemForm" immediate="true"/>
+					
+				</p:panelGrid>
+			</p:panel>
+			
+			<p:panel id="panelInfo" rendered="#{prestadorPessoaMB.editar eq true or prestadorPessoaMB.novo eq true or prestadorPessoaMB.ver eq true}">
+				<p:panelGrid columns="3" id="painelImagemGrid" >
+						<h:outputText value="Bloqueado?" style=" color:red;"/>		
+						<p:selectBooleanButton id="value2" disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.bloqueado}" onLabel="Sim" offLabel="Não" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:260px;">
+         
+      					  </p:selectBooleanButton>	
+									
+								
+					</p:panelGrid>
+					<p:spacer height="20px;"/>
+			
+			
+			<p:panelGrid>
+				<p:row>
+					<p:column>
+						 <p:outputLabel for="senhaPrestador" value="Senha:" />
+					</p:column>
+					<p:column>
+						<p:inputMask mask="999999" id="senhaPrestador" value="#{prestadorPessoaMB.prestador.senha}" required="true" 
+									readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" 
+									label="Senha" >
+									<f:validator validatorId="senhaValidator"></f:validator>
+									<f:validateLength minimum="6" maximum="6"/>
+									<f:attribute name="colSenha" value="senhaPrestador"></f:attribute>
+									<f:attribute name= "idSenha" value="#{prestadorPessoaMB.prestador.id}"></f:attribute>
+									
+									</p:inputMask>
+					</p:column>
+					<p:column>
+							<p:outputLabel for="cpfPrestador" value="CPF:" />
+												
+					</p:column>
+					<p:column>
+							<p:inputMask mask="999.999.999-99" id="cpfPrestador" value="#{prestadorPessoaMB.prestador.cpf}" required="true" label="CPF" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" />			
+					</p:column>
+					
+					<p:column rowspan="3" style="width:150px" >
+						<p:graphicImage id="imgCol" value="/../sysconImages/#{prestadorPessoaMB.prestador.foto}.jpeg" width="150px" height="130px" />
+					</p:column>
+					<p:column rowspan="3" >
+							<p:commandButton id="imgBtCol" disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" styleClass="btn btn-primary btn-lg" process="@none" icon="fa fa-camera"  value="Capturar" onclick="PF('capturarImagemWidget').show();" rendered="#{empty prestadorPessoaMB.prestador.foto}"/>
+							<p:commandButton id="imgBtCol2" disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="Remover" process="@none" onclick="PF('capturarImagemWidget').show();" update=":prestadores" rendered="#{not empty prestadorPessoaMB.prestador.foto}"/>
+					</p:column>
+					
+				</p:row>	
+				<p:row>
+					<p:column>
+					<p:outputLabel for="nomePrestador" value="Nome:"  />   
+									
+					</p:column>
+					<p:column>
+						<p:inputText id="nomePrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.nome}" required="true" label="Nome" size="30"/>
+					</p:column>
+				
+					<p:column>
+						<p:outputLabel for="sobrenomePrestador" value="Sobrenome:"  />
+					</p:column>
+					<p:column>
+						<p:inputText id="sobrenomePrestador" size="40" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.sobrenome}" required="true" label="Sobrenome" />
+					</p:column>
+					
+					
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="rgPrestador" value="RG:"  />
+					</p:column>
+					<p:column>
+						<p:inputText id="rgPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.rg}" required="true" label="RG" />
+					</p:column>
+					<p:column>
+						<p:outputLabel for="orgaoPrestador" value="Órgão Expeditor:" />
+					</p:column>
+					<p:column>
+						<p:inputText id="orgaoPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.orgaoExpeditor}" label="Órgão Expeditor" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="enderecoPrestador" value="Endereço:" />
+					</p:column>
+					<p:column colspan="3">
+						<p:inputText id="enderecoPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.endereco}" required="true" label="Endereco" style="width:98%" />	
+					</p:column >
+					<p:column>
+						<p:outputLabel for="numeroPrestador" value="Número:" style="float:right" />	
+					</p:column>
+					<p:column>
+						<p:inputText id="numeroPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" required="true"  value="#{prestadorPessoaMB.prestador.informacao.numero}" label="Numero" style="width:98%" />		
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="bairroPrestador" value="Bairro:" />	
+					</p:column>
+					<p:column colspan="2">
+						<p:inputText id="bairroPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.bairro}"  label="Bairro" style="width:98%"/>
+					</p:column>
+					<p:column>
+						<p:outputLabel for="complementoPrestador" value="Complemento:" style="float:right"/>
+					</p:column>
+					<p:column colspan="2">
+						<p:inputText id="complementoPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.complemento}"  label="Complemento" style="width:98%"/>
+					</p:column>
+				
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="cidadePrestador" value="Cidade:" />
+					</p:column>
+					<p:column colspan="3">
+						<p:inputText id="cidadePrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.cidade}" label="Cidade" />
+					</p:column>
+					<p:column>
+						<p:outputLabel for="estadoPrestador"  value="Estado:" style="float:right" />
+					</p:column>
+					<p:column>
+						<p:inputText id="estadoPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.estado}"  label="Estado" maxlength="2" size="2" />
+					</p:column>
+					
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="emailPrestador" value="Email:" />
+					</p:column>
+					<p:column colspan="3">
+						<p:inputText id="emailPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.email}" required="true" label="Email" style="width:98%" />
+					</p:column>
+					<p:column>
+						<p:outputLabel for="cepPrestador"  value="CEP:" style="float:right"/>
+					</p:column>
+					<p:column>
+						<p:inputMask mask="99999 999" id="cepPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.cep}" label="CEP" style="width:98%"  />
+					</p:column>
+					
+				
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="hentradaPrestador" value="Horário de Entrada:"  />
+					</p:column>
+					<p:column colspan="1">
+						<p:calendar id="hentradaPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" pattern="HH:mm" timeOnly="true"  value="#{prestadorPessoaMB.prestador.horaEntrada}" label="Horário de Entrada"  >
+									
+						</p:calendar>
+					
+					</p:column>
+					<p:column>
+						<p:outputLabel for="hsaidaPrestador" value="Horário de Saída:" style="float:right" />
+					</p:column>
+					<p:column colspan="1">
+						<p:calendar id="hsaidaPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" pattern="HH:mm" timeOnly="true"  value="#{prestadorPessoaMB.prestador.horaSaida}" label="Horário de Saída" >
+									
+						</p:calendar>
+					</p:column>
+					
+				
+				</p:row>
+				</p:panelGrid>
+				</p:panel>
+				<p:panel id="panelSelectMenus"  rendered="#{prestadorPessoaMB.editar eq true or prestadorPessoaMB.novo eq true or prestadorPessoaMB.ver eq true}">
+				
+				<p:panelGrid >
+				<p:row>
+				<p:column>
+					<p:outputLabel for="lotePessoaPrestadorId" value="Lote:"  />
+				</p:column>
+				<p:column colspan="4">
+							
+						<p:selectOneMenu  var="p"   id="lotePessoaPrestadorId"  value="#{prestadorPessoaMB.prestador.lote}" style="width:400px;">
+							
+							 <f:selectItem itemLabel="Condomínio" itemValue="" />
+							 <f:selectItems  value="#{prestadorPessoaMB.lotes}"  var="lote"  itemLabel="Lote #{lote.numero} Quadra #{lote.quadra} " itemValue="#{lote}"  />	
+							 
+							 <p:column>
+							 	Lote: #{p.numero}
+							 </p:column>	
+							  <p:column>
+							 	Quadra #{p.quadra}
+							 </p:column>								
+						</p:selectOneMenu>
+				</p:column>
+				<p:column>									
+						<p:commandButton icon="fa fa-plus" type="button"  value="Novo" onclick="PF('novoLoteWidiget').show();" update=":novoTelefonePessoaForm" styleClass="btn btn-success" />
+				
+				</p:column>
+				
+				</p:row>
+				<p:row>
+				<p:column>
+					<p:outputLabel for="tipoPessoaPrestadorId" value="Tipo de Serviço:"  />
+				</p:column>
+				<p:column colspan="4">
+							
+						<p:selectOneMenu var="t"  id="tipoPessoaPrestadorId" value="#{prestadorPessoaMB.prestador.tipoServico}" style="width:400px;">
+							 <f:selectItem itemLabel="Selecione" itemValue=""  />
+							 <f:selectItems value="#{prestadorPessoaMB.tipos}"  var="tipo"  itemLabel="#{tipo.tipo}" itemValue="#{tipo}"  />
+							  <p:column>
+							 	Tipo: #{t.tipo}
+							 </p:column>	
+							  <p:column>
+							 	Descrição: #{t.descricao}
+							 </p:column>											
+						</p:selectOneMenu>
+				</p:column>
+				<p:column>									
+						<p:commandButton icon="fa fa-plus" type="button"  value="Novo"  onclick="PF('tipoServicoPessoaWidget').show();" update=":novoTelefonePessoaForm" styleClass="btn btn-success" />
+				
+				</p:column>
+				
+				</p:row>
+				</p:panelGrid>
+				
+			
+			<p:panelGrid columns="3" >
+				
+						
+						
+			</p:panelGrid>
+		
+					</p:panel>			
+					<p:panel rendered="#{prestadorPessoaMB.editar eq true or prestadorPessoaMB.novo eq true or prestadorPessoaMB.ver eq true}" id="telPessoa" toggleable="true" header="Telefones" style="margin-bottom:20px; width:600px;">
+						<p:panelGrid columns="2">
+							<p:dataTable  id="telefonesPessoa" var="tel" value="#{prestadorPessoaMB.prestador.telefones}"
+							emptyMessage="Não existem registros" rows="5" paginator="true">
+							<f:facet name="header">
+								 <p:outputPanel style="float:left;">
+								 		<p:commandButton icon="fa fa-plus" type="button"  disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" onclick="PF('novoTelefoneWidiget').show();" update=":novoTelefonePessoaForm" styleClass="btn btn-success btn-lg" />
+								 		
+								 </p:outputPanel>
+							</f:facet>
+							
+							<p:column headerText="DDD">
+								<h:outputText value="#{tel.ddd}"/>
+								
+							</p:column>
+							<p:column headerText="Número">
+								<h:outputText value="#{tel.numero}"/>
+								
+							</p:column>
+							<p:column headerText="Observações">
+								<h:outputText value="#{tel.observacoes}"/>
+								
+							</p:column>
+							<p:column headerText="Opções" style="width:100px;">
+								 <p:commandButton icon="fa fa-edit" disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" styleClass="btn btn-warning" action="#{prestadorPessoaMB.novoPrestador}"/>
+								<p:commandButton icon="fa fa-remove" disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" styleClass="btn btn-danger" action="#{prestadorPessoaMB.novoPrestador}"/>
+								
+							</p:column>
+							
+							</p:dataTable>
+						</p:panelGrid>
+					</p:panel>
+					
+					
+	
+			
+			
+			<p:panel rendered="#{prestadorPessoaMB.novo eq false and prestadorPessoaMB.editar eq false and prestadorPessoaMB.ver eq false }">
+			<p:spacer width="20" height="20px"/>
+			<p:dataTable id="prestadoresDataTable" var="prestador" value="#{prestadorPessoaMB.pessoas}"
+			emptyMessage="Não existem registros" rows="20" paginator="true" >
+				<f:facet name="heaer">
+					<h:outputText value="Prestadores"/>
+				</f:facet>
+				
+				<p:column headerText="Nome" filterBy="#{prestador.nome}">
+					<h:outputText value="#{prestador.nome}"/>
+				</p:column>
+				<p:column headerText="Sobrenome" filterBy="#{prestador.sobrenome}">
+					<h:outputText value="#{prestador.sobrenome}"/>
+				</p:column>
+				<p:column headerText="CPF" filterBy="#{prestador.cpf}">
+					<h:outputText value="#{prestador.cpf}"/>
+				</p:column>
+				<p:column headerText="Bloqueado">
+					<h:outputText value="#{prestador.bloqueado eq true ? 'SIM' : 'NÃO'}"/>
+				</p:column>
+				<p:column headerText="Ações">
+				
+					<p:commandButton icon="fa fa-search-plus"  value="Visualizar" action="#{prestadorPessoaMB.visualizarPrestador}"  styleClass="btn btn-info btn-xs" ajax="false" >
+						<f:setPropertyActionListener value="#{prestador}" target="#{prestadorPessoaMB.prestador}"></f:setPropertyActionListener>
+					</p:commandButton>
+					
+					<p:commandButton icon="fa fa-ban"  styleClass="btn btn-warning btn-xs" value="Bloquear" action="#{prestadorPessoaMB.bloquearPrestador}" update=":prestadores">
+						<f:setPropertyActionListener value="#{prestador}" target="#{prestadorPessoaMB.prestador}"></f:setPropertyActionListener>	
+					</p:commandButton>
+				</p:column>
+				
+			
+			</p:dataTable>
+			
+			</p:panel>
+		</h:form>
+			<p:dialog widgetVar="novoLoteWidiget"
+			id="novoLoteId" modal="true"
+			closable="true" draggable="false" resizable="false" width="500px" height="500px">
+			<h:form id="novoLoteForm" >
+				<p:panel>
+					<p:panelGrid columns="2">
+					<f:facet name="header">
+					<h:outputText value="Novo Lote"/>
+					</f:facet>
+						<p:outputLabel for="loteNumero" value="Número" />
+						<p:inputText id="loteNumero" value="#{prestadorPessoaMB.lote.numero}" required="true" label="Número" />
+						
+						
+						<p:outputLabel for="loteQuadra" value="Quadra" />
+						<p:inputText id="loteQuadra" value="#{prestadorPessoaMB.lote.quadra}" required="true" label="quadra" />
+					</p:panelGrid>
+					
+					<p:panelGrid columns="2">
+						<p:commandButton value="Salvar" icon="fa fa-plus"
+							action="#{prestadorPessoaMB.salvarLote}" styleClass="btn btn-success" 
+							update=":prestadores :novoLoteForm" oncomplete="PF('novoLoteWidiget').hide();"/>
+							
+						<p:commandButton value="Cancelar" icon="fa fa-remove" actionListener="#{prestadorPessoaMB.resetLote}" immediate="true" 
+							oncomplete="PF('novoLoteWidiget').hide();" update=":prestadores :novoLoteForm" styleClass="btn btn-warning"  >
+							<p:resetInput target="novoLoteForm"/>
+							</p:commandButton>
+					</p:panelGrid>
+					</p:panel>
+			</h:form>
+	</p:dialog>
+	
+	<h:form id="tipoServicoPrestadorForm" >
+		<p:dialog id="tipoServicoPessoa" widgetVar="tipoServicoPessoaWidget" modal="true" width="800px" height="800px">
+	
+		
+		
+			
+			<p:panel id="novoTipoServicoPainel">
+				
+			<p:panelGrid columns="2" id="painelAdicionarTipoGrid" >	
+							<p:outputLabel for="tipoServicoTipo" value="Tipo"  />    							
+							<p:inputText id="tipoServicoTipo" value="#{prestadorPessoaMB.tipoServico.tipo}"  label="Tipo" />
+							<p:outputLabel for="tipoServicoDescricao" value="Descrição"  />    							
+							<p:inputText id="tipoServicoDescricao" value="#{prestadorPessoaMB.tipoServico.descricao}"  label="Descricão" />
+				
+				
+				</p:panelGrid>
+				<p:panelGrid columns="3" >
+					<p:commandButton value="Salvar" icon="fa fa-save" styleClass="btn btn-success" oncomplete="PF('tipoServicoPessoaWidget').hide();" action="#{prestadorPessoaMB.adicionarTipoServico}" update=":tipoServicoPrestadorForm :prestadores "/>
+					<p:commandButton value="Cancelar" icon="fa fa-remove" actionListener="#{prestadorPessoaMB.resetTipoServico}" immediate="true" oncomplete="PF('tipoServicoPessoaWidget').hide();" update=":prestadores :tipoServicoPrestadorForm" styleClass="btn btn-warning"  >
+							<p:resetInput target="tipoServicoPrestadorForm"/>
+							</p:commandButton>
+					
+					
+				
+				</p:panelGrid>	
+			</p:panel>
+		
+		
+		
+		
+		
+	</p:dialog>
+	</h:form>
+			
+	
+		
+		
+		
+		
+		
+		</ui:define>
+		<ui:define name="navbar">
+		<ui:include src="/protected/funcionario/menu.xhtml"/>
+		<ui:include src="/protected/funcionario/dialogs/novo-telefone.xhtml"/>
+		<ui:include src="/protected/funcionario/dialogs/capturar-imagem.xhtml"/>
+		
+		</ui:define>
+	</ui:composition>
+	
+</h:body>
+</html>

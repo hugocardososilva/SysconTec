@@ -1,12 +1,14 @@
 package model;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Informacao {
+public class Informacao implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
@@ -17,7 +19,7 @@ public class Informacao {
 	private String cidade;
 	private String estado;
 	private String webSite;
-	private Long cep;
+	private String cep;
 	
 	public Informacao() {
 		
@@ -87,11 +89,11 @@ public class Informacao {
 		this.webSite = webSite;
 	}
 
-	public Long getCep() {
+	public String getCep() {
 		return cep;
 	}
 
-	public void setCep(Long cep) {
+	public void setCep(String cep) {
 		this.cep = cep;
 	}
 	

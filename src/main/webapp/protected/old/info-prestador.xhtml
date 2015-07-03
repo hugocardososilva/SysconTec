@@ -67,26 +67,27 @@
 						 <p:outputLabel for="senhaPrestador" value="Senha:" />
 					</p:column>
 					<p:column>
-						<p:inputText id="senhaPrestador" value="#{prestadorPessoaMB.prestador.senha}" required="true" 
+						<p:inputMask mask="999999" id="senhaPrestador" value="#{prestadorPessoaMB.prestador.senha}" required="true" 
 									readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" 
 									label="Senha" >
 									<f:validateLength minimum="6" maximum="6"/>
-									</p:inputText>
+									
+									</p:inputMask>
 					</p:column>
 					<p:column>
 							<p:outputLabel for="cpfPrestador" value="CPF:" />
 												
 					</p:column>
 					<p:column>
-							<p:inputText id="cpfPrestador" value="#{prestadorPessoaMB.prestador.cpf}" required="true" label="CPF" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" />			
+							<p:inputMask mask="999.999.999-99" id="cpfPrestador" value="#{prestadorPessoaMB.prestador.cpf}" required="true" label="CPF" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" />			
 					</p:column>
 					
 					<p:column rowspan="3" style="width:150px">
-						<p:graphicImage value="/../sysconImages/#{prestadorPessoaMB.prestador.foto}.jpeg" width="150px" height="130px"/>
+						<p:graphicImage value="/../sysconImages/#{prestadorPessoaMB.prestador.foto}.jpeg" width="150px" height="130px" />
 					</p:column>
 					<p:column rowspan="3">
-							<p:commandButton disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" styleClass="btn btn-primary btn-lg" icon="fa fa-camera" type="button" value="Capturar" onclick="PF('capturarImagemWidget').show();" update=":prestadores" rendered="#{empty prestadorPessoaMB.prestador.foto}"/>
-									<p:commandButton disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="Remover" process="@none" onclick="PF('capturarImagemWidget').show();" update=":prestadores" rendered="#{not empty prestadorPessoaMB.prestador.foto}"/>
+							<p:commandButton disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" styleClass="btn btn-primary btn-lg" process="@none" icon="fa fa-camera"  value="Capturar" onclick="PF('capturarImagemWidget').show();" rendered="#{empty prestadorPessoaMB.prestador.foto}"/>
+							<p:commandButton disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="Remover" process="@none" onclick="PF('capturarImagemWidget').show();" update=":prestadores" rendered="#{not empty prestadorPessoaMB.prestador.foto}"/>
 					</p:column>
 					
 				</p:row>	
@@ -127,13 +128,13 @@
 						<p:outputLabel for="enderecoPrestador" value="Endereço:" />
 					</p:column>
 					<p:column colspan="3">
-						<p:inputText id="enderecoPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.endereco}" required="true" label="Endereco" style="width:98%" />	
+						<p:inputText id="enderecoPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.endereco}" required="true" label="Endereco" style="width:98%" />	
 					</p:column >
 					<p:column>
-						<p:outputLabel for="numeroPrestador" value="Número:" />	
+						<p:outputLabel for="numeroPrestador" value="Número:" style="float:right" />	
 					</p:column>
 					<p:column>
-						<p:inputText id="numeroPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.numero}" label="Numero" style="width:98%" />		
+						<p:inputText id="numeroPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.numero}" label="Numero" style="width:98%" />		
 					</p:column>
 				</p:row>
 				<p:row>
@@ -141,13 +142,13 @@
 						<p:outputLabel for="bairroPrestador" value="Bairro:" />	
 					</p:column>
 					<p:column colspan="2">
-						<p:inputText id="bairroPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.bairro}"  label="Bairro" style="width:98%"/>
+						<p:inputText id="bairroPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.bairro}"  label="Bairro" style="width:98%"/>
 					</p:column>
 					<p:column>
-						<p:outputLabel for="complementoPrestador" value="Complemento:" />
+						<p:outputLabel for="complementoPrestador" value="Complemento:" style="float:right"/>
 					</p:column>
 					<p:column colspan="2">
-						<p:inputText id="complementoPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.complemento}"  label="Complemento" style="width:98%"/>
+						<p:inputText id="complementoPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.complemento}"  label="Complemento" style="width:98%"/>
 					</p:column>
 				
 				</p:row>
@@ -155,36 +156,29 @@
 					<p:column>
 						<p:outputLabel for="cidadePrestador" value="Cidade:" />
 					</p:column>
+					<p:column colspan="3">
+						<p:inputText id="cidadePrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.cidade}" label="Cidade" />
+					</p:column>
+					
 					<p:column>
-						<p:inputText id="cidadePrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.cidade}" label="Cidade" />
+						<p:outputLabel for="cepPrestador"  value="CEP:" style="float:right"/>
 					</p:column>
 					<p:column>
-						<p:outputLabel for="estadoPrestador"  value="Estado:" />
-					</p:column>
-					<p:column>
-						<p:inputText id="estadoPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.estado}"  label="Estado" maxlength="2" size="2" />
-					</p:column>
-					<p:column>
-						<p:outputLabel for="cepPrestador"  value="CEP:" />
-					</p:column>
-					<p:column>
-						<p:inputText id="cepPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.cep}" label="CEP" style="width:98%"  />
+						<p:inputMask mask="99.999-999" id="cepPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.cep}" label="CEP" style="width:98%"  />
 					</p:column>
 				</p:row>
 				<p:row>
 					<p:column>
 						<p:outputLabel for="emailPrestador" value="Email:" />
 					</p:column>
-					<p:column colspan="2">
+					<p:column colspan="3">
 						<p:inputText id="emailPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.email}" required="true" label="Email" style="width:98%" />
 					</p:column>
-					<p:column colspan="3">
-						<p:outputLabel for="lotePessoaPrestadorId" value="Lote:"  />
-								
-						<p:selectOneMenu disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" id="lotePessoaPrestadorId" value="#{prestadorPessoaMB.prestador.lote}" filter="true" filterMatchMode="contains" style="width:98%">
-							 <f:selectItem itemLabel="Condomínio" itemValue="" />
-							 <f:selectItems value="#{prestadorPessoaMB.lotes}"  var="lote" itemLabel="Lote #{lote.numero} Quadra #{lote.quadra} " itemValue="#{lote}"  />									
-						</p:selectOneMenu>									
+					<p:column>
+						<p:outputLabel for="estadoPrestador"  value="Estado:" style="float:right" />
+					</p:column>
+					<p:column>
+						<p:inputText id="estadoPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.informacao.estado}"  label="Estado" maxlength="2" size="2" />
 					</p:column>
 				
 				</p:row>
@@ -192,16 +186,16 @@
 					<p:column>
 						<p:outputLabel for="hentradaPrestador" value="Horário de Entrada:"  />
 					</p:column>
-					<p:column colspan="2">
+					<p:column colspan="1">
 						<p:calendar id="hentradaPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" pattern="HH:mm" timeOnly="true"  value="#{prestadorPessoaMB.prestador.horaEntrada}" label="Horário de Entrada"  >
 									
 						</p:calendar>
 					
 					</p:column>
 					<p:column>
-						<p:outputLabel for="hsaidaPrestador" value="Horário de Saída:" style="text-align: right" />
+						<p:outputLabel for="hsaidaPrestador" value="Horário de Saída:" style="float:right" />
 					</p:column>
-					<p:column colspan="2">
+					<p:column colspan="1">
 						<p:calendar id="hsaidaPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" pattern="HH:mm" timeOnly="true"  value="#{prestadorPessoaMB.prestador.horaSaida}" label="Horário de Saída" >
 									
 						</p:calendar>
@@ -209,12 +203,50 @@
 					
 				
 				</p:row>
+				<p:row>
+				<p:column>
+					<p:outputLabel for="lotePessoaPrestadorId" value="Lote:"  />
+				</p:column>
+				<p:column colspan="4">
+							
+						<p:selectOneMenu disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" id="lotePessoaPrestadorId" value="#{prestadorPessoaMB.prestador.lote}" filter="true" filterMatchMode="contains" style="width:98%;">
+							 <f:selectItem itemLabel="Condomínio" itemValue="" />
+							 <f:selectItems value="#{prestadorPessoaMB.lotes}"  var="lote"  itemLabel="Lote #{lote.numero} Quadra #{lote.quadra} " itemValue="#{lote}"  />									
+						</p:selectOneMenu>
+				</p:column>
+				<p:column>									
+						<p:commandButton icon="fa fa-plus" type="button"  value="Novo" disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" onclick="PF('novoLoteWidiget').show();" update=":novoTelefonePessoaForm" styleClass="btn btn-success" />
+				
+				</p:column>
+				
+				</p:row>
+				<p:row>
+				<p:column>
+					<p:outputLabel for="tipoPessoaPrestadorId" value="Tipo de Serviço:"  />
+				</p:column>
+				<p:column colspan="4">
+							
+						<p:selectOneMenu  disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" id="tipoPessoaPrestadorId" value="#{prestadorPessoaMB.prestador.tipoServico}" filter="true" filterMatchMode="contains" style="width:98%;">
+							 <f:selectItem itemLabel="Selecione o tipo de serviço" itemValue="" />
+							 <f:selectItems value="#{prestadorPessoaMB.tipos}"  var="tipo"  itemLabel="#{tipo.tipo}" itemValue="#{tipo}"  />									
+						</p:selectOneMenu>
+				</p:column>
+				<p:column>									
+						<p:commandButton icon="fa fa-plus" type="button"  value="Novo" disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" onclick="PF('novoLoteWidiget').show();" update=":novoTelefonePessoaForm" styleClass="btn btn-success" />
+				
+				</p:column>
+				
+				</p:row>
 			
-			
+			</p:panelGrid>
+			<p:panelGrid columns="3" >
+				
+						
+						
 			</p:panelGrid>
 		
 					</p:panel>			
-					<p:panel id="telPessoa" toggleable="true" header="Telefones" style="margin-bottom:20px">
+					<p:panel id="telPessoa" toggleable="true" header="Telefones" style="margin-bottom:20px; width:600px;">
 						<p:panelGrid columns="2">
 							<p:dataTable  id="telefonesPessoa" var="tel" value="#{prestadorPessoaMB.prestador.telefones}"
 							emptyMessage="Não existem registros" rows="5" paginator="true">
@@ -246,43 +278,47 @@
 							</p:dataTable>
 						</p:panelGrid>
 					</p:panel>
-					<p:panel id="tipoServico" toggleable="true" header="Tipos de Serviço" style="margin-bottom:20px">
-						<p:panelGrid columns="2">
-							<p:dataTable id="tipoServicoPessoa" var="tipo" value="#{prestadorPessoaMB.prestador.tipos}"
-							emptyMessage="Não existem registros" rows="5" paginator="true">
-							<f:facet name="header">
-								 <p:outputPanel style="float:left;">
-								 		<p:commandButton  icon="fa fa-plus" disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" type="button"  onclick="PF('tipoServicoPessoaWidget').show();" update=":tipoServicoPrestadorForm" styleClass="btn btn-success btn-lg" />
-								 </p:outputPanel>
-							</f:facet>
-							
-							<p:column headerText="Tipo">
-								<h:outputText value="#{tipo.tipo}"/>
-								
-							</p:column>
-							<p:column headerText="Descrição">
-								<h:outputText value="#{tipo.descricao}"/>
-								
-							</p:column>
-							<p:column headerText="Opções" style="width:100px;">
-								<p:commandButton styleClass="btn btn-danger" disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" icon="fa fa-remove" action="#{prestadorPessoaMB.removerTipoServico}" immediate="true" update=":prestadores:tipoServico" >
-								<f:setPropertyActionListener value="#{tipo}" target="#{prestadorPessoaMB.tipoServico}"></f:setPropertyActionListener>
-								</p:commandButton>
-								
-							</p:column>
-							
-							</p:dataTable>
-						</p:panelGrid>
-					</p:panel>
-			
+
+					
+		
 		</h:form>
-	
-	
+		<!-- 					Dialogs -->
+		
+		<p:dialog widgetVar="novoLoteWidiget"
+			id="novoLoteId" modal="true"
+			closable="true" draggable="false" resizable="false" width="500px" height="500px">
+			<h:form id="novoLoteForm" >
+				<p:panel>
+					<p:panelGrid columns="2">
+					<f:facet name="header">
+					<h:outputText value="Novo Lote"/>
+					</f:facet>
+						<p:outputLabel for="loteNumero" value="Número" />
+						<p:inputText id="loteNumero" value="#{prestadorPessoaMB.lote.numero}" required="true" label="Número" />
+						
+						
+						<p:outputLabel for="loteQuadra" value="Quadra" />
+						<p:inputText id="loteQuadra" value="#{prestadorPessoaMB.lote.quadra}" required="true" label="quadra" />
+					</p:panelGrid>
+					
+					<p:panelGrid columns="2">
+						<p:commandButton value="Salvar" icon="fa fa-plus"
+							action="#{prestadorPessoaMB.salvarLote}" styleClass="btn btn-success" 
+							update=":prestadores :novoLoteForm" oncomplete="PF('novoLoteWidiget').hide();"/>
+							
+						<p:commandButton value="Cancelar" icon="fa fa-remove" actionListener="#{prestadorPessoaMB.resetLote}" immediate="true" 
+							oncomplete="PF('novoLoteWidiget').hide();" update=":prestadores :novoLoteForm" styleClass="btn btn-warning"  >
+							<p:resetInput target="novoLoteForm"/>
+							</p:commandButton>
+					</p:panelGrid>
+					</p:panel>
+			</h:form>
+	</p:dialog>
 		
 		
 		
 		<ui:include src="/protected/funcionario/dialogs/novo-telefone.xhtml"/>
-		<ui:include src="/protected/funcionario/dialogs/tipos-servico-pessoa.xhtml"/>
+		
 			<ui:include src="/protected/funcionario/dialogs/capturar-imagem.xhtml"/>
 		
 		</ui:define>

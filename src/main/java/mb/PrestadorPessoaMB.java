@@ -1,5 +1,6 @@
 package mb;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
@@ -7,11 +8,20 @@ import java.util.List;
 import java.util.Set;
 
 
+
+
+
+
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
+
+
+
+
 
 
 import org.primefaces.context.RequestContext;
@@ -23,6 +33,7 @@ import dao.DAOLote;
 import dao.DAOPrestadorPessoa;
 import dao.DAOTelefone;
 import dao.DAOTipoServico;
+import facade.PrestadorPessoaFacade;
 import model.Informacao;
 import model.Lote;
 import model.Pessoa;
@@ -30,8 +41,8 @@ import model.Telefone;
 import model.TipoServico;
 
 @ManagedBean
-@SessionScoped
-public class PrestadorPessoaMB  extends AbstractMB{
+@ViewScoped
+public class PrestadorPessoaMB  extends AbstractMB implements Serializable{
 	private DAOPrestadorPessoa daop= new DAOPrestadorPessoa();
 	private DAO dao = new DAO();
 	private DAOLote daol= new DAOLote();
@@ -47,13 +58,22 @@ public class PrestadorPessoaMB  extends AbstractMB{
 	private TipoServico tipoServico;	
 	private List<Pessoa> prestadores;
 	private List<Lote> lotes;
-	private Informacao informacao;
+	PrestadorPessoaFacade pessoaFacade;
+	
+
+//	private Informacao informacao;
 	private Lote lote;
+	private boolean ver;
 
 	
 	
 	public PrestadorPessoaMB() {
-		System.out.println("MB nasceu!!  "+this.toString() );
+	
+	}
+	
+	@PostConstruct
+	private void init(){
+	System.out.println("MB nasceu!!  "+this.toString() );
 		
 		this.lote= new Lote();
 		this.lotes = new ArrayList<Lote>();
@@ -61,15 +81,221 @@ public class PrestadorPessoaMB  extends AbstractMB{
 		this.tipos= new ArrayList<TipoServico>();
 		this.tipoServico= new TipoServico();
 		this.prestador= new Pessoa();
-		this.informacao= new Informacao();
-		
+//		this.informacao= new Informacao();
+		this.ver= false;
 		this.novoTipoServico= false;
 		this.prestadores= new ArrayList<Pessoa>();
+		this.editar= false;
+		this.novo= false;
 		getPessoas();
+	}
+
+
+
+
+
+	
+	public String redirectPrestadores(){
+		limparPrestador();
+		System.out.println("redirecionando para prestadore.xhtml");
+		return "prestadores?faces-redirect=true";
+	}
+	public void novoPrestador(){
+		System.out.println("novo prestador");
+		resetPrestador();
+		this.editar= false;
+		this.novo= true;
+		
+		
+		
+	}
+	public void salvarLote(){
+		lote.setMoradores(null);
+		lote.setPessoas(null);
+		lote.setResponsavel(null);
+		dao.open();
+		dao.begin();
+		daol.persist(lote);
+		dao.commit();
+		getLotes();
+		resetLote();
+	}
+	public void resetLote(){
+		lote= new Lote();
 	}
 	
 	
+	public boolean isVer() {
+		return ver;
+	}
 
+	public void setVer(boolean ver) {
+		this.ver = ver;
+	}
+
+	public void newTipoServico(){
+		System.out.println("novo tipos");
+		RequestContext.getCurrentInstance().openDialog("dialogs/tipos-servico-pessoa");
+		
+	}
+	public String novoTipoServico(){
+		System.out.println("novo tipo");
+		resetTipoServico();
+		System.out.println(prestador.getInformacao().getCep());
+		return "tipos-servico-pessoa";
+		
+	}
+
+	public void salvarTelefone(){
+		
+//		dao.open();
+//		dao.begin();
+//		daot.persist(telefone);
+//		daop.persist(prestador);
+		prestador.addTelefone(telefone);
+//		daop.merge(prestador);
+//		dao.commit();
+		resetTelefone();
+		
+		
+		
+	}
+	public void visualizarNovoTipo(){
+		System.out.println("novo tipo de servico");
+		if(novoTipoServico== false){
+		novoTipoServico= true;
+		}else{
+		
+		this.novoTipoServico= false;
+		}
+		
+		System.out.println(novoTipoServico);
+	}
+	public String editarPessoa(){
+		System.out.println(prestador.toString());
+		dao.open();
+		dao.begin();
+		daop.merge(prestador);
+		dao.commit();
+		displayInfoMessageToUser("Prestador editado com sucesso!");
+		return "gerenciar-prestadores";
+	}
+	
+	public void adicionarTipoServico(){
+		tipoServico.setPrestadores(null);
+		
+		System.out.println("adicionar tipo de servico");
+		dao.open();
+		dao.begin();
+		daotipo.persist(tipoServico);
+		dao.commit();
+		resetTipoServico();
+		this.novoTipoServico= false;
+		getTipoServico();
+		
+		
+	}
+	public void selecionarTipoServico(){
+		System.out.println("selecionando tipo de servico para prestador");
+		this.prestador.setTipoServico(tipoServico);
+		tipoServico.addPrestador(prestador);
+		resetTipoServico();
+	}
+	public void removerTipoServico() {
+		System.out.println("removendo tipo de servico do prestador");
+		this.prestador.setTipoServico(null);
+		resetTipoServico();
+	}
+	
+	public void captura(CaptureEvent cEvent){
+		ImageMB imb= new ImageMB();
+		System.out.println("capturando imagem");
+		ServletContext ctx= (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+		
+		String filename = imb.oncapture(ctx, cEvent);
+		prestador.setFoto(filename);
+		System.out.println("imagem no prestador  " + prestador.getFoto());
+		System.out.println(this.toString());
+		System.out.println(prestador.getSenha());
+		
+		
+	}
+	public void salvarPessoa(){
+		
+		getNow();
+//		this.lote.addPessoa(prestador);
+		prestador.getLote().addPessoa(prestador);
+		prestador.getTipoServico().addPrestador(prestador);
+		
+		System.out.println("Adicionando novo prestador");
+		System.out.println("hora inicio  " + prestador.getHoraEntrada() );
+		dao.open();
+		dao.begin();
+		
+//		
+//		daotipo.merge(tipoServico);
+//		prestador.setInformacao(informacao);
+//		prestador.setTipoServico(tipoServico);
+//		daoi.persist(informacao);
+		daop.persist(prestador);
+//		
+		dao.commit();
+		displayInfoMessageToUser("Prestador adicionado com sucesso!");
+		this.editar= false;
+		this.novo= false;
+		limparPrestador();
+		
+		
+	}
+	
+	
+	public void limparPrestador(){
+		System.out.println("limpar prestador");
+		resetPrestador();
+		resetTelefone();
+		resetTipoServico();
+		
+	}
+	public void visualizarPrestador(){
+		this.ver= true;
+		this.novo= false;
+		this.editar= false;
+		System.out.println(prestador.toString());
+//		displayInfoMessageToUser("visualizando prestador! = " +" novo : " + novo + "editar : " + editar );
+		
+		
+	}
+	public void bloquearPrestador(){
+		
+		prestador.setBloqueado(true);
+		dao.open();
+		dao.begin();
+		daop.merge(prestador);
+		dao.commit();
+		getPessoas();
+		displayInfoMessageToUser("Prestador Bloqueado!");
+	}
+	public void habilitarEdicao(){
+		this.editar= true;
+		this.novo= false;
+	}
+	public void setNovoTipoServico(boolean novoTipoServico) {
+		this.novoTipoServico = novoTipoServico;
+	}
+	public void getNow(){
+		this.prestador.setUltimoAcesso(new GregorianCalendar().getTime());
+	}
+
+
+	public void resetPrestador(){
+		this.prestador= new Pessoa();
+	}
+	public void resetTelefone(){
+		this.telefone= new Telefone();
+	}
+	public void resetTipoServico(){
+		this.tipoServico= new TipoServico();
+	}
 
 	public Lote getLote() {
 		return lote;
@@ -85,10 +311,7 @@ public class PrestadorPessoaMB  extends AbstractMB{
 
 
 
-	public Informacao getInformacao() {
-		return informacao;
-	}
-
+	
 
 	public List<Pessoa> getPrestadores() {
 		return prestadores;
@@ -115,10 +338,7 @@ public class PrestadorPessoaMB  extends AbstractMB{
 	}
 
 
-	public void setInformacao(Informacao informacao) {
-		this.informacao = informacao;
-	}
-
+	
 
 	public Pessoa getPrestador() {
 		return prestador;
@@ -202,156 +422,12 @@ public class PrestadorPessoaMB  extends AbstractMB{
 		return novoTipoServico;
 	}
 
-
-	public void setNovoTipoServico(boolean novoTipoServico) {
-		this.novoTipoServico = novoTipoServico;
-	}
-	public void getNow(){
-		this.prestador.setUltimoAcesso(new GregorianCalendar().getTime());
-	}
-
-
-	public void resetPrestador(){
-		this.prestador= new Pessoa();
-	}
-	public void resetTelefone(){
-		this.telefone= new Telefone();
-	}
-	public void resetTipoServico(){
-		this.tipoServico= new TipoServico();
+	@Override
+	public String toString() {
+		return "PrestadorPessoaMB [prestador=" + prestador + ", editar="
+				+ editar + ", novo=" + novo + ", novoTipoServico="
+				+ novoTipoServico + ", telefone=" + telefone + "]";
 	}
 	
-	public String redirectPrestadores(){
-		limparPrestador();
-		System.out.println("redirecionando para prestadore.xhtml");
-		return "prestadores?faces-redirect=true";
-	}
-	public String novoPrestador(){
-		System.out.println("novo prestador");
-		resetPrestador();
-		this.editar= false;
-		this.novo= true;
-		return "info-prestador";
-		
-		
-	}
-	
-	public void newTipoServico(){
-		System.out.println("novo tipos");
-		RequestContext.getCurrentInstance().openDialog("dialogs/tipos-servico-pessoa");
-		
-	}
-	public String novoTipoServico(){
-		System.out.println("novo tipo");
-		resetTipoServico();
-		System.out.println(prestador.getInformacao().getCep());
-		return "tipos-servico-pessoa";
-		
-	}
-
-	public void salvarTelefone(){
-		
-//		dao.open();
-//		dao.begin();
-//		daot.persist(telefone);
-//		daop.persist(prestador);
-		prestador.addTelefone(telefone);
-//		daop.merge(prestador);
-//		dao.commit();
-		resetTelefone();
-		
-		
-		
-	}
-	public void visualizarNovoTipo(){
-		System.out.println("novo tipo de servico");
-		if(novoTipoServico== false){
-		novoTipoServico= true;
-		}else{
-		
-		this.novoTipoServico= false;
-		}
-		
-		System.out.println(novoTipoServico);
-	}
-	
-	public void adicionarTipoServico(){
-		System.out.println("adicionar tipo de servico");
-		dao.open();
-		dao.begin();
-		daotipo.persist(tipoServico);
-		dao.commit();
-		resetTipoServico();
-		this.novoTipoServico= false;
-		getTipoServico();
-		
-		
-	}
-	public void selecionarTipoServico(){
-		System.out.println("selecionando tipo de servico para prestador");
-		this.prestador.addTipo(tipoServico);
-		tipoServico.addPrestador(prestador);
-		resetTipoServico();
-	}
-	public void removerTipoServico() {
-		System.out.println("removendo tipo de servico do prestador");
-		this.prestador.removeTipo(tipoServico);
-		resetTipoServico();
-	}
-	
-	public void captura(CaptureEvent cEvent){
-		ImageMB imb= new ImageMB();
-		System.out.println("capturando imagem");
-		ServletContext ctx= (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-		
-		String filename = imb.oncapture(ctx, cEvent);
-		prestador.setFoto(filename);
-		System.out.println("imagem no prestador  " + prestador.getFoto());
-		
-		
-		
-	}
-	public void salvarPessoa(){
-		System.out.println("Adicionando novo prestador");
-		System.out.println("hora inicio  " + prestador.getHoraEntrada() );
-//		dao.open();
-//		dao.begin();
-//		getNow();
-//		
-//		daotipo.merge(tipoServico);
-//		prestador.setInformacao(informacao);
-//		daoi.persist(informacao);
-//		daop.persist(prestador);
-//		
-//		dao.commit();
-		displayInfoMessageToUser("Prestador adicionado com sucesso!");
-		this.editar= false;
-		this.novo= false;
-		
-		
-	}
-	
-	public void limparPrestador(){
-		System.out.println("limpar prestador");
-		resetPrestador();
-		resetTelefone();
-		resetTipoServico();
-	}
-	public String visualizarPrestador(){
-		
-		this.novo= false;
-		this.editar= false;
-		System.out.println(prestador.getNome());
-		displayInfoMessageToUser("visualizando prestador! = " +" novo : " + novo + "editar : " + editar );
-		return "info-prestador";
-		
-	}
-	public void bloquearPrestador(){
-		displayInfoMessageToUser("Prestador Bloqueado!");
-	}
-	public void habilitarEdicao(){
-		this.editar= true;
-		this.novo= false;
-	}
 	
 }
