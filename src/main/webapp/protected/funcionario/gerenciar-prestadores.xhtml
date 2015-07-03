@@ -203,7 +203,7 @@
 						<p:outputLabel for="hentradaPrestador" value="Horário de Entrada:"  />
 					</p:column>
 					<p:column colspan="1">
-						<p:calendar id="hentradaPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" pattern="HH:mm" timeOnly="true"  value="#{prestadorPessoaMB.prestador.horaEntrada}" label="Horário de Entrada"  >
+						<p:calendar id="hentradaPrestador" required="true" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" pattern="HH:mm" timeOnly="true"  value="#{prestadorPessoaMB.prestador.horaEntrada}" label="Horário de Entrada"  >
 									
 						</p:calendar>
 					
@@ -212,7 +212,7 @@
 						<p:outputLabel for="hsaidaPrestador" value="Horário de Saída:" style="float:right" />
 					</p:column>
 					<p:column colspan="1">
-						<p:calendar id="hsaidaPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" pattern="HH:mm" timeOnly="true"  value="#{prestadorPessoaMB.prestador.horaSaida}" label="Horário de Saída" >
+						<p:calendar id="hsaidaPrestador" required="true" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" pattern="HH:mm" timeOnly="true"  value="#{prestadorPessoaMB.prestador.horaSaida}" label="Horário de Saída" >
 									
 						</p:calendar>
 					</p:column>

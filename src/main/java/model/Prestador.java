@@ -27,7 +27,7 @@ public class Prestador {
 	
 //	@ManyToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 //	private List<TipoServico> tipos;
-	@ManyToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE})
+	@ManyToOne(cascade={CascadeType.MERGE})
 	private TipoServico tipoServico;
 	
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
