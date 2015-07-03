@@ -27,7 +27,7 @@ public class Prestador {
 	
 //	@ManyToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 //	private List<TipoServico> tipos;
-	@ManyToOne
+	@ManyToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE})
 	private TipoServico tipoServico;
 	
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
@@ -37,8 +37,12 @@ public class Prestador {
 	private List<OcorrenciaPrestadorServico> ocorrencias;
 //	private List<Servico> servicos;
 	
+	@OneToMany(cascade={CascadeType.PERSIST,CascadeType.MERGE}, mappedBy="prestador")
+	private List<Servico> servicos;
+	
 	public Prestador() {
 //		this.tipos= new ArrayList<TipoServico>();
+		this.servicos= new ArrayList<Servico>();
 		this.telefones= new ArrayList<Telefone>();
 		this.ocorrencias= new ArrayList<OcorrenciaPrestadorServico>();
 //		this.servicos= new ArrayList<Servico>();
@@ -109,7 +113,21 @@ public class Prestador {
 	public void removeTelefone(Telefone telefone){
 		this.telefones.remove(telefone);
 	}
-	
+	public List<Servico> getServicos() {
+		return servicos;
+	}
+
+
+	public void setServicos(List<Servico> servicos) {
+		this.servicos = servicos;
+	}	
+	public void addServico(Servico s){
+		this.servicos.add(s);
+	}
+	public void removeServico(Servico s){
+		this.servicos.remove(s);
+	}
+
 //	public void addTipo(TipoServico ts){
 //		this.tipos.add(ts);
 //	}
@@ -133,7 +151,8 @@ public class Prestador {
 	public String toString() {
 		return "Prestador [id=" + id + ", informacao=" + informacao
 				+ ", tipoServico=" + tipoServico + ", telefones=" + telefones
-				+ ", ocorrencias=" + ocorrencias + "]";
+				+ ", ocorrencias=" + ocorrencias + ", servicos=" + servicos
+				+ "]";
 	}
 	
 }

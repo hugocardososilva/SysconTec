@@ -28,8 +28,8 @@
 			
 			</p:panel>
 			<p:panel id="panelServicoPessoa" rendered="#{servicoPrestadorMB.iniciarServico eq true}">
-			
-			<p:panelGrid id="horaEntradaPanelGrid" rendered="#{servicoPrestadorMB.entrou eq true}"  >
+			<p:panel id="horaEntradaPanelGrid" rendered="#{servicoPrestadorMB.entrou eq true}">
+			<p:panelGrid   >
 				
 				<p:row >
 					<p:column >
@@ -43,11 +43,13 @@
 							</div>
 					</p:column>
 					<p:column>
-						<p:commandButton icon="fa fa-clock-o" styleClass="btn btn-success btn-lg" action="#{servicoPrestadorMB.registrarEntrada}" value="Registrar Entrada" update="movimentacaoPrestadorForm"></p:commandButton>
+						<p:commandButton icon="fa fa-clock-o" styleClass="btn btn-success btn-lg" actionListener="#{servicoPrestadorMB.registrarEntrada}" value="Registrar Entrada" update=":movimentacaoPrestadorForm"></p:commandButton>
 					</p:column>
 				</p:row>
 			</p:panelGrid>	
-			<p:panelGrid id="horaSaidaPanelGrid" rendered="#{servicoPrestadorMB.saiu eq true}"  >
+			</p:panel>
+			<p:panel id="horaSaidaPanelGrid" rendered="#{servicoPrestadorMB.saiu eq true}">
+			<p:panelGrid   >
 				
 				<p:row >
 					<p:column >
@@ -65,6 +67,7 @@
 					</p:column>
 				</p:row>
 			</p:panelGrid>	
+			</p:panel>
 			<p:spacer height="20px"></p:spacer>
 			<p:panelGrid id="resumoEntrdaPanelGrid" rendered="#{servicoPrestadorMB.saiu eq true}"  >
 				<f:facet name="header">
@@ -91,7 +94,7 @@
 						</p:column>
 						<p:column>
 						<h4>
-							<h:outputText id="resumoHoraEntrada" value="#{servicoPrestadorMB.servico.dataEntrada}">
+							<h:outputText id="resumoHoraEntrada" value="#{servicoPrestadorMB.servico.horaEntrada}">
 							<f:convertDateTime timeZone="Etc/GMT+3" type="time"/>
 							</h:outputText>
 						</h4>

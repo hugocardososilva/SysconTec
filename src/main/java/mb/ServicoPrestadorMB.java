@@ -2,6 +2,7 @@ package mb;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +13,9 @@ import javax.faces.bean.ViewScoped;
 
 import dao.DAO;
 import dao.DAOPrestadorPessoa;
+import dao.DAOServicoResidencia;
 import model.Pessoa;
+import model.Prestador;
 import model.ServicoResidencia;
 
 @ManagedBean
@@ -20,10 +23,12 @@ import model.ServicoResidencia;
 public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 		private List<Pessoa> prestadores;
 		private List<ServicoResidencia> servicosEmAberto;
+		
 		private DAOPrestadorPessoa daop= new DAOPrestadorPessoa();
+		private DAOServicoResidencia daors= new DAOServicoResidencia();
 		private DAO dao = new DAO();
 		private String senha;
-		private Pessoa prestador;
+		private Prestador prestador;
 		private ServicoResidencia servico;
 		
 		private String senhaEntrada;
@@ -32,9 +37,12 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 		private boolean entrou;
 		private boolean saiu;
 		private boolean iniciarServico;
+		Calendar dataHj = Calendar.getInstance();
+		
 		
 		
 		public ServicoPrestadorMB() {
+			dataHj.setTime(new Date(System.currentTimeMillis()));	
 			
 		}
 		@PostConstruct
@@ -49,43 +57,117 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 		
 		public void keyPressSenha(){
 			System.out.println("digitou");
-			this.iniciarServico= true;
-//			displayInfoMessageToUser("senha digitada: " + senha.toString());
-			if(!senha.equalsIgnoreCase(senhaEntrada) && !senha.equalsIgnoreCase("")){
-				this.entrou= true;
-				this.saiu= false;
-			}else{
-				this.entrou = false;
-				this.saiu= true;
-			}
 			
+		
+				dao.open();
+				dao.begin();
+				prestador= daop.findBySenha(senha);
+				this.iniciarServico= true;
+					if(prestador != null){
+						System.out.println("prestador:  "+ prestador.toString());
+						
+							//servico de residencia
+							if(prestador.getTipoServico()!= null){
+								registrarPrestadorLote();										
+						
+							}
+							
+					}else{
+						displayErrorMessageToUser("Prestador não existe!");
+						System.out.println("prestador nao existe");
+						this.iniciarServico= true;
+					}
+				
+				
+		
 			
-			
+//			this.iniciarServico= true;
+////			displayInfoMessageToUser("senha digitada: " + senha.toString());
+//			
+//			if(!senha.equalsIgnoreCase(senhaEntrada) && !senha.equalsIgnoreCase("")){
+//				this.entrou= true;
+//				this.saiu= false;
+//			}else{
+//				this.entrou = false;
+//				this.saiu= true;
+//			}
+//			
+//			
+//			
+		}
+		public void registrarPrestadorLote(){
+			//verificando se há algum servico em aberto
+			System.out.println("verificando algum servico em aberto");
+			List<ServicoResidencia> servicos= new ArrayList<ServicoResidencia>();
+			servicos=daors.findServicoEmAbertoByPrestador(prestador);
+//			System.out.println("verificando algum servico em aberto");
+//				System.out.println(servicos.toString());
+//				se nao existir nenhum servico aberto
+				if(servicos.isEmpty()){
+					System.out.println("nao existe servico em aberto");
+						
+						this.entrou= true;
+						this.saiu= false;
+						//criar um novo servico
+						servico= new ServicoResidencia();
+						
+					
+				}else{
+					System.out.println("Servico em aberto");
+					//procurando por servico iniciado de hj
+					
+					
+					for(ServicoResidencia sr: servicos){
+						Calendar dataIn = Calendar.getInstance();
+						dataIn.setTime(sr.getDataEntrada());
+						if(dataIn.DATE == dataHj.DATE ){
+							System.out.println("Servico: " + sr.toString());
+							servico= sr;
+							this.entrou = false;
+							this.saiu= true;
+						}
+						
+					}
+					
+					
+				}
 		}
 		public void registrarMovimentacao(){
 		}
 		public void registrarSaida(){
+			dao.open();
+			dao.begin();
 			servico.setDataSaida(new Date(System.currentTimeMillis()));
 			servico.setHoraSaida(new Date(System.currentTimeMillis()));
 			servico.setConcluido(true);
+			
 			saiu= true;
 			this.iniciarServico= false;
 			resetSenha();
 			senhaEntrada= null;
 			displayInfoMessageToUser("Horario de saida: "+ servico.getDataSaida().toString() + servico.getHoraSaida().toString());
-			
-			
+			System.out.println("Horario de saida: "+ servico.getDataSaida().toString() + servico.getHoraSaida().toString());
+			daors.merge(servico);
+			dao.commit();
 		}
 		public void registrarEntrada(){
+			dao.open();
+			dao.begin();
 			senhaEntrada = senha;
 			servico.setDataEntrada(new Date(System.currentTimeMillis()));
 			servico.setHoraEntrada(new Date(System.currentTimeMillis()));
+			displayInfoMessageToUser("Horario de entrada: "+ servico.getDataEntrada().toString() + servico.getHoraEntrada().toString());
+			System.out.println("Horario de entrada: "+ servico.getDataEntrada().toString() + servico.getHoraEntrada().toString());
 			this.entrou=false;
 			this.saiu= false;
 			resetSenha();
 			servico.setConcluido(false);
 			this.iniciarServico= false;
-			displayInfoMessageToUser("Horario de entrada: "+ servico.getDataEntrada().toString() + servico.getHoraEntrada().toString());
+			servico.setPrestador(prestador);
+			prestador.addServico(servico);
+			daors.persist(servico);
+			dao.commit();
+			
 			
 			
 			
@@ -180,11 +262,11 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 			this.saiu = saiu;
 		}
 
-		public Pessoa getPrestador() {
+		public Prestador getPrestador() {
 			return prestador;
 		}
 
-		public void setPrestador(Pessoa prestador) {
+		public void setPrestador(Prestador prestador) {
 			this.prestador = prestador;
 		}
 

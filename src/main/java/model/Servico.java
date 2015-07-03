@@ -2,12 +2,15 @@ package model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 @Entity
@@ -18,14 +21,16 @@ public class Servico {
 	private long id;
 	@Temporal(TemporalType.DATE)
 	private Date dataEntrada;
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIME)
 	private Date horaEntrada;
 	@Temporal(TemporalType.DATE)
 	private Date dataSaida;
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIME)
 	private Date horaSaida;
 	private String observacoes;
 	private boolean concluido;
+	@ManyToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE},fetch=FetchType.LAZY)
+	private Prestador prestador;
 	
 //	private Prestador prestador;
 	
@@ -33,13 +38,13 @@ public class Servico {
 		
 	}
 
-//	public Prestador getPrestador() {
-//		return prestador;
-//	}
-//
-//	public void setPrestador(Prestador prestador) {
-//		this.prestador = prestador;
-//	}
+	public Prestador getPrestador() {
+		return prestador;
+	}
+
+	public void setPrestador(Prestador prestador) {
+		this.prestador = prestador;
+	}
 
 	public long getId() {
 		return id;

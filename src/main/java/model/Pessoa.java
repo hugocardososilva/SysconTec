@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 @Entity
@@ -37,7 +38,6 @@ public class Pessoa extends Prestador{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date ultimoAcesso;
 	
-	private List<Servico> servicos;
 //	@ManyToOne
 //	private TipoServico tipoServico;
 //	
@@ -47,7 +47,7 @@ public class Pessoa extends Prestador{
 	
 	public Pessoa() {
 		super();
-		this.servicos= new ArrayList<Servico>();
+		
 		lote= new Lote();
 //		this.tipoServico= new TipoServico();
 	}
@@ -196,30 +196,16 @@ public class Pessoa extends Prestador{
 	}
 	
 
-	public List<Servico> getServicos() {
-		return servicos;
-	}
-
-
-	public void setServicos(List<Servico> servicos) {
-		this.servicos = servicos;
-	}	
-	public void addServico(Servico s){
-		this.servicos.add(s);
-	}
-	public void removeServico(Servico s){
-		this.servicos.remove(s);
-	}
-
+	
 
 	@Override
 	public String toString() {
-		return super.toString()+"  Pessoa [nome=" + nome + ", sobrenome=" + sobrenome + ", cpf="
+		return "Pessoa [nome=" + nome + ", sobrenome=" + sobrenome + ", cpf="
 				+ cpf + ", rg=" + rg + ", orgaoExpeditor=" + orgaoExpeditor
 				+ ", email=" + email + ", foto=" + foto + ", horaEntrada="
 				+ horaEntrada + ", horaSaida=" + horaSaida + ", senha=" + senha
 				+ ", bloqueado=" + bloqueado + ", ultimoAcesso=" + ultimoAcesso
-				+ ", servicos=" + servicos + ", lote=" + lote + "]";
+				+ ", lote=" + lote + "]";
 	}
 	
 	
