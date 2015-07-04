@@ -1,6 +1,7 @@
 package mb;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -10,6 +11,9 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+
+import org.joda.time.DateTime;
+import org.joda.time.LocalTime;
 
 import dao.DAO;
 import dao.DAOPrestadorPessoa;
@@ -28,7 +32,7 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 		private DAOServicoResidencia daors= new DAOServicoResidencia();
 		private DAO dao = new DAO();
 		private String senha;
-		private Prestador prestador;
+		private Pessoa prestador;
 		private ServicoResidencia servico;
 		
 		private String senhaEntrada;
@@ -38,6 +42,8 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 		private boolean saiu;
 		private boolean iniciarServico;
 		Calendar dataHj = Calendar.getInstance();
+		Calendar horaEntrada= Calendar.getInstance();
+		Calendar horaSaida= Calendar.getInstance();
 		
 		
 		
@@ -64,36 +70,27 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 				prestador= daop.findBySenha(senha);
 				this.iniciarServico= true;
 					if(prestador != null){
+						if(!prestador.isBloqueado()){
 						System.out.println("prestador:  "+ prestador.toString());
 						
 							//servico de residencia
-							if(prestador.getTipoServico()!= null){
+//							if(prestador.getLote() != null){
 								registrarPrestadorLote();										
 						
-							}
-							
-					}else{
+//							}
+						}else{
+							displayErrorMessageToUser("Prestador bloqueado!");
+						}
+					}
+					else{
 						displayErrorMessageToUser("Prestador não existe!");
 						System.out.println("prestador nao existe");
 						this.iniciarServico= false;
 					}
 				
 				
+					
 		
-			
-//			this.iniciarServico= true;
-////			displayInfoMessageToUser("senha digitada: " + senha.toString());
-//			
-//			if(!senha.equalsIgnoreCase(senhaEntrada) && !senha.equalsIgnoreCase("")){
-//				this.entrou= true;
-//				this.saiu= false;
-//			}else{
-//				this.entrou = false;
-//				this.saiu= true;
-//			}
-//			
-//			
-//			
 		}
 		public void registrarPrestadorLote(){
 			//verificando se há algum servico em aberto
@@ -104,6 +101,7 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 //				System.out.println(servicos.toString());
 //				se nao existir nenhum servico aberto
 				if(servicos.isEmpty()){
+					//entrada
 					System.out.println("nao existe servico em aberto");
 						
 						this.entrou= true;
@@ -151,22 +149,47 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 			dao.commit();
 		}
 		public void registrarEntrada(){
+			
 			dao.open();
 			dao.begin();
 			senhaEntrada = senha;
 			servico.setDataEntrada(new Date(System.currentTimeMillis()));
 			servico.setHoraEntrada(new Date(System.currentTimeMillis()));
-			displayInfoMessageToUser("Horario de entrada: "+ servico.getDataEntrada().toString() + servico.getHoraEntrada().toString());
-			System.out.println("Horario de entrada: "+ servico.getDataEntrada().toString() + servico.getHoraEntrada().toString());
-			this.entrou=false;
-			this.saiu= false;
-			resetSenha();
-			servico.setConcluido(false);
-			this.iniciarServico= false;
-			servico.setPrestador(prestador);
-			prestador.addServico(servico);
-			daors.persist(servico);
-			dao.commit();
+			
+			DateTime horarioEntradaServico= new DateTime(servico.getHoraEntrada());
+			
+			DateTime horarioEntradaPrestador= new DateTime(prestador.getHoraEntrada());
+			
+			
+			System.out.println("horario de entrada permitida para o prestador: "+horarioEntradaPrestador.getMinuteOfDay());
+			
+			System.out.println("horario de entrada atual : "+ horarioEntradaServico.getMinuteOfDay());
+			
+//			horaEntrada.setTime(prestador.getHoraEntrada());
+			
+		
+			
+				if(horarioEntradaPrestador.getMinuteOfDay() > horarioEntradaServico.getMinuteOfDay()-15 && horarioEntradaPrestador.getMinuteOfDay() < horarioEntradaServico.getMinuteOfDay()+15){
+					System.out.println("hora de entrada prevista");
+					displayInfoMessageToUser("Horario de entrada: "+ servico.getDataEntrada().toString() + servico.getHoraEntrada().toString());
+					System.out.println("Horario de entrada: "+ servico.getDataEntrada().toString() + servico.getHoraEntrada().toString());
+					this.entrou=false;
+					this.saiu= false;
+					resetSenha();
+					servico.setConcluido(false);
+					this.iniciarServico= false;
+					servico.setPrestador(prestador);
+					prestador.addServico(servico);
+					daors.persist(servico);
+					dao.commit();
+					
+				}else{
+					displayErrorMessageToUser("Horário de entrada diferente do horário permitido para o prestador!");
+				}
+			
+			 
+			
+			
 			
 			
 			
@@ -266,7 +289,7 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 			return prestador;
 		}
 
-		public void setPrestador(Prestador prestador) {
+		public void setPrestador(Pessoa prestador) {
 			this.prestador = prestador;
 		}
 

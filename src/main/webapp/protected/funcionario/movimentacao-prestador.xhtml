@@ -15,9 +15,9 @@
 				<p:panelGrid columns="3">
 				<p:outputLabel for="senhaPrestadorServico" value="Senha:"/>
 				
-				<p:inputText id="senhaPrestadorServico" value="#{servicoPrestadorMB.senha}">
+				<p:inputMask mask="999999" id="senhaPrestadorServico" value="#{servicoPrestadorMB.senha}">
 					<f:validateRequired></f:validateRequired>				
-				</p:inputText>
+				</p:inputMask>
 				<p:commandButton icon="fa fa-search" action="#{servicoPrestadorMB.keyPressSenha}" styleClass="btn btn-primary" update=":movimentacaoPrestadorForm">
 					
 					
@@ -29,8 +29,9 @@
 			</p:panel>
 			<p:panel id="panelServicoPessoa" rendered="#{servicoPrestadorMB.iniciarServico eq true}">
 			<p:panel id="horaEntradaPanelGrid" rendered="#{servicoPrestadorMB.entrou eq true}">
+			
 			<p:panelGrid   >
-				
+				<p:focus for="btnEntrada"></p:focus>
 				<p:row >
 					<p:column >
 						<p:outputLabel for="horaEntradaIdClock" value="Horário de entrada:" />
@@ -43,14 +44,15 @@
 							</div>
 					</p:column>
 					<p:column>
-						<p:commandButton icon="fa fa-clock-o" styleClass="btn btn-success btn-lg" actionListener="#{servicoPrestadorMB.registrarEntrada}" value="Registrar Entrada" update=":movimentacaoPrestadorForm"></p:commandButton>
+						<p:commandButton id="btnEntrada" icon="fa fa-clock-o" styleClass="btn btn-success btn-lg" actionListener="#{servicoPrestadorMB.registrarEntrada}" value="Registrar Entrada" update=":movimentacaoPrestadorForm"></p:commandButton>
 					</p:column>
 				</p:row>
 			</p:panelGrid>	
 			</p:panel>
 			<p:panel id="horaSaidaPanelGrid" rendered="#{servicoPrestadorMB.saiu eq true}">
+			
 			<p:panelGrid   >
-				
+				<p:focus for="btnSaida"></p:focus>
 				<p:row >
 					<p:column >
 						<p:outputLabel for="horaSaidaIdClock" value="Horário de Saída:" />
@@ -63,7 +65,7 @@
 						</div>
 					</p:column>
 					<p:column>
-						<p:commandButton icon="fa fa-clock-o" styleClass="btn btn-success btn-lg" action="#{servicoPrestadorMB.registrarSaida}" value="Registrar Saida" update="movimentacaoPrestadorForm"></p:commandButton>
+						<p:commandButton id="btnSaida" icon="fa fa-clock-o" styleClass="btn btn-success btn-lg" action="#{servicoPrestadorMB.registrarSaida}" value="Registrar Saida" update="movimentacaoPrestadorForm"></p:commandButton>
 					</p:column>
 				</p:row>
 			</p:panelGrid>	
@@ -154,11 +156,21 @@
 					<p:row>	
 				
 					<p:column>
-						<p:outputLabel for="horarioDeTrabalho" value="Horário de trabalho previsto:" />   
+						<p:outputLabel for="horarioDeTrabalho" value="Entrada:" />   
 										
 						</p:column>
 						<p:column>
-							<p:inputText disabled="true" id="horarioDeTrabalho" value="#{servicoPrestadorMB.prestador.horaEntrada} às #{servicoPrestadorMB.prestador.horaSaida} " style="width:100%" >
+							<p:inputText  disabled="true" id="horarioDeTrabalho" value="#{servicoPrestadorMB.prestador.horaEntrada}" style="width:100%" >
+								<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"></f:convertDateTime>
+							</p:inputText>
+						</p:column>
+						<p:column>
+						<p:outputLabel for="horarioDeSaida" value="Saída:" />   
+										
+						</p:column>
+							<p:column>
+							<p:inputText disabled="true" id="horarioDeSaida" value="#{servicoPrestadorMB.prestador.horaSaida}" style="width:100%" >
+								<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"></f:convertDateTime>
 							</p:inputText>
 						</p:column>
 						
