@@ -28,13 +28,13 @@
 				
 			</p:panelGrid>
 			
-			<p:panelGrid columns="2">
-				<p:commandButton value="Salvar" icon="ui-icon-plus"
+			<p:panelGrid columns="2" styleClass="botoes">
+				<p:commandButton value="Salvar" icon="fa fa-plus" styleClass="btn btn-success"
 					action="#{prestadorPessoaMB.salvarTelefone}"
 					oncomplete="PF('novoTelefoneWidiget').hide();"
 					update=":messageGrowl :prestadores:telPessoa :novoTelefonePessoaForm "/>
 					
-				<p:commandButton value="Cancelar" icon="ui-icon-cancel" actionListener="#{prestadorPessoaMB.resetTelefone}"
+				<p:commandButton value="Cancelar" icon="fa fa-close" styleClass="btn btn-warning" actionListener="#{prestadorPessoaMB.resetTelefone}"
 					onclick="PF('novoTelefoneWidiget').hide();" type="button" />
 			</p:panelGrid>
 		</h:form>

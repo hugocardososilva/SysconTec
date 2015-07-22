@@ -288,7 +288,8 @@
 							emptyMessage="Não existem registros" rows="5" paginator="true">
 							<f:facet name="header">
 								 <p:outputPanel style="float:left;">
-								 		<p:commandButton icon="fa fa-plus" type="button"  disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" onclick="PF('novoTelefoneWidiget').show();" update=":novoTelefonePessoaForm" styleClass="btn btn-success btn-lg" />
+								 		<p:commandButton icon="fa fa-plus" type="button"  disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" 
+								 		onclick="PF('novoTelefoneWidiget').show();" update=":novoTelefonePessoaForm" styleClass="btn btn-success btn-lg" />
 								 		
 								 </p:outputPanel>
 							</f:facet>
@@ -306,8 +307,16 @@
 								
 							</p:column>
 							<p:column headerText="Opções" style="width:100px;">
-								 <p:commandButton icon="fa fa-edit" disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" styleClass="btn btn-warning" action="#{prestadorPessoaMB.novoPrestador}"/>
-								<p:commandButton icon="fa fa-remove" disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" styleClass="btn btn-danger" action="#{prestadorPessoaMB.novoPrestador}"/>
+<!-- 								 <p:commandButton icon="fa fa-edit" disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" -->
+<!-- 								  styleClass="btn btn-warning" oncomplete="PF('novoTelefoneWidiget').show();"> -->
+<!-- 								  <f:setPropertyActionListener value="#{tel}" target="#{prestadorPessoaMB.telefone}"></f:setPropertyActionListener> -->
+<!-- 								  </p:commandButton> -->
+								
+								<p:commandButton icon="fa fa-remove" disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}"
+									 styleClass="btn btn-danger" action="#{prestadorPessoaMB.removerTelefone}" update=":prestadores :tipoServicoPrestadorForm">
+									<f:setPropertyActionListener value="#{tel}" target="#{prestadorPessoaMB.telefone}"></f:setPropertyActionListener>
+									<p:confirm header="Confimarção" message="Deseja mesmo remover?" icon="fa fa-warning"/>
+								</p:commandButton>
 								
 							</p:column>
 							

@@ -16,8 +16,10 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 
 import dao.DAO;
+import dao.DAOCondominio;
 import dao.DAOPrestadorPessoa;
 import dao.DAOServicoResidencia;
+import model.Condominio;
 import model.Pessoa;
 import model.Prestador;
 import model.ServicoResidencia;
@@ -25,9 +27,9 @@ import model.ServicoResidencia;
 @ManagedBean
 @ViewScoped
 public class ServicoPrestadorMB extends AbstractMB implements Serializable {
-		private List<Pessoa> prestadores;
-		private List<ServicoResidencia> servicosEmAberto;
 		
+		private List<ServicoResidencia> servicosEmAberto;
+		private Condominio condominio;
 		private DAOPrestadorPessoa daop= new DAOPrestadorPessoa();
 		private DAOServicoResidencia daors= new DAOServicoResidencia();
 		private DAO dao = new DAO();
@@ -53,7 +55,7 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 		}
 		@PostConstruct
 		public void init(){
-			this.prestadores= new ArrayList<Pessoa>();
+			
 			this.saiu= false;
 			this.iniciarServico= false;
 			this.servico = new ServicoResidencia();
@@ -97,8 +99,7 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 			System.out.println("verificando algum servico em aberto");
 			List<ServicoResidencia> servicos= new ArrayList<ServicoResidencia>();
 			servicos=daors.findServicoEmAbertoByPrestador(prestador);
-//			System.out.println("verificando algum servico em aberto");
-//				System.out.println(servicos.toString());
+		
 //				se nao existir nenhum servico aberto
 				if(servicos.isEmpty()){
 					//entrada
@@ -133,86 +134,69 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 		public void registrarMovimentacao(){
 		}
 		public void registrarSaida(){
-			dao.open();
-			dao.begin();
-			servico.setDataSaida(new Date(System.currentTimeMillis()));
-			servico.setHoraSaida(new Date(System.currentTimeMillis()));
-			servico.setConcluido(true);
 			
-			saiu= true;
-			this.iniciarServico= false;
-			resetSenha();
-			senhaEntrada= null;
-			displayInfoMessageToUser("Horario de saida: "+ servico.getDataSaida().toString() + servico.getHoraSaida().toString());
-			System.out.println("Horario de saida: "+ servico.getDataSaida().toString() + servico.getHoraSaida().toString());
-			daors.merge(servico);
-			dao.commit();
+			servico.setDataSaida(new Date(System.currentTimeMillis()));
+				DateTime horarioSaidaServico= new DateTime(servico.getHoraSaida());
+			servico.setHoraSaida(new Date(System.currentTimeMillis()));
+				DateTime horarioSaidaPrestador= new DateTime(prestador.getHoraSaida());
+			servico.setConcluido(true);
+			System.out.println("horario de saida permitida para o prestador: "+horarioSaidaPrestador.getMinuteOfDay());
+			System.out.println("horario de saida atual : "+ horarioSaidaServico.getMinuteOfDay());
+			
+				if(horarioSaidaServico.getMinuteOfDay() > horarioSaidaPrestador.getMinuteOfDay()-15 &&  horarioSaidaServico.getMinuteOfDay() < horarioSaidaPrestador.getMillisOfDay()+15){
+					dao.open();
+					dao.begin();
+					saiu= true;
+					this.iniciarServico= false;
+					resetSenha();
+					senhaEntrada= null;
+					displayInfoMessageToUser("Horario de saida: "+ servico.getDataSaida().toString() + servico.getHoraSaida().toString());
+					System.out.println("Horario de saida: "+ servico.getDataSaida().toString() + servico.getHoraSaida().toString());
+					daors.merge(servico);
+					dao.commit();
+				}else{
+					displayErrorMessageToUser("Horário de saída diferente do horário permitido para o prestador!");
+				}
+			
+			
 		}
 		public void registrarEntrada(){
 			
-			dao.open();
-			dao.begin();
-			senhaEntrada = senha;
 			servico.setDataEntrada(new Date(System.currentTimeMillis()));
+				DateTime horarioEntradaServico= new DateTime(servico.getHoraEntrada());
 			servico.setHoraEntrada(new Date(System.currentTimeMillis()));
-			
-			DateTime horarioEntradaServico= new DateTime(servico.getHoraEntrada());
-			
-			DateTime horarioEntradaPrestador= new DateTime(prestador.getHoraEntrada());
-			
+				DateTime horarioEntradaPrestador= new DateTime(prestador.getHoraEntrada());
 			
 			System.out.println("horario de entrada permitida para o prestador: "+horarioEntradaPrestador.getMinuteOfDay());
-			
 			System.out.println("horario de entrada atual : "+ horarioEntradaServico.getMinuteOfDay());
 			
-//			horaEntrada.setTime(prestador.getHoraEntrada());
+			DateTime diasSemUso = new DateTime(prestador.getUltimoAcesso());
 			
-		
+//				if(diasSemUso.)
 			
-				if(horarioEntradaPrestador.getMinuteOfDay() > horarioEntradaServico.getMinuteOfDay()-15 && horarioEntradaPrestador.getMinuteOfDay() < horarioEntradaServico.getMinuteOfDay()+15){
-					System.out.println("hora de entrada prevista");
-					displayInfoMessageToUser("Horario de entrada: "+ servico.getDataEntrada().toString() + servico.getHoraEntrada().toString());
-					System.out.println("Horario de entrada: "+ servico.getDataEntrada().toString() + servico.getHoraEntrada().toString());
-					this.entrou=false;
-					this.saiu= false;
-					resetSenha();
-					servico.setConcluido(false);
-					this.iniciarServico= false;
-					servico.setPrestador(prestador);
-					prestador.addServico(servico);
-					daors.persist(servico);
-					dao.commit();
-					
-				}else{
-					displayErrorMessageToUser("Horário de entrada diferente do horário permitido para o prestador!");
-				}
-			
-			 
-			
-			
-			
-			
-			
-			
-		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		public List<Pessoa> getPrestadores() {
-			dao.open();
-			dao.begin();
-			prestadores=daop.findAll();
-			dao.close();
-			return prestadores;
+						if(horarioEntradaPrestador.getMinuteOfDay() > horarioEntradaServico.getMinuteOfDay()-15 && horarioEntradaPrestador.getMinuteOfDay() < horarioEntradaServico.getMinuteOfDay()+15){
+								System.out.println("hora de entrada prevista");
+							dao.open();
+							dao.begin();
+								
+							this.entrou=false;
+							this.saiu= false;
+							
+							servico.setConcluido(false);
+							this.iniciarServico= false;
+							servico.setPrestador(prestador);
+							prestador.addServico(servico);
+							daors.persist(servico);
+							dao.commit();
+							
+								displayInfoMessageToUser("Horario de entrada: "+ servico.getDataEntrada().toString() + servico.getHoraEntrada().toString());
+								System.out.println("Horario de entrada: "+ servico.getDataEntrada().toString() + servico.getHoraEntrada().toString());
+								
+								resetSenha();
+							
+						}else{
+							displayErrorMessageToUser("Horário de entrada diferente do horário permitido para o prestador!");
+						}
 			
 			
 		}
@@ -256,7 +240,18 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 		public boolean isEntrou() {
 			return entrou;
 		}
-
+		
+		public Condominio getCondominio() {
+			DAOCondominio daoc= new DAOCondominio();
+			dao.open();
+			dao.begin();
+			condominio= daoc.find(1);
+			dao.close();
+			return condominio;
+		}
+		public void setCondominio(Condominio condominio) {
+			this.condominio = condominio;
+		}
 		public void setEntrou(boolean entrou) {
 			this.entrou = entrou;
 		}
@@ -301,10 +296,7 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 			this.senha = senha;
 		}
 
-		public void setPrestadores(List<Pessoa> prestadores) {
-			
-			this.prestadores = prestadores;
-		}
+		
 		public String redirectMovimentacaoPrestador(){
 			
 			return "movimentacao-prestador?faces-redirect=true";
@@ -312,6 +304,9 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 		}
 		public void resetSenha(){
 			this.senha= null;
+		}
+		public void resetServico(){
+			this.servico = new ServicoResidencia();
 		}
 	
 		

@@ -286,7 +286,13 @@ public class PrestadorPessoaMB  extends AbstractMB implements Serializable{
 	public void getNow(){
 		this.prestador.setUltimoAcesso(new GregorianCalendar().getTime());
 	}
-
+	public void removerTelefone(){
+		
+		System.out.println("removendo telefone");
+		prestador.removeTelefone(telefone);
+		
+		resetTelefone();
+	}
 
 	public void resetPrestador(){
 		this.prestador= new Pessoa();

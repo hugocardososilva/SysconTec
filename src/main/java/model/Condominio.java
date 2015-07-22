@@ -19,6 +19,9 @@ public class Condominio {
 	private long id;
 	private int diasSemUtilizarSistema;
 	private int numeroMaximoMoradores;
+	private String nome;
+	private String email;
+
 	
 	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	private Informacao informacao;
@@ -30,11 +33,32 @@ public class Condominio {
 	public Condominio() {
 		super();
 		this.telefones= new ArrayList<Telefone>();
+		
 	}
 
 
 	public long getId() {
 		return id;
+	}
+
+
+	public String getNome() {
+		return nome;
+	}
+
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	
+
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 
@@ -88,6 +112,16 @@ public class Condominio {
 	public void removeTelefone(Telefone telefone){
 		this.telefones.remove(telefone);
 	}
+
+
+	@Override
+	public String toString() {
+		return "Condominio [id=" + id + ", diasSemUtilizarSistema="
+				+ diasSemUtilizarSistema + ", numeroMaximoMoradores="
+				+ numeroMaximoMoradores + ", nome=" + nome + ", email=" + email
+				+ ", informacao=" + informacao + "]";
+	}
+	
 	
 	
 

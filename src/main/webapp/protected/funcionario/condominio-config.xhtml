@@ -11,7 +11,7 @@
 		
 	
 		
-		<h:form id="confominioConfigForm" modal="true" >
+		<h:form id="condominioConfigForm" modal="true" >
 			<p:confirmDialog global="true">
 				<p:commandButton value="Sim" type="button"  icon="fa fa-check" styleClass="ui-confirmdialog-yes" />
 				<p:commandButton value="Não" type="button" icon="fa fa-close" styleClass="ui-confirmdialog-no"/>
@@ -20,19 +20,19 @@
 			</p:confirmDialog>
 		
 			
-			<p:panel>
-			<p:panelGrid columns="2" id="panelGrupoBotoesEditar" rendered= "#{prestadorPessoaMB.editar eq true}">
-					<p:commandButton value="Salvar" action="#{prestadorPessoaMB.salvarPessoa}" update=":confominioConfigForm" icon="fa fa-save" styleClass="btn btn-success"/>
+			<p:panel styleClass="botoes">
+			<p:panelGrid columns="2" id="panelGrupoBotoesEditar" rendered= "#{condominioMB.editar eq true}">
+					<p:commandButton value="Salvar" action="#{condominioMB.editarCondominio}" ajax="false" update=":condominioConfigForm" icon="fa fa-save" styleClass="btn btn-success"/>
 					
-					<p:commandButton icon="fa fa-close" immediate="true" styleClass="btn btn-warning"  value="Cancelar" action="#{prestadorPessoaMB.redirectPrestadores}" ajax="false">
+					<p:commandButton icon="fa fa-close" immediate="true" styleClass="btn btn-warning"  value="Cancelar" action="condominio-config" update=":condominioConfigForm">
 						<p:confirm header="Cancelar" message="Deseja mesmo cancelar?" icon="fa fa-warning" />
 					</p:commandButton>
 			
 			</p:panelGrid>
 			
-			<p:panelGrid columns="2" rendered="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}">	
-				<p:commandButton value="Editar" icon="fa fa-edit" styleClass="btn btn-warning" actionListener="#{prestadorPessoaMB.habilitarEdicao}" update=":confominioConfigForm" immediate="true"/>
-				<p:commandButton value="Voltar" icon="fa fa-backward" styleClass="btn btn-info"  action="#{prestadorPessoaMB.redirectPrestadores}" update=":confominioConfigForm" immediate="true"/>
+			<p:panelGrid columns="2" rendered="#{condominioMB.editar eq false and condominioMB.novo eq false}">	
+				<p:commandButton value="Editar" icon="fa fa-edit" styleClass="btn btn-warning" actionListener="#{condominioMB.habilitarEdicao}" update=":condominioConfigForm" immediate="true"/>
+				
 				
 			
 			</p:panelGrid>
@@ -53,11 +53,11 @@
 							
 									<p:outputLabel for="diasSemUtilizar" value="Quantidade de dias para bloquear um prestador:" />
 								
-									<p:inputText id="diasSemUtilizar" value="#{prestadorPessoaMB.prestador.cpf}" required="true"  readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" />			
+									<p:inputText id="diasSemUtilizar" value="#{condominioMB.condominio.diasSemUtilizarSistema}" required="true"  readonly="#{condominioMB.editar eq false and condominioMB.novo eq false}" />			
 							
 									<p:outputLabel for="maxMoradoresLote" value="Máximo de moradores por lote:"  />   
 													
-									<p:inputText id="maxMoradoresLote" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.nome}" required="true" size="5"/>
+									<p:inputText id="maxMoradoresLote" readonly="#{condominioMB.editar eq false and condominioMB.novo eq false}" value="#{condominioMB.condominio.numeroMaximoMoradores}" required="true" size="5"/>
 									
 				</p:panelGrid>
 				<p:panelGrid>
@@ -71,8 +71,8 @@
 						 		<p:outputLabel for="nome" value="Nome Completo do condomínio:" />
 							</p:column>
 							<p:column colspan="3">
-								<p:inputText id="nome" value="#{prestadorPessoaMB.prestador.senha}" required="true" 
-											readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" 
+								<p:inputText id="nome" value="#{condominioMB.condominio.nome}" required="true" 
+											readonly="#{condominioMB.editar eq false and condominioMB.novo eq false}" 
 											label="Senha" >
 											
 								</p:inputText>
@@ -84,13 +84,13 @@
 								<p:outputLabel for="endereco" value="Endereço:" />
 							</p:column>
 							<p:column colspan="1">
-								<p:inputText id="endereco" size="50"  readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.endereco}" required="true" label="Endereco" style="width:98%" />	
+								<p:inputText id="endereco" size="50"  readonly="#{condominioMB.editar eq false and condominioMB.novo eq false}" value="#{condominioMB.condominio.informacao.endereco}" required="true" label="Endereco" style="width:98%" />	
 							</p:column >
 							<p:column>
 								<p:outputLabel for="numero" value="Número:" />	
 							</p:column>
 							<p:column>
-								<p:inputText id="numero" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.numero}" size="5" label="Numero" style="width:98%" />		
+								<p:inputText id="numero" readonly="#{condominioMB.editar eq false and condominioMB.novo eq false}" value="#{condominioMB.condominio.informacao.numero}" size="5" label="Numero" style="width:98%" />		
 							</p:column>
 						</p:row>
 						<p:row>
@@ -98,7 +98,7 @@
 								<p:outputLabel for="bairro" value="Bairro:" />	
 							</p:column>
 							<p:column colspan="3">
-								<p:inputText id="bairro" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.bairro}"  label="Bairro" style="width:98%"/>
+								<p:inputText id="bairro" readonly="#{condominioMB.editar eq false and condominioMB.novo eq false}" value="#{condominioMB.condominio.informacao.bairro}"  label="Bairro" style="width:98%"/>
 							</p:column>
 						</p:row>
 						<p:row>
@@ -106,7 +106,7 @@
 								<p:outputLabel for="complemento" value="Complemento:" />
 							</p:column>
 							<p:column colspan="3">
-								<p:inputText id="complemento" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.complemento}"  label="Complemento" style="width:98%"/>
+								<p:inputText id="complemento" readonly="#{condominioMB.editar eq false and condominioMB.novo eq false}" value="#{condominioMB.condominio.informacao.complemento}"  label="Complemento" style="width:98%"/>
 							</p:column>
 						
 						</p:row>
@@ -115,13 +115,13 @@
 								<p:outputLabel for="cidade" value="Cidade:" />
 							</p:column>
 							<p:column colspan="1">
-								<p:inputText id="cidade" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.cidade}" label="Cidade" />
+								<p:inputText id="cidade" readonly="#{condominioMB.editar eq false and condominioMB.novo eq false}" value="#{condominioMB.condominio.informacao.cidade}" label="Cidade" />
 							</p:column>
 							<p:column>
 								<p:outputLabel for="estado"  value="Estado:" />
 							</p:column>
 							<p:column>
-								<p:inputText id="estado" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.estado}"  label="Estado" maxlength="2" size="2" />
+								<p:inputText id="estado" readonly="#{condominioMB.editar eq false and condominioMB.novo eq false}" value="#{condominioMB.condominio.informacao.estado}"  label="Estado" maxlength="2" size="2" />
 							</p:column>
 						</p:row>
 						<p:row>
@@ -129,7 +129,7 @@
 								<p:outputLabel for="cep"  value="CEP:" />
 							</p:column>
 							<p:column colspan="3">
-								<p:inputText id="cep" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.informacao.cep}" label="CEP" style="width:98%"  />
+								<p:inputText id="cep" readonly="#{condominioMB.editar eq false and condominioMB.novo eq false}" value="#{condominioMB.condominio.informacao.cep}" label="CEP" style="width:98%"  />
 							</p:column>
 						</p:row>
 						<p:row>
@@ -137,7 +137,7 @@
 								<p:outputLabel for="email" value="Email:" />
 							</p:column>
 							<p:column colspan="3">
-								<p:inputText id="email" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.email}" required="true" label="Email" style="width:98%" />
+								<p:inputText id="email" readonly="#{condominioMB.editar eq false and condominioMB.novo eq false}" value="#{condominioMB.condominio.email}" required="true" label="Email" style="width:98%" />
 							</p:column>
 							
 						
@@ -150,11 +150,11 @@
 					</p:panel>			
 					<p:panel id="tel" toggleable="true" header="Telefones" style="margin-bottom:20px">
 						<p:panelGrid columns="2">
-							<p:dataTable  id="telefones" var="tel" value="#{prestadorPessoaMB.prestador.telefones}"
+							<p:dataTable  id="telefones" var="tel" value="#{condominioMB.condominio.telefones}"
 							emptyMessage="Não existem registros" rows="5" paginator="true">
 							<f:facet name="header">
 								 <p:outputPanel style="float:left;">
-								 		<p:commandButton icon="fa fa-plus" type="button"  disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" onclick="PF('novoTelefoneWidiget').show();" update=":novoTelefonePessoaForm" styleClass="btn btn-success btn-lg" />
+								 		<p:commandButton icon="fa fa-plus" type="button"  disabled="#{condominioMB.editar eq false and condominioMB.novo eq false}" onclick="PF('novoTelefoneWidiget').show();" update=":novoTelefonePessoaForm" styleClass="btn btn-success btn-lg" />
 								 		
 								 </p:outputPanel>
 							</f:facet>
@@ -172,17 +172,58 @@
 								
 							</p:column>
 							<p:column headerText="Opções" style="width:100px;">
-								 <p:commandButton icon="fa fa-edit" disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" styleClass="btn btn-warning" action="#{prestadorPessoaMB.novoPrestador}"/>
-								<p:commandButton icon="fa fa-remove" disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" styleClass="btn btn-danger" action="#{prestadorPessoaMB.novoPrestador}"/>
+								 
+								<p:commandButton icon="fa fa-remove" disabled="#{condominioMB.editar eq false and condominioMB.novo eq false}" 
+								styleClass="btn btn-danger" action="#{condominioMB.removerTelefone}" update=":condominioConfigForm">
+								<f:setPropertyActionListener value="#{tel}" target="#{condominioMB.telefone}"></f:setPropertyActionListener>
+									<p:confirm header="Confimarção" message="Deseja mesmo remover?" icon="fa fa-warning"/>
+								</p:commandButton>
 								
 							</p:column>
 							
 							</p:dataTable>
 						</p:panelGrid>
 					</p:panel>
+					</h:form>
+					
+					
+					<p:dialog widgetVar="novoTelefoneWidiget"
+		id="novoTelefoneId" modal="true"
+		closable="true" draggable="false" resizable="false" width="500px" height="200px">
+		<f:facet name="header">
+			<p:outputPanel>
+				<h:outputText value="Adicionar Telefone"></h:outputText>
+			</p:outputPanel>
+		</f:facet>
+		<h:form id="novoTelefoneForm" modal="true">
+		
+			<p:panelGrid columns="2">
+				<h:outputText value="DDD" />
+				<p:inputMask mask="99" value="#{condominioMB.telefone.ddd}" required="true" label="DDD" >
+				
+				</p:inputMask>
+				<h:outputText value="Número" />
+				<p:inputText value="#{condominioMB.telefone.numero}" required="true" label="Número" />
+				
+				<h:outputText value="Observações" />
+				<p:inputText value="#{condominioMB.telefone.observacoes}" label="Observações" />
+				
+			</p:panelGrid>
+			
+			<p:panelGrid columns="2">
+				<p:commandButton value="Salvar" icon="ui-icon-plus"
+					action="#{condominioMB.salvarTelefone}"
+					oncomplete="PF('novoTelefoneWidiget').hide();"
+					update=":condominioConfigForm :novoTelefoneForm "/>
+					
+				<p:commandButton value="Cancelar" icon="ui-icon-cancel" actionListener="#{condominioMB.resetTelefone}"
+					onclick="PF('novoTelefoneWidiget').hide();" type="button" />
+			</p:panelGrid>
+		</h:form>
+	</p:dialog>
 					
 			
-		</h:form>
+		
 	
 	
 		
