@@ -31,6 +31,7 @@ public abstract class Usuario {
 	private String nome;
 	private String sobrenome;
 	private String email;
+	private boolean bloqueado;
 	
 	@Temporal(TemporalType.DATE)
 	private Date dataNascimento;
@@ -139,7 +140,15 @@ public abstract class Usuario {
 		this.telefones.remove(telefone);
 	}
 	
-	 public static String convertPasswordToMD5(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	
+	
+	public boolean isBloqueado() {
+		return bloqueado;
+	}
+	public void setBloqueado(boolean bloqueado) {
+		this.bloqueado = bloqueado;
+	}
+	public static String convertPasswordToMD5(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 	        MessageDigest md = MessageDigest.getInstance("MD5");
 	 
 	        BigInteger hash = new BigInteger(1, md.digest(password.getBytes("UTF-8")));

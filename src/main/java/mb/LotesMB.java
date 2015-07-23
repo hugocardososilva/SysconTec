@@ -78,14 +78,21 @@ public class LotesMB extends AbstractMB implements Serializable {
 	public void removerLote(){
 		System.out.println("removendo lote: " + lote.toString());
 	
-			
+			List<Pessoa> ps= new ArrayList<Pessoa>();
 			System.out.println("verificando ligações");
 			
 			
 			dao.open();
 			dao.begin();
 			lote= dao.merge(lote);
+			ps= lote.getPessoas();
+			for(Pessoa p : ps ){
+				p.setLote(null);	
+			}
+			lote.setPessoas(null);
+		
 			
+		
 			
 			
 			dao.remove(lote);

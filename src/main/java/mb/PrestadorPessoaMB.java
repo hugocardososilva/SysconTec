@@ -224,7 +224,7 @@ public class PrestadorPessoaMB  extends AbstractMB implements Serializable{
 		
 		getNow();
 //		this.lote.addPessoa(prestador);
-		prestador.getLote().addPessoa(prestador);
+//		prestador.getLote().addPessoa(prestador);
 		prestador.setTipoServico(prestador.getTipoServico());
 		prestador.getTipoServico().addPrestador(prestador);
 		

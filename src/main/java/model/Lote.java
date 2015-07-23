@@ -31,10 +31,10 @@ public class Lote implements GenericInterface{
 	@OneToMany(cascade={CascadeType.PERSIST,CascadeType.MERGE} , mappedBy="lote",fetch=FetchType.LAZY)
 	private List<Morador> moradores;
 	
-	@OneToMany(cascade= CascadeType.ALL, mappedBy="lote", fetch=FetchType.LAZY)
+	@OneToMany(cascade={CascadeType.PERSIST,CascadeType.MERGE} , mappedBy="lote", fetch=FetchType.LAZY)
 	private List<Pessoa> pessoas;
 	
-	@OneToMany(fetch=FetchType.LAZY)
+	@OneToMany(cascade={CascadeType.PERSIST,CascadeType.MERGE}, fetch=FetchType.LAZY)
 	@OrderBy("horaEntrada DESC")
 	private List<Servico> servicos;
 	
