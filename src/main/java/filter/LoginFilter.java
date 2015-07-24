@@ -21,7 +21,7 @@ import model.Usuario;
 /**
  * Servlet Filter implementation class LoginFilter
  */
-@WebFilter("/*")
+@WebFilter("/protected/*")
 public class LoginFilter extends AbstractFilter implements Filter {
 
     /**

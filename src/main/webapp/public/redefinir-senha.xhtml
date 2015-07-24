@@ -1,0 +1,37 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+<ui:composition template="/template/template.xhtml">
+		<ui:define name="divMain">
+
+	
+	<h:form>
+	<p:panel toggleable="true" >
+		<f:metadata>
+    	 	<f:viewParam name="h" value="#{requisicaoDeSenhaMB.hash}"/>
+ 			
+ 		</f:metadata>
+			<p:panelGrid columns="2">
+				<p:outputLabel for="pwd1" value="Senha:" />
+				<p:password id="pwd1" value="#{requisicaoDeSenhaMB.senha}" match="pwd2" label="Senha:" required="true" validatorMessage="As senhas devem ser iguais"  >
+					<f:validateLength minimum="6"></f:validateLength>
+				</p:password>
+	
+				<p:outputLabel for="pwd2" value="Confirmar senha:" />
+				
+				<p:password id="pwd2" value="#{requisicaoDeSenhaMB.senha}" label="Confirmar senha:"  required="true" >
+					<f:validateLength minimum="6"></f:validateLength>
+				</p:password>
+				
+			
+			<p:commandButton action="#{requisicaoDeSenhaMB.redefinirSenha}" value="Redefinir" ajax="false" styleClass="btn btn-primary botoes" icon="fa fa-envelope" />
+			</p:panelGrid>
+		</p:panel>
+	</h:form>
+	</ui:define>
+	
+	</ui:composition>
+</h:body>
+</html>

@@ -23,6 +23,7 @@
 		<class>model.ServicoEsporadico</class>
 		<class>model.ServicoResidencia</class>
 		<class>model.TipoServico</class>
+		<class>model.RequisicaoDeSenha</class>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
  
 		<properties>

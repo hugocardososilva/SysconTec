@@ -59,6 +59,38 @@
 													
 									<p:inputText id="maxMoradoresLote" readonly="#{condominioMB.editar eq false and condominioMB.novo eq false}" value="#{condominioMB.condominio.numeroMaximoMoradores}" required="true" size="5"/>
 									
+									
+				</p:panelGrid>
+				
+				<p:panelGrid columns="2">	
+				<f:facet name="header">
+					<p:column  colspan="4">Configurações de email do sistema</p:column>
+				
+				</f:facet>
+				
+				
+								
+							
+									<p:outputLabel for="servidorSmtp" value="Servidor SMTP:" />
+								
+									<p:inputText id="servidorSmtp" value="#{condominioMB.condominio.hostSmtp}" required="true"  readonly="#{condominioMB.editar eq false and condominioMB.novo eq false}" size="50" />			
+									
+									<p:outputLabel for="portaSMTP" value="Porta SMTP:"  />   
+													
+									<p:inputText id="portaSMTP" readonly="#{condominioMB.editar eq false and condominioMB.novo eq false}" value="#{condominioMB.condominio.portaSmtp}" required="true"/>
+							
+									<p:outputLabel for="emailSMTP" value="Email para envio:"  />   
+													
+									<p:inputText id="emailSMTP" readonly="#{condominioMB.editar eq false and condominioMB.novo eq false}" value="#{condominioMB.condominio.emailDeEnvio}" required="true"/>
+									
+									<p:outputLabel for="senhaSMTP" value="Senha:"  />   
+													
+									<p:inputText type="password" id="senhaSMTP" readonly="#{condominioMB.editar eq false and condominioMB.novo eq false}" value="#{condominioMB.condominio.senhaEmailEnvio}" required="true"/>
+									
+									
+									
+									
+									
 				</p:panelGrid>
 				<p:panelGrid>
 					<f:facet name="header" >

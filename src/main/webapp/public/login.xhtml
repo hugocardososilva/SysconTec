@@ -8,9 +8,10 @@
 
 	<p>Ola, faça seu login</p>
 	<h:form>
-	<p:panel toggleable="true" >
+	<p:spacer height="20"></p:spacer>
+	<p:panel toggleable="true"  >
 		
-			<h:panelGrid columns="2">
+			<p:panelGrid columns="2" >
 				<p:outputLabel value="Login" />
 				<p:inputText value="#{loginMB.login}" label="Login" id="Login" required="true">
 	
@@ -21,10 +22,12 @@
 	
 				</p:password>
 				
+			<p:commandButton action="#{loginMB.login}" value="Log in" ajax="false" styleClass="btn btn-primary botoes" icon="fa fa-user" />
 				
-			</h:panelGrid>
-			<p:commandButton action="#{loginMB.login}" value="Log in" ajax="false" />
+			</p:panelGrid>
+			
 		</p:panel>
+			<p:link outcome="/public/esqueci-minha-senha" value="Esqueci a senha"></p:link>
 	</h:form>
 	</ui:define>
 	

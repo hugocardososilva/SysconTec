@@ -21,6 +21,14 @@ public class Condominio {
 	private int numeroMaximoMoradores;
 	private String nome;
 	private String email;
+	
+	private String hostSmtp;
+	private String emailDeEnvio;
+	private String portaSmtp;
+	private String senhaEmailEnvio;
+	
+	
+	
 
 	
 	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
@@ -111,6 +119,46 @@ public class Condominio {
 	}
 	public void removeTelefone(Telefone telefone){
 		this.telefones.remove(telefone);
+	}
+
+	
+	public String getHostSmtp() {
+		return hostSmtp;
+	}
+
+
+	public void setHostSmtp(String hostSmtp) {
+		this.hostSmtp = hostSmtp;
+	}
+
+
+	public String getEmailDeEnvio() {
+		return emailDeEnvio;
+	}
+
+
+	public void setEmailDeEnvio(String emailDeEnvio) {
+		this.emailDeEnvio = emailDeEnvio;
+	}
+
+
+	public String getPortaSmtp() {
+		return portaSmtp;
+	}
+
+
+	public void setPortaSmtp(String portaSmtp) {
+		this.portaSmtp = portaSmtp;
+	}
+
+
+	public String getSenhaEmailEnvio() {
+		return senhaEmailEnvio;
+	}
+
+
+	public void setSenhaEmailEnvio(String senhaEmailEnvio) {
+		this.senhaEmailEnvio = senhaEmailEnvio;
 	}
 
 
