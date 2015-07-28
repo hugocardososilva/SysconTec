@@ -3,7 +3,12 @@ package mb;
 
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -12,14 +17,18 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.primefaces.event.CaptureEvent;
 
+import util.SendMail;
 import dao.DAO;
 import dao.DAOFuncionario;
+import dao.DAORequisicaoDeSenha;
 import model.Funcionario;
 import model.Grupo;
 import model.Morador;
+import model.RequisicaoDeSenha;
 import model.Telefone;
 import model.Usuario;
 
@@ -39,6 +48,7 @@ public class FuncionarioMB extends AbstractMB implements Serializable {
 	private Grupo grupos;
 	private boolean ver;
 	private DAOFuncionario dao= new DAOFuncionario();
+	private DAORequisicaoDeSenha daors= new DAORequisicaoDeSenha();
 	public FuncionarioMB() {
 		System.out.println("novo mb de funcionario " + this.toString());
 		
@@ -59,17 +69,33 @@ public class FuncionarioMB extends AbstractMB implements Serializable {
 		this.novo= true;
 		this.editar= false;
 	}
-	public void salvar(){
+	public void salvar() throws NoSuchAlgorithmException, UnsupportedEncodingException{
+		HttpServletRequest request = 
+				(HttpServletRequest)FacesContext
+					.getCurrentInstance()
+						.getExternalContext()
+							.getRequest();
+		SendMail mail= new SendMail();
+		RequisicaoDeSenha requisicao= new RequisicaoDeSenha();
+		requisicao.setEmail(funcionario.getEmail());
+		requisicao.setHash(gerarHash());
+		requisicao.setDataRequisicao(new Date());
+		requisicao.setValido(true);
+		requisicao.setUsuario(funcionario);
 		getNow();
 		funcionario.setDataCadastro(new GregorianCalendar().getTime());
 		dao.open();
 		dao.begin();
 		dao.persist(funcionario);
+		daors.persist(requisicao);
 		dao.commit();
+		mail.enviarEmailEsqueciSenha(funcionario, requisicao, request);
 		displayInfoMessageToUser("Funcionário adicionado com sucesso!");
+		displayInfoMessageToUser("Um email de ativação da conta foi enviado para o email cadastrado!");
 		this.editar= false;
 		this.novo= false;
 		limparFuncionario();
+		
 		
 	}
 	public String editar(){
@@ -165,6 +191,13 @@ public class FuncionarioMB extends AbstractMB implements Serializable {
 	public void resetFuncionario(){
 		this.funcionario= new Funcionario();
 	}
+	public static String gerarHash() throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        long i = (long) (Math.random() * 1000000000000000000l);
+        BigInteger hash = new BigInteger(1, md.digest(String.valueOf(i).getBytes("UTF-8")));
+ 
+        return String.format("%32x", hash);
+    }
 	
 	@Override
 	public String toString() {

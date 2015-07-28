@@ -61,7 +61,7 @@
 				</p:panelGrid>
 			</p:panel>
 			
-			<p:panel id="panelInfo" rendered="#{prestadorPessoaMB.editar eq true or prestadorPessoaMB.novo eq true or prestadorPessoaMB.ver eq true}">
+			<p:panel styleClass="botoes" id="panelInfo" rendered="#{prestadorPessoaMB.editar eq true or prestadorPessoaMB.novo eq true or prestadorPessoaMB.ver eq true}">
 				<p:panelGrid columns="3" id="painelImagemGrid" >
 						<h:outputText value="Bloqueado?" style=" color:red;"/>		
 						<p:selectBooleanButton id="value2" disabled="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.bloqueado}" onLabel="Sim" offLabel="Não" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:260px;">
@@ -187,7 +187,9 @@
 						<p:outputLabel for="emailPrestador" value="Email:" />
 					</p:column>
 					<p:column colspan="3">
-						<p:inputText id="emailPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.email}" required="true" label="Email" style="width:98%" />
+						<p:inputText id="emailPrestador" readonly="#{prestadorPessoaMB.editar eq false and prestadorPessoaMB.novo eq false}" value="#{prestadorPessoaMB.prestador.email}" required="true" label="Email" style="width:98%" >
+							<f:validator validatorId="custom.emailValidator" />
+						</p:inputText>
 					</p:column>
 					<p:column>
 						<p:outputLabel for="cepPrestador"  value="CEP:" style="float:right"/>
@@ -221,7 +223,7 @@
 				</p:row>
 				</p:panelGrid>
 				</p:panel>
-				<p:panel id="panelSelectMenus"  rendered="#{prestadorPessoaMB.editar eq true or prestadorPessoaMB.novo eq true or prestadorPessoaMB.ver eq true}">
+				<p:panel styleClass="botoes"  id="panelSelectMenus"  rendered="#{prestadorPessoaMB.editar eq true or prestadorPessoaMB.novo eq true or prestadorPessoaMB.ver eq true}">
 				
 				<p:panelGrid >
 				<p:row>
@@ -282,7 +284,7 @@
 			</p:panelGrid>
 		
 					</p:panel>			
-					<p:panel rendered="#{prestadorPessoaMB.editar eq true or prestadorPessoaMB.novo eq true or prestadorPessoaMB.ver eq true}" id="telPessoa" toggleable="true" header="Telefones" style="margin-bottom:20px; width:600px;">
+					<p:panel styleClass="botoes"  rendered="#{prestadorPessoaMB.editar eq true or prestadorPessoaMB.novo eq true or prestadorPessoaMB.ver eq true}" id="telPessoa" toggleable="true" header="Telefones" style="margin-bottom:20px; width:600px;">
 						<p:panelGrid columns="2">
 							<p:dataTable  id="telefonesPessoa" var="tel" value="#{prestadorPessoaMB.prestador.telefones}"
 							emptyMessage="Não existem registros" rows="5" paginator="true">
@@ -328,7 +330,7 @@
 	
 			
 			
-			<p:panel rendered="#{prestadorPessoaMB.novo eq false and prestadorPessoaMB.editar eq false and prestadorPessoaMB.ver eq false }">
+			<p:panel styleClass="botoes"  rendered="#{prestadorPessoaMB.novo eq false and prestadorPessoaMB.editar eq false and prestadorPessoaMB.ver eq false }">
 			<p:spacer width="20" height="20px"/>
 			<p:dataTable id="prestadoresDataTable" var="prestador" value="#{prestadorPessoaMB.pessoas}"
 			emptyMessage="Não existem registros" rows="20" paginator="true" >

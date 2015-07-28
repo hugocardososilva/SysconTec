@@ -11,7 +11,9 @@
 		
 		<h:form id="movimentacaoPrestadorForm">
 			<h3>Movimentação de Prestadores de Serviço</h3>
-			<p:panel >
+			<p:focus context="horaEntradaPanelGrid" rendered="#{servicoPrestadorMB.entrou eq true}"></p:focus>
+			<p:focus context="horaSaidaPanelGrid" rendered="#{servicoPrestadorMB.saiu eq true}"></p:focus>
+			<p:panel id="panelSenha" >
 				<p:panelGrid columns="3">
 				<p:outputLabel for="senhaPrestadorServico" value="Senha:"/>
 				
@@ -49,6 +51,9 @@
 				</p:row>
 			</p:panelGrid>	
 			</p:panel>
+			
+			
+			
 			<p:panel id="horaSaidaPanelGrid" rendered="#{servicoPrestadorMB.saiu eq true}">
 			
 			<p:panelGrid   >
@@ -115,17 +120,17 @@
 										
 						</p:column>
 						<p:column>
-							<p:inputText disabled="true" id="nomePrestador" value="#{servicoPrestadorMB.prestador.nome}" label="Nome" size="30" />
+							<p:inputText readonly="true" id="nomePrestador" value="#{servicoPrestadorMB.prestador.nome}" label="Nome" size="30" />
 						</p:column>
 					
 						<p:column>
 							<p:outputLabel for="sobrenomePrestador" value="Sobrenome:" />
 						</p:column>
 						<p:column>
-							<p:inputText disabled="true" id="sobrenomePrestador" value="#{servicoPrestadorMB.prestador.sobrenome}" label="Sobrenome" size="40" />
+							<p:inputText readonly="true" id="sobrenomePrestador" value="#{servicoPrestadorMB.prestador.sobrenome}" label="Sobrenome" size="40" />
 						</p:column>
 						<p:column rowspan="4">
-							<p:graphicImage value="/../sysconImages/#{servicoPrestadorMB.prestador.foto}.jpeg" width="150px" height="180px"/>
+							<p:graphicImage value="/../sysconImages/#{servicoPrestadorMB.prestador.foto}.jpeg" width="200px" height="180px"/>
 						</p:column>
 						
 				</p:row>
@@ -136,7 +141,7 @@
 										
 						</p:column>
 						<p:column colspan="3">
-							<p:inputText disabled="true" id="funcaoPrestador" value="#{servicoPrestadorMB.prestador.tipoServico.tipo}"  />
+							<p:inputText readonly="true" id="funcaoPrestador" value="#{servicoPrestadorMB.prestador.tipoServico.tipo}"  />
 							
 						</p:column>
 					
@@ -149,7 +154,7 @@
 										
 						</p:column>
 						<p:column colspan="3">
-							<p:inputText disabled="true" id="lotePrestador" value="Quadra: #{servicoPrestadorMB.prestador.lote.quadra} Nº: #{servicoPrestadorMB.prestador.lote.numero} " style="width:100%" />
+							<p:inputText readonly="true" id="lotePrestador" value="Quadra: #{servicoPrestadorMB.prestador.lote.quadra} Nº: #{servicoPrestadorMB.prestador.lote.numero} " style="width:100%" />
 						</p:column>
 					</p:row>
 					
@@ -160,7 +165,7 @@
 										
 						</p:column>
 						<p:column>
-							<p:inputText  disabled="true" id="horarioDeTrabalho" value="#{servicoPrestadorMB.prestador.horaEntrada}" style="width:100%" >
+							<p:inputText  readonly="true" id="horarioDeTrabalho" value="#{servicoPrestadorMB.prestador.horaEntrada}" style="width:100%" >
 								<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"></f:convertDateTime>
 							</p:inputText>
 						</p:column>
@@ -169,7 +174,7 @@
 										
 						</p:column>
 							<p:column>
-							<p:inputText disabled="true" id="horarioDeSaida" value="#{servicoPrestadorMB.prestador.horaSaida}" style="width:100%" >
+							<p:inputText readonly="true" id="horarioDeSaida" value="#{servicoPrestadorMB.prestador.horaSaida}" style="width:100%" >
 								<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"></f:convertDateTime>
 							</p:inputText>
 						</p:column>

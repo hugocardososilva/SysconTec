@@ -13,6 +13,26 @@
 	<h:outputStylesheet library="css" name="main.css" />
 	<h:outputStylesheet library="bootstrap/css" name="bootstrap.min.css" />
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script type="text/javascript">
+    /**
+     * Faces Validator
+     */
+    PrimeFaces.validator['custom.emailValidator'] = {
+ 
+        pattern: /\S+@\S+/,
+ 
+        validate: function(element, value) {
+            //use element.data() to access validation metadata, in this case there is none.
+            if(!this.pattern.test(value)) {
+                throw {
+                    summary: 'Email:',
+                    detail: value + ' não é um email válido.'
+                }
+            }
+        }
+    };
+ 
+</script>
 </h:head>
 
 <h:body>

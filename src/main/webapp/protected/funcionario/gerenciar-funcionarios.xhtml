@@ -79,7 +79,11 @@
 				
 				<p:outputLabel for="funcionarioLogin" value="Login:"  />
 				<p:inputText id="funcionarioLogin" size="60" value="#{funcionarioMB.funcionario.login}" required="true" 
-					label="Login" readonly="#{funcionarioMB.editar eq false and funcionarioMB.novo eq false}" />
+					label="Login" readonly="#{funcionarioMB.editar eq false and funcionarioMB.novo eq false}" >
+					<f:validator validatorId="loginUserValidator"/>
+					<f:attribute name="colLogin" value="funcionarioLogin"></f:attribute>
+					<f:attribute name="idLogin" value="#{funcionarioMB.funcionario.id}"></f:attribute>
+				</p:inputText>
 				
 				<p:outputLabel for="funcionarioNome" value="Nome:" />
 				<p:inputText id="funcionarioNome" value="#{funcionarioMB.funcionario.nome}" required="true"
@@ -90,7 +94,7 @@
 					 label="Sobrenome" readonly="#{funcionarioMB.editar eq false and funcionarioMB.novo eq false}" />
 				
 				<p:outputLabel for="funcionarioCPF" value="CPF:" />
-				<p:inputText id="funcionarioCPF" value="#{funcionarioMB.funcionario.cpf}" required="true" label="CPF" 
+				<p:inputMask mask="999.999.999-99" id="funcionarioCPF" value="#{funcionarioMB.funcionario.cpf}" required="true" label="CPF" 
 					readonly="#{funcionarioMB.editar eq false and funcionarioMB.novo eq false}" />
 				
 				<p:outputLabel for="funcionarioDtNascimento" value="Data de nascimento:" />
@@ -99,7 +103,9 @@
 				
 				<p:outputLabel for="funcionarioEmail" value="Email:" />
 				<p:inputText id="funcionarioEmail" value="#{funcionarioMB.funcionario.email}" required="true" 
-					label="Email" readonly="#{funcionarioMB.editar eq false and funcionarioMB.novo eq false}" />
+					label="Email" readonly="#{funcionarioMB.editar eq false and funcionarioMB.novo eq false}" >
+					<f:validator validatorId="custom.emailValidator" />
+				</p:inputText>
 				
 				<p:outputLabel for="funcionarioEcivil" value="Estado Civil:" />
 				<p:inputText id="funcionarioEcivil" value="#{funcionarioMB.funcionario.estadoCivil}" required="true" 
