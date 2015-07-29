@@ -32,6 +32,20 @@ public class DAOServicoResidencia extends DAO<ServicoResidencia> {
 		}
 		
 	}
+	public List<ServicoResidencia> findServicoEmAberto(){
+		try {
+	
+			Query q = manager.createQuery("Select S from ServicoResidencia S where S.concluido = FALSE "  );
+		
+		
+		
+		return q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println(e.toString());
+			return null;
+		}
+		
+	}
 	
 	
 

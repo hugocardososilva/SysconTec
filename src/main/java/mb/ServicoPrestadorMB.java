@@ -60,6 +60,8 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 			this.iniciarServico= false;
 			this.servico = new ServicoResidencia();
 			this.prestador= new Pessoa();
+			this.servicosEmAberto= new ArrayList<ServicoResidencia>();
+			getServicosEmAberto();
 		}
 
 		
@@ -109,6 +111,8 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 						this.saiu= false;
 						//criar um novo servico
 						servico= new ServicoResidencia();
+						//registrando entrada
+						registrarEntrada();
 						
 					
 				}else{
@@ -124,6 +128,7 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 							servico= sr;
 							this.entrou = false;
 							this.saiu= true;
+							registrarSaida();
 						}
 						
 					}
@@ -147,7 +152,7 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 					dao.open();
 					dao.begin();
 					saiu= true;
-					this.iniciarServico= false;
+//					this.iniciarServico= false;
 					resetSenha();
 					senhaEntrada= null;
 					displayInfoMessageToUser("Horario de saida: "+ servico.getDataSaida().toString() + servico.getHoraSaida().toString());
@@ -179,11 +184,11 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 							dao.open();
 							dao.begin();
 								
-							this.entrou=false;
-							this.saiu= false;
+//							this.entrou=false;
+//							this.saiu= false;
 							
 							servico.setConcluido(false);
-							this.iniciarServico= false;
+//							this.iniciarServico= false;
 							servico.setPrestador(prestador);
 							prestador.addServico(servico);
 							daors.persist(servico);
@@ -206,6 +211,9 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 		
 
 		public List<ServicoResidencia> getServicosEmAberto() {
+			dao.open();
+			dao.begin();
+			servicosEmAberto= daors.findServicoEmAberto();
 			return servicosEmAberto;
 		}
 

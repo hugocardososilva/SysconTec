@@ -11,10 +11,14 @@
 		
 		<h:form id="movimentacaoPrestadorForm">
 			<h3>Movimentação de Prestadores de Serviço</h3>
-			<p:focus context="horaEntradaPanelGrid" rendered="#{servicoPrestadorMB.entrou eq true}"></p:focus>
-			<p:focus context="horaSaidaPanelGrid" rendered="#{servicoPrestadorMB.saiu eq true}"></p:focus>
-			<p:panel id="panelSenha" >
+			<p:focus context="panelSenha" ></p:focus>
+			
+			<p:panel id="panelSenha" styleClass="botoes">
+			<div class="clock">
+						<p:clock id="horaIdClock" mode="server" pattern="dd/MM/yyyy HH:mm:ss"></p:clock>
+				</div>
 				<p:panelGrid columns="3">
+				
 				<p:outputLabel for="senhaPrestadorServico" value="Senha:"/>
 				
 				<p:inputMask mask="999999" id="senhaPrestadorServico" value="#{servicoPrestadorMB.senha}">
@@ -25,56 +29,19 @@
 					
 				</p:commandButton>
 				
+				
 				</p:panelGrid>
+				
 			
 			
 			</p:panel>
-			<p:panel id="panelServicoPessoa" rendered="#{servicoPrestadorMB.iniciarServico eq true}">
-			<p:panel id="horaEntradaPanelGrid" rendered="#{servicoPrestadorMB.entrou eq true}">
 			
-			<p:panelGrid   >
-				<p:focus for="btnEntrada"></p:focus>
-				<p:row >
-					<p:column >
-						<p:outputLabel for="horaEntradaIdClock" value="Horário de entrada:" />
-						
-					</p:column>
-					
-					<p:column>
-							<div class="clock">
-						<p:clock id="horaEntradaIdClock" mode="server"></p:clock>
-							</div>
-					</p:column>
-					<p:column>
-						<p:commandButton id="btnEntrada" icon="fa fa-clock-o" styleClass="btn btn-success btn-lg" actionListener="#{servicoPrestadorMB.registrarEntrada}" value="Registrar Entrada" update=":movimentacaoPrestadorForm"></p:commandButton>
-					</p:column>
-				</p:row>
-			</p:panelGrid>	
-			</p:panel>
+			<p:panel id="panelServicoPessoa" rendered="#{servicoPrestadorMB.iniciarServico eq true}" styleClass="botoes">
 			
 			
 			
-			<p:panel id="horaSaidaPanelGrid" rendered="#{servicoPrestadorMB.saiu eq true}">
 			
-			<p:panelGrid   >
-				<p:focus for="btnSaida"></p:focus>
-				<p:row >
-					<p:column >
-						<p:outputLabel for="horaSaidaIdClock" value="Horário de Saída:" />
-						
-					</p:column>
-					
-					<p:column>
-						<div class="clock">
-						<p:clock id="horaSaidaIdClock" mode="server"></p:clock>
-						</div>
-					</p:column>
-					<p:column>
-						<p:commandButton id="btnSaida" icon="fa fa-clock-o" styleClass="btn btn-success btn-lg" action="#{servicoPrestadorMB.registrarSaida}" value="Registrar Saida" update="movimentacaoPrestadorForm"></p:commandButton>
-					</p:column>
-				</p:row>
-			</p:panelGrid>	
-			</p:panel>
+			
 			<p:spacer height="20px"></p:spacer>
 			<p:panelGrid id="resumoEntrdaPanelGrid" rendered="#{servicoPrestadorMB.saiu eq true}"  >
 				<f:facet name="header">
@@ -181,14 +148,7 @@
 						
 					</p:row>
 					
-					<p:row>
-						<p:column>
-							<p:outputLabel for="observacoesServico" value="Observações:"/>
-						</p:column>
-						<p:column colspan="3" >
-							<p:inputTextarea id="observacoesServico" value="#{servicoPrestadorMB.servico.observacoes}" rows="3" cols="95"></p:inputTextarea>
-						</p:column>
-					</p:row>
+				
 					
 				
 			</p:panelGrid>
@@ -199,20 +159,20 @@
 			<p:panel toggleable="true" header="Serviços em aberto" >
 			<p:dataTable id="dataTablePrestadores" value="#{servicoPrestadorMB.servicosEmAberto}" emptyMessage="Nenhum serviço em aberto"
 			rows="10" paginator="true" var="aberto">
-			<p:column headerText="Nome" filterBy="#{aberto.pessoa.nome}">
-				<h:outputText value="#{aberto.pessoa.nome}"/>
+			<p:column headerText="Nome" filterBy="#{aberto.prestador.nome}">
+				<h:outputText value="#{aberto.prestador.nome}"/>
 			</p:column>
 			<p:column headerText="Horário de entrada">
 				<h:outputText value="#{aberto.horaEntrada}">
-					<f:convertDateTime type="time"/>
+					<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-03:00"></f:convertDateTime>
 				</h:outputText>
 			</p:column>
 			<p:column headerText="Lote">
-				<h:outputText value="Quadra: #{aberto.pessoa.lote.quadra} Nº: #{aberto.pessoa.lote.numero}" />
+				<h:outputText value="Quadra: #{aberto.prestador.lote.quadra} Nº: #{aberto.prestador.lote.numero}" />
 			</p:column>
 			<p:column headerText="Previsão de saída">
-				<h:outputText value="#{aberto.pessoa.horaSaida}">
-				<f:convertDateTime type="time"></f:convertDateTime>
+				<h:outputText value="#{aberto.prestador.horaSaida}">
+				<f:convertDateTime type="time" timeZone="GMT-03:00"></f:convertDateTime>
 				</h:outputText>
 			</p:column>
 			

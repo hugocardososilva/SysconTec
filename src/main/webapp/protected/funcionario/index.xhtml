@@ -8,26 +8,27 @@
 		<ui:define name="divMain">
 		<h3>Início</h3>
 		<p:panel toggleable="true" header="Serviços em aberto" >
-			<p:dataTable id="dataTablePrestadores" value="#{servicoPrestadorMB.servicosEmAberto}" emptyMessage="Nenhum serviço em aberto"
+				<p:dataTable id="dataTablePrestadores" value="#{servicoPrestadorMB.servicosEmAberto}" emptyMessage="Nenhum serviço em aberto"
 			rows="10" paginator="true" var="aberto">
-			<p:column headerText="Nome" filterBy="#{aberto.pessoa.nome}">
-				<h:outputText value="#{aberto.pessoa.nome}"/>
+			<p:column headerText="Nome" filterBy="#{aberto.prestador.nome}">
+				<h:outputText value="#{aberto.prestador.nome}"/>
 			</p:column>
 			<p:column headerText="Horário de entrada">
 				<h:outputText value="#{aberto.horaEntrada}">
-					<f:convertDateTime type="time"/>
+					<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-03:00"></f:convertDateTime>
 				</h:outputText>
 			</p:column>
 			<p:column headerText="Lote">
-				<h:outputText value="Quadra: #{aberto.pessoa.lote.quadra} Nº: #{aberto.pessoa.lote.numero}" />
+				<h:outputText value="Quadra: #{aberto.prestador.lote.quadra} Nº: #{aberto.prestador.lote.numero}" />
 			</p:column>
 			<p:column headerText="Previsão de saída">
-				<h:outputText value="#{aberto.pessoa.horaSaida}">
-				<f:convertDateTime type="time"></f:convertDateTime>
+				<h:outputText value="#{aberto.prestador.horaSaida}">
+				<f:convertDateTime type="time" timeZone="GMT-03:00"></f:convertDateTime>
 				</h:outputText>
 			</p:column>
 			
 			</p:dataTable>
+		
 		
 		
 		</p:panel>
