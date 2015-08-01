@@ -72,6 +72,7 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 				dao.open();
 				dao.begin();
 				prestador= daop.findBySenha(senha);
+				dao.close();
 				this.iniciarServico= true;
 					if(prestador != null){
 						if(!prestador.isBloqueado()){
@@ -96,12 +97,24 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 					
 		
 		}
-		public void registrarPrestadorLote(){
+		public void registrarPrestadorLote() throws NullPointerException {
 			//verificando se há algum servico em aberto
 			System.out.println("verificando algum servico em aberto");
 			List<ServicoResidencia> servicos= new ArrayList<ServicoResidencia>();
-			servicos=daors.findServicoEmAbertoByPrestador(prestador);
-		
+			dao.open();
+			dao.begin();
+			try {
+				
+				servicos=daors.findServicoEmAbertoByPrestador(prestador);
+				
+				System.out.println("serviços em aberto by prestador : " +servicos.toString());
+				
+			} catch (NullPointerException e) {
+				// TODO: handle exception
+			}
+			
+			dao.close();
+			
 //				se nao existir nenhum servico aberto
 				if(servicos.isEmpty()){
 					//entrada
@@ -191,6 +204,7 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 //							this.iniciarServico= false;
 							servico.setPrestador(prestador);
 							prestador.addServico(servico);
+//							daop.merge(prestador);
 							daors.persist(servico);
 							dao.commit();
 							
@@ -214,6 +228,7 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 			dao.open();
 			dao.begin();
 			servicosEmAberto= daors.findServicoEmAberto();
+			dao.close();
 			return servicosEmAberto;
 		}
 

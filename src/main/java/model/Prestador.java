@@ -37,12 +37,12 @@ public class Prestador {
 	private List<OcorrenciaPrestadorServico> ocorrencias;
 //	private List<Servico> servicos;
 	
-	@OneToMany(cascade={CascadeType.PERSIST,CascadeType.MERGE}, mappedBy="prestador")
+	@OneToMany(cascade={CascadeType.MERGE}, mappedBy="prestador")
 	private List<Servico> servicos;
 	
 	public Prestador() {
 //		this.tipos= new ArrayList<TipoServico>();
-		this.servicos= new ArrayList<Servico>();
+//		this.servicos= new ArrayList<Servico>();
 		this.telefones= new ArrayList<Telefone>();
 		this.ocorrencias= new ArrayList<OcorrenciaPrestadorServico>();
 //		this.servicos= new ArrayList<Servico>();

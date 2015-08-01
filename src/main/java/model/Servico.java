@@ -29,7 +29,7 @@ public class Servico {
 	private Date horaSaida;
 	private String observacoes;
 	private boolean concluido;
-	@ManyToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE})
+	@ManyToOne(cascade={CascadeType.MERGE})
 	private Prestador prestador;
 	
 //	private Prestador prestador;

@@ -14,7 +14,7 @@ import model.ServicoResidencia;
 public class DAOServicoResidencia extends DAO<ServicoResidencia> {
 	DateFormat date= new SimpleDateFormat("yyyy-MM-dd");
 	
-	public List<ServicoResidencia> findServicoEmAbertoByPrestador(Prestador p){
+	public List<ServicoResidencia> findServicoEmAbertoByPrestador(Prestador p) throws NullPointerException{
 		try {
 //		Query q = manager.createQuery("Select S from ServicoResidencia S, IN(S.prestador) P  where  P.id = :id and S.concluido = FALSE");
 			Query q = manager.createQuery("Select S from ServicoResidencia S where S.concluido = FALSE and S.prestador.id = :id"  );
