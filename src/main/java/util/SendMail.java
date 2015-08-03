@@ -68,7 +68,50 @@ public class SendMail {
 		}
 		
 	}
-
+	
+	public void enviarEmailValidarCadastro(Usuario usuario, RequisicaoDeSenha requisicao ,HttpServletRequest req){
+		daoc.open();
+		daoc.begin();
+		
+		
+		
+		try {
+			System.out.println("enviando email!");
+			email.setFrom(condominio.getEmailDeEnvio());
+			email.setDebug(true);
+			email.setSubject("Redefinição de senha - "+ condominio.getNome());
+			email.addTo(requisicao.getEmail());
+			
+			StringBuffer link= new StringBuffer();
+			link.append(req.getScheme());
+			link.append("://");
+			link.append(req.getServerName());
+			link.append(":");
+			link.append(req.getServerPort());
+			
+			link.append(req.getContextPath());
+			link.append("/");
+			link.append("public/validar-cadastro.xhtml?");
+			link.append("v="+requisicao.getHash());
+			
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append("<h4>Bem vindo! - "+ condominio.getNome());
+			sb.append("<p> Olá, "+usuario.getNome()+"</p>");
+//			sb.append("<p> Para alterar sua senha, clique no hash: "+requisicao.getHash() +"</p>");
+			sb.append("<p> Para concluir o cadastro, clique no link: </p>");
+			sb.append("<a href=\""+link.toString()+"\">"+link.toString()+"</a>");
+			
+			email.setHtmlMsg(sb.toString());
+			email.addTo(requisicao.getEmail(), usuario.getNome());
+			email.send();
+			
+			
+		} catch (EmailException e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 	public DAOCondominio getDaoc() {
 		return daoc;

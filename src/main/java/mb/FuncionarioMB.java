@@ -89,7 +89,7 @@ public class FuncionarioMB extends AbstractMB implements Serializable {
 		dao.persist(funcionario);
 		daors.persist(requisicao);
 		dao.commit();
-		mail.enviarEmailEsqueciSenha(funcionario, requisicao, request);
+		mail.enviarEmailValidarCadastro(funcionario, requisicao, request);
 		displayInfoMessageToUser("Funcionário adicionado com sucesso!");
 		displayInfoMessageToUser("Um email de ativação da conta foi enviado para o email cadastrado!");
 		this.editar= false;
