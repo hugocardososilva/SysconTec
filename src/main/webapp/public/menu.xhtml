@@ -1,0 +1,42 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:body>
+	<h:form>
+		
+	
+	<p:megaMenu orientation="horizontal"  >
+	
+	
+	
+	
+			<p:menuitem value="Início" outcome="/index.xhtml" ajax="false" icon="fa fa-home"/>
+			<p:menuitem value="Contato" outcome="/protected/funcionario/index.xhtml" ajax="false" icon="fa fa-send"/>
+			
+			<p:submenu label="Login" style="float:right;">
+				<p:column>
+				
+			
+	         
+					<p:inputText type="text" value="#{loginMB.login}"  styleClass="form-control" id="Login" required="true" placeholder="Login"/>
+	
+					<p:password value="#{loginMB.senha}" styleClass="form-control" id="senha" required="true" autocomplete="off" style="clear:both;" placeholder="Senha" >
+		
+					</p:password>
+				
+					<p:commandButton type="button" action="#{loginMB.login}" value="Log in" ajax="false" styleClass="btn btn-primary botoes" icon="fa fa-user" />
+				
+				</p:column>
+				</p:submenu>
+       		
+		
+	</p:megaMenu>
+	
+			
+	</h:form>
+</h:body>
+</html>
