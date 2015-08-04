@@ -196,7 +196,7 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 								System.out.println("hora de entrada prevista");
 							dao.open();
 							dao.begin();
-								
+							prestador.setUltimoAcesso(new Date(System.currentTimeMillis()));	
 //							this.entrou=false;
 //							this.saiu= false;
 							
@@ -204,7 +204,7 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 //							this.iniciarServico= false;
 							servico.setPrestador(prestador);
 							prestador.addServico(servico);
-//							daop.merge(prestador);
+							daop.merge(prestador);
 							daors.persist(servico);
 							dao.commit();
 							
