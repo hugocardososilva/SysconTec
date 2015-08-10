@@ -24,7 +24,7 @@ public class Ocorrencia {
 	@Temporal(TemporalType.DATE)
 	private Date horaOcorrencia;
 	private String descricao;
-	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+	@ManyToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE},fetch=FetchType.LAZY)
 	private Usuario usuario;
 	
 	

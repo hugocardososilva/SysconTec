@@ -7,8 +7,13 @@ import javax.persistence.ManyToOne;
 @Entity
 public class OcorrenciaPrestadorServico extends Ocorrencia {
 	
-	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+	@ManyToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE},fetch=FetchType.LAZY)
 	private Prestador prestador;
+	@ManyToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE},fetch=FetchType.LAZY)
+	private ServicoResidencia servico;
+	
+	private OcorrenciaPrestadorEnum tipo;
+	
 	
 	public OcorrenciaPrestadorServico() {
 		super();
@@ -21,6 +26,22 @@ public class OcorrenciaPrestadorServico extends Ocorrencia {
 
 	public void setPrestador(Prestador prestador) {
 		this.prestador = prestador;
+	}
+
+	public ServicoResidencia getServico() {
+		return servico;
+	}
+
+	public void setServico(ServicoResidencia servico) {
+		this.servico = servico;
+	}
+
+	public OcorrenciaPrestadorEnum getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(OcorrenciaPrestadorEnum tipo) {
+		this.tipo = tipo;
 	}
 	
 	

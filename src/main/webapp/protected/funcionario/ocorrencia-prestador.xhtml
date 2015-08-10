@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+
+	<ui:composition template="/template/template.xhtml">
+	<ui:define name="divMain">
+		
+		<h:form id="ocorrenciaPrestador">
+			<h3>Gerenciar Funcionários</h3>
+			<p:confirmDialog global="true">
+				<p:commandButton value="Sim" type="button"  icon="fa fa-check" styleClass="ui-confirmdialog-yes" />
+				<p:commandButton value="Não" type="button" icon="fa fa-close" styleClass="ui-confirmdialog-no"/>
+			
+			
+			</p:confirmDialog>
+			
+			<p:panel>
+			
+				<p:panelGrid columns="3">
+				
+				<p:outputLabel for="senhaPrestadorServico" value="Senha:"/>
+				
+				<p:inputMask mask="999999" id="senhaPrestadorServico" value="#{servicoPrestadorMB.senha}">
+					<f:validateRequired></f:validateRequired>				
+				</p:inputMask>
+				
+				
+				
+				</p:panelGrid>
+			
+			</p:panel>
+				<p:panelGrid  columns="2" >
+						<p:outputLabel for="motivo" value="Motivo:"  />
+							<p:selectOneRadio required="true" id="motivo" value="#{ocorrenciaPrestadorMB.ocorrencia.tipo}"  layout="grid" columns="1">
+          				 	 <f:selectItems value="#{ocorrenciaPrestadorMB.ocorrenciaEnum}" var="motivo" itemLabel="#{motivo.label}" itemValue="#{motivo.label}"/>
+  				        </p:selectOneRadio>
+					
+				</p:panelGrid>
+				
+			<p:commandButton icon="fa fa-search" action="#{servicoPrestadorMB.iniciarOcorrencia}" styleClass="btn btn-primary" update=":ocorrenciaPrestador">
+					
+					
+				</p:commandButton>
+			
+			<p:panel id="panelServicoPessoa" rendered="#{ocorrenciaPrestadorMB.iniciarOcorrencia eq true}" styleClass="botoes">
+			
+			<p:panelGrid>
+			
+			
+				<p:row>	
+				
+					<p:column>
+						<p:outputLabel for="nomePrestador" value="Nome:" />   
+										
+						</p:column>
+						<p:column>
+							<p:inputText readonly="true" id="nomePrestador" value="#{ocorrenciaPrestadorMB.prestador.nome}" label="Nome" size="30" />
+						</p:column>
+					
+						<p:column>
+							<p:outputLabel for="sobrenomePrestador" value="Sobrenome:" />
+						</p:column>
+						<p:column>
+							<p:inputText readonly="true" id="sobrenomePrestador" value="#{ocorrenciaPrestadorMB.prestador.sobrenome}" label="Sobrenome" size="40" />
+						</p:column>
+						<p:column rowspan="4">
+							<p:graphicImage value="/../sysconImages/#{ocorrenciaPrestadorMB.prestador.foto}.jpeg" width="200px" height="180px"/>
+						</p:column>
+						
+				</p:row>
+				
+				<p:row>	
+					<p:column>
+						<p:outputLabel for="funcaoPrestador" value="Função:" />   
+										
+						</p:column>
+						<p:column colspan="3">
+							<p:inputText readonly="true" id="funcaoPrestador" value="#{ocorrenciaPrestadorMB.prestador.tipoServico.tipo}"  />
+							
+						</p:column>
+					
+						
+				</p:row>
+				<p:row>	
+				
+					<p:column>
+						<p:outputLabel for="lotePrestador" value="Lote:" />   
+										
+						</p:column>
+						<p:column colspan="3">
+							<p:inputText readonly="true" id="lotePrestador" value="Quadra: #{ocorrenciaPrestadorMB.prestador.lote.quadra} Nº: #{ocorrenciaPrestadorMB.prestador.lote.numero} " style="width:100%" />
+						</p:column>
+					</p:row>
+					
+					<p:row>	
+				
+					<p:column>
+						<p:outputLabel for="horarioDeTrabalho" value="Entrada:" />   
+										
+						</p:column>
+						<p:column>
+							<p:inputText  readonly="true" id="horarioDeTrabalho" value="#{ocorrenciaPrestadorMB.prestador.horaEntrada}" style="width:100%" >
+								<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"></f:convertDateTime>
+							</p:inputText>
+						</p:column>
+						<p:column>
+						<p:outputLabel for="horarioDeSaida" value="Saída:" />   
+										
+						</p:column>
+							<p:column>
+							<p:inputText readonly="true" id="horarioDeSaida" value="#{ocorrenciaPrestadorMBprestador.horaSaida}" style="width:100%" >
+								<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"></f:convertDateTime>
+							</p:inputText>
+						</p:column>
+						
+					</p:row>
+					
+				
+					
+				
+			</p:panelGrid>
+			</p:panel>
+			
+			
+			</h:form>
+	
+		
+		
+		</ui:define>
+		<ui:define name="navbar">
+		<ui:include src="/protected/funcionario/menu.xhtml"/>
+		
+		</ui:define>
+	</ui:composition>
+	
+</h:body>
+</html>
