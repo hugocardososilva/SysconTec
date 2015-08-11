@@ -7,7 +7,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class OcorrenciaPrestadorServico extends Ocorrencia {
 	
-	@ManyToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE},fetch=FetchType.LAZY)
+	@ManyToOne(cascade={CascadeType.MERGE},fetch=FetchType.LAZY)
 	private Prestador prestador;
 	@ManyToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE},fetch=FetchType.LAZY)
 	private ServicoResidencia servico;

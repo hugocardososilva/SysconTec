@@ -10,7 +10,7 @@
 	<ui:define name="divMain">
 		
 		<h:form id="ocorrenciaPrestador">
-			<h3>Gerenciar Funcionários</h3>
+			<h3>Ocorrência de Prestadores</h3>
 			<p:confirmDialog global="true">
 				<p:commandButton value="Sim" type="button"  icon="fa fa-check" styleClass="ui-confirmdialog-yes" />
 				<p:commandButton value="Não" type="button" icon="fa fa-close" styleClass="ui-confirmdialog-no"/>
@@ -20,31 +20,128 @@
 			
 			<p:panel>
 			
-				<p:panelGrid columns="3">
+				<p:panelGrid columns="2">
 				
 				<p:outputLabel for="senhaPrestadorServico" value="Senha:"/>
 				
-				<p:inputMask mask="999999" id="senhaPrestadorServico" value="#{servicoPrestadorMB.senha}">
+				<p:inputMask mask="999999" id="senhaPrestadorServico" value="#{ocorrenciaPrestadorMB.senha}">
 					<f:validateRequired></f:validateRequired>				
 				</p:inputMask>
 				
 				
+			
+						<p:outputLabel for="motivo" value="Motivo:"  />
+							<p:selectOneRadio required="true" id="motivo" value="#{ocorrenciaPrestadorMB.ocorrencia.tipo}"  layout="grid" columns="1">
+          				 	 <f:selectItems value="#{ocorrenciaPrestadorMB.ocorrenciaEnum}" var="motivo" itemLabel="#{motivo.label}" itemValue="#{motivo}"/>
+          				 	 
+  				        </p:selectOneRadio>
+  				        <p:commandButton icon="fa fa-search" action="#{ocorrenciaPrestadorMB.iniciarOcorrencia}" styleClass="btn btn-primary" update=":ocorrenciaPrestador">
+							</p:commandButton>
+				</p:panelGrid>
 				
+			</p:panel>
+					
+					
+			
+				
+				
+			<p:panel rendered="#{ocorrenciaPrestadorMB.motivo1 eq true}">
+				<p:panelGrid columns="2">
+				<h:outputText value="Horário de Entrada: "></h:outputText>
+					
+						<p:clock id="horaIdClockEntrada" mode="server" pattern="dd/MM/yyyy HH:mm:ss"></p:clock>
+				
+				<p:outputLabel for="descricaoMotivo1" value="Motivo da chegada mais cedo"/>
+				<p:inputTextarea id="descricaoMotivo1" value="#{ocorrenciaPrestadorMB.ocorrencia.descricao}"/>
+				<p:commandButton icon="fa fa-plus" styleClass="btn btn-success btn-lg" value="Registrar" 
+					update=":ocorrenciaPrestador" action="#{ocorrenciaPrestadorMB.registrarMotivo1}"  ajax="false" />
 				</p:panelGrid>
 			
 			</p:panel>
-				<p:panelGrid  columns="2" >
-						<p:outputLabel for="motivo" value="Motivo:"  />
-							<p:selectOneRadio required="true" id="motivo" value="#{ocorrenciaPrestadorMB.ocorrencia.tipo}"  layout="grid" columns="1">
-          				 	 <f:selectItems value="#{ocorrenciaPrestadorMB.ocorrenciaEnum}" var="motivo" itemLabel="#{motivo.label}" itemValue="#{motivo.label}"/>
-  				        </p:selectOneRadio>
-					
-				</p:panelGrid>
+			
+				<p:panel rendered="#{ocorrenciaPrestadorMB.motivo2 eq true}">
+					<p:panelGrid columns="2">
+						<h:outputText value="Horário de Saída: "></h:outputText>
+							
+								<p:clock id="horaIdClockSaida" mode="server" pattern="dd/MM/yyyy HH:mm:ss"></p:clock>
+						
+						<p:outputLabel for="descricaoMotivo2" value="Motivo da saída mais cedo"/>
+						<p:inputTextarea id="descricaoMotivo2" value="#{ocorrenciaPrestadorMB.ocorrencia.descricao}"/>
+						<p:commandButton icon="fa fa-plus" styleClass="btn btn-success btn-lg" value="Registrar" 
+							update=":ocorrenciaPrestador" action="#{ocorrenciaPrestadorMB.registrarMotivo2}"  ajax="false" />
+					</p:panelGrid>
+			
+				</p:panel>
 				
-			<p:commandButton icon="fa fa-search" action="#{servicoPrestadorMB.iniciarOcorrencia}" styleClass="btn btn-primary" update=":ocorrenciaPrestador">
+				<p:panel rendered="#{ocorrenciaPrestadorMB.motivo3 eq true}">
+				<p:panelGrid columns="2">
+				<h:outputText value="Horário de Entrada: "></h:outputText>
 					
+						<p:clock id="horaIdClockEntradaAtrasado" mode="server" pattern="dd/MM/yyyy HH:mm:ss"></p:clock>
+				
+				<p:outputLabel for="descricaoMotivo3" value="Motivo da chegada atrasado"/>
+				<p:inputTextarea id="descricaoMotivo3" value="#{ocorrenciaPrestadorMB.ocorrencia.descricao}"/>
+				<p:commandButton icon="fa fa-plus" styleClass="btn btn-success btn-lg" value="Registrar" 
+					update=":ocorrenciaPrestador" action="#{ocorrenciaPrestadorMB.registrarMotivo3}"  ajax="false" />
+				</p:panelGrid>
+			
+			</p:panel>
+			<p:panel rendered="#{ocorrenciaPrestadorMB.motivo4 eq true}">
+					<p:panelGrid columns="2">
+						<h:outputText value="Horário de Saída: "></h:outputText>
+							
+								<p:clock id="horaIdClockSaidaAtrasado" mode="server" pattern="dd/MM/yyyy HH:mm:ss"></p:clock>
+						
+						<p:outputLabel for="descricaoMotivo4" value="Motivo da saída atrasado."/>
+						<p:inputTextarea id="descricaoMotivo4" value="#{ocorrenciaPrestadorMB.ocorrencia.descricao}"/>
+						<p:commandButton icon="fa fa-plus" styleClass="btn btn-success btn-lg" value="Registrar" 
+							update=":ocorrenciaPrestador" action="#{ocorrenciaPrestadorMB.registrarMotivo2}"  ajax="false" />
+					</p:panelGrid>
+			
+				</p:panel>
+				
+				<p:panel rendered="#{ocorrenciaPrestadorMB.motivo5 eq true}">
+				<p:panelGrid columns="2">
+				<h:outputText value="Horário aproximado da entrada: "></h:outputText>
 					
-				</p:commandButton>
+					<p:calendar id="hentradaPrestador" required="true"  pattern="HH:mm" timeOnly="true"  value="#{ocorrenciaPrestadorMB.servico.horaEntrada}" label="Horário de Entrada"  >
+									
+						</p:calendar>
+				
+				<h:outputText value="Data do serviço: "></h:outputText>
+					
+					<p:calendar id="dataEntradaPrestador" required="true" pattern="dd/MM/yyyy"  value="#{ocorrenciaPrestadorMB.servico.dataEntrada}" label="Data da Entrada"  >
+									
+						</p:calendar>
+				<p:outputLabel for="descricaoMotivo5" value="Motivo:"/>
+				<p:inputTextarea id="descricaoMotivo5" value="#{ocorrenciaPrestadorMB.ocorrencia.descricao}"/>
+				<p:commandButton icon="fa fa-plus" styleClass="btn btn-success btn-lg" value="Registrar" 
+					update=":ocorrenciaPrestador" action="#{ocorrenciaPrestadorMB.registrarMotivo3}"  ajax="false" />
+				</p:panelGrid>
+			
+			</p:panel>
+			
+				<p:panel rendered="#{ocorrenciaPrestadorMB.motivo6 eq true}">
+				<p:panelGrid columns="2">
+				<h:outputText value="Horário aproximado da saída: "></h:outputText>
+					
+					<p:calendar id="hsaidaPrestador" required="true"  pattern="HH:mm" timeOnly="true"  value="#{ocorrenciaPrestadorMB.servico.horaSaida}" label="Horário de Saída"  >
+									
+						</p:calendar>
+				
+				<h:outputText value="Data do serviço: "></h:outputText>
+					
+					<p:calendar id="dataSaidaPrestador" required="true" pattern="dd/MM/yyyy"  value="#{ocorrenciaPrestadorMB.servico.dataSaida}" label="Data da Saída"  >
+									
+						</p:calendar>
+				<p:outputLabel for="descricaoMotivo6" value="Motivo:"/>
+				<p:inputTextarea id="descricaoMotivo6" value="#{ocorrenciaPrestadorMB.ocorrencia.descricao}"/>
+				<p:commandButton icon="fa fa-plus" styleClass="btn btn-success btn-lg" value="Registrar" 
+					update=":ocorrenciaPrestador" action="#{ocorrenciaPrestadorMB.registrarMotivo3}"  ajax="false" />
+				</p:panelGrid>
+			
+			</p:panel>
+				
 			
 			<p:panel id="panelServicoPessoa" rendered="#{ocorrenciaPrestadorMB.iniciarOcorrencia eq true}" styleClass="botoes">
 			
@@ -112,7 +209,7 @@
 										
 						</p:column>
 							<p:column>
-							<p:inputText readonly="true" id="horarioDeSaida" value="#{ocorrenciaPrestadorMBprestador.horaSaida}" style="width:100%" >
+							<p:inputText readonly="true" id="horarioDeSaida" value="#{ocorrenciaPrestadorMB.prestador.horaSaida}" style="width:100%" >
 								<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"></f:convertDateTime>
 							</p:inputText>
 						</p:column>
@@ -124,6 +221,36 @@
 				
 			</p:panelGrid>
 			</p:panel>
+			<p:panel toggleable="true" header="Serviços em aberto" >
+				<p:dataTable id="dataTablePrestadores" value="#{servicoPrestadorMB.servicosEmAberto}" emptyMessage="Nenhum serviço em aberto"
+			rows="10" paginator="true" var="aberto">
+			<p:column headerText="Nome" filterBy="#{aberto.prestador.nome}">
+				<h:outputText value="#{aberto.prestador.nome}"/>
+			</p:column>
+			<p:column headerText="Data de entrada">
+				<h:outputText value="#{aberto.dataEntrada}">
+					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"></f:convertDateTime>
+				</h:outputText>
+			</p:column>
+			<p:column headerText="Horário de entrada">
+				<h:outputText value="#{aberto.horaEntrada}">
+					<f:convertDateTime pattern="HH:mm:ss" timeZone="GMT-03:00"></f:convertDateTime>
+				</h:outputText>
+			</p:column>
+			<p:column headerText="Lote">
+				<h:outputText value="Quadra: #{aberto.prestador.lote.quadra} Nº: #{aberto.prestador.lote.numero}" />
+			</p:column>
+			<p:column headerText="Previsão de saída">
+				<h:outputText value="#{aberto.prestador.horaSaida}">
+				<f:convertDateTime type="time" timeZone="GMT-03:00"></f:convertDateTime>
+				</h:outputText>
+			</p:column>
+			
+			</p:dataTable>
+		
+		
+		
+		</p:panel>
 			
 			
 			</h:form>

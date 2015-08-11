@@ -187,10 +187,7 @@ public class ServicoPrestadorMB extends AbstractMB implements Serializable {
 			
 			System.out.println("horario de entrada permitida para o prestador: "+horarioEntradaPrestador.getMinuteOfDay());
 			System.out.println("horario de entrada atual : "+ horarioEntradaServico.getMinuteOfDay());
-			
-			DateTime diasSemUso = new DateTime(prestador.getUltimoAcesso());
-			
-//				if(diasSemUso.)
+		
 			
 						if(horarioEntradaPrestador.getMinuteOfDay() > horarioEntradaServico.getMinuteOfDay()-15 && horarioEntradaPrestador.getMinuteOfDay() < horarioEntradaServico.getMinuteOfDay()+15){
 								System.out.println("hora de entrada prevista");

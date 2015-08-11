@@ -13,9 +13,14 @@
 			<p:column headerText="Nome" filterBy="#{aberto.prestador.nome}">
 				<h:outputText value="#{aberto.prestador.nome}"/>
 			</p:column>
+			<p:column headerText="Data de entrada">
+				<h:outputText value="#{aberto.dataEntrada}">
+					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"></f:convertDateTime>
+				</h:outputText>
+			</p:column>
 			<p:column headerText="Horário de entrada">
 				<h:outputText value="#{aberto.horaEntrada}">
-					<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-03:00"></f:convertDateTime>
+					<f:convertDateTime pattern="HH:mm:ss" timeZone="GMT-03:00"></f:convertDateTime>
 				</h:outputText>
 			</p:column>
 			<p:column headerText="Lote">

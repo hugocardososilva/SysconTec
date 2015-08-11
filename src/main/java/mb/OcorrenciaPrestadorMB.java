@@ -1,10 +1,20 @@
 package mb;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+
+
+
 import dao.DAO;
+import dao.DAOOcorrenciaPrestador;
 import dao.DAOPrestadorPessoa;
 import dao.DAOServicoResidencia;
 import model.OcorrenciaPrestadorEnum;
@@ -15,7 +25,7 @@ import model.ServicoResidencia;
 
 @ManagedBean
 @ViewScoped
-public class OcorrenciaPrestadorMB extends AbstractMB{
+public class OcorrenciaPrestadorMB extends AbstractMB implements Serializable{
 	
 	private OcorrenciaPrestadorServico ocorrencia;
 	private ServicoResidencia servico;
@@ -25,7 +35,8 @@ public class OcorrenciaPrestadorMB extends AbstractMB{
 	private DAOPrestadorPessoa daop= new DAOPrestadorPessoa();
 	private DAOServicoResidencia daors= new DAOServicoResidencia();
 	private DAO dao = new DAO();
-	
+	private DAOOcorrenciaPrestador daoo= new DAOOcorrenciaPrestador();
+	private List<ServicoResidencia> servicosAbertos= new ArrayList<ServicoResidencia>();
 	
 	private boolean iniciarOcorrencia;
 	private boolean motivo1;
@@ -50,6 +61,8 @@ public class OcorrenciaPrestadorMB extends AbstractMB{
 		motivo4= false;
 		motivo5= false;
 		motivo6= false;
+		ocorrencia= new OcorrenciaPrestadorServico();
+		servico= new ServicoResidencia();
 		
 	}
 	public void iniciarOcorrencia(){
@@ -61,9 +74,9 @@ public class OcorrenciaPrestadorMB extends AbstractMB{
 			if(prestador != null){
 				if(!prestador.isBloqueado()){
 				System.out.println("prestador:  "+ prestador.toString());
+				System.out.println(ocorrencia.getTipo());
 				
-				
-				
+				selecionarMotivo();
 				
 				
 				}else{
@@ -78,10 +91,225 @@ public class OcorrenciaPrestadorMB extends AbstractMB{
 		
 	}
 	
+	public void selecionarMotivo(){
+		if(ocorrencia.getTipo()== OcorrenciaPrestadorEnum.CHEGAR_CEDO_1){
+			motivo1= true;
+			motivo2= false;
+			motivo3= false;
+			motivo4= false;
+			motivo5= false;
+			motivo6= false;
+			servico= new ServicoResidencia();
+			ocorrencia.setDataOcorrencia(new Date(System.currentTimeMillis()));
+			ocorrencia.setHoraOcorrencia(new Date(System.currentTimeMillis()));
+			
+			
+		}else if(ocorrencia.getTipo() == OcorrenciaPrestadorEnum.SAIR_CEDO_2){
+			motivo1= false;
+			motivo2= true;
+			motivo3= false;
+			motivo4= false;
+			motivo5= false;
+			motivo6= false;
+			ocorrencia.setDataOcorrencia(new Date(System.currentTimeMillis()));
+			ocorrencia.setHoraOcorrencia(new Date(System.currentTimeMillis()));
+			
+			
+		}else if(ocorrencia.getTipo()== OcorrenciaPrestadorEnum.CHEGAR_ATRASADO_3){
+			motivo1= false;
+			motivo2= false;
+			motivo3= true;
+			motivo4= false;
+			motivo5= false;
+			motivo6= false;
+			ocorrencia.setDataOcorrencia(new Date(System.currentTimeMillis()));
+			ocorrencia.setHoraOcorrencia(new Date(System.currentTimeMillis()));
+			
+			
+			
+		}else if (ocorrencia.getTipo() == OcorrenciaPrestadorEnum.SAIR_ATRASADO_4){
+			motivo1= false;
+			motivo2= false;
+			motivo3= false;
+			motivo4= true;
+			motivo5= false;
+			motivo6= false;
+			ocorrencia.setDataOcorrencia(new Date(System.currentTimeMillis()));
+			ocorrencia.setHoraOcorrencia(new Date(System.currentTimeMillis()));
+			
+		
+		}else if(ocorrencia.getTipo() == OcorrenciaPrestadorEnum.ESQUECER_PONTO_ENTRADA_5){
+			motivo1= false;
+			motivo2= false;
+			motivo3= false;
+			motivo4= false;
+			motivo5= true;
+			motivo6= false;
+			ocorrencia.setDataOcorrencia(new Date(System.currentTimeMillis()));
+			ocorrencia.setHoraOcorrencia(new Date(System.currentTimeMillis()));
+			
+			
+		}else if(ocorrencia.getTipo() == OcorrenciaPrestadorEnum.ESQUECER_PONTO_SAIDA_6){
+			motivo1= false;
+			motivo2= false;
+			motivo3= false;
+			motivo4= false;
+			motivo5= false;
+			motivo6= true;
+			ocorrencia.setDataOcorrencia(new Date(System.currentTimeMillis()));
+			ocorrencia.setHoraOcorrencia(new Date(System.currentTimeMillis()));
+			
+			
+		}
+	}
+	
+	public void registrarMotivo1(){
+		
+		System.out.println("registrando chegada do prestador mais cedo.");
+		dao.open();
+		dao.begin();
+		
+			servicosAbertos= daors.findServicoEmAbertoByPrestador(prestador);
+			
+				if(!servicosAbertos.isEmpty()){
+					displayErrorMessageToUser("Já existe serviço(s) em aberto, por favor, finalize outro(s) serviços"
+							+ " antes de iniciar outro.");
+				}else{
+		
+						servico.setDataEntrada(new Date(System.currentTimeMillis()));
+						servico.setHoraEntrada(new Date(System.currentTimeMillis()));
+						servico.setPrestador(prestador);
+						servico.setConcluido(false);
+						prestador.setUltimoAcesso(new Date(System.currentTimeMillis()));
+						prestador.addServico(servico);
+						ocorrencia.setPrestador(prestador);
+						ocorrencia.setServico(servico);
+						prestador.addOcorrencia(ocorrencia);
+					daop.merge(prestador);
+					daoo.persist(ocorrencia);
+					daors.persist(servico);
+					dao.commit();
+					displayInfoMessageToUser("Ocorrência registrada com sucesso!");
+					reset();
+				}
+		
+	}
+	public void registrarMotivo2(){
+		System.out.println("registrando saída do prestador mais cedo.");
+			dao.open();
+			dao.begin();
+		
+			servicosAbertos= daors.findServicoEmAbertoByPrestador(prestador);
+				if(servicosAbertos.isEmpty()){
+					displayErrorMessageToUser("Não existe nenhum serviço em aberto, por favor, registre a entrada "
+							+ "antes de finalizar um serviço.");
+				}else{
+					Calendar datahj= Calendar.getInstance();
+					for(ServicoResidencia sr: servicosAbertos){
+						Calendar dataEntrada= Calendar.getInstance();
+						dataEntrada.setTime(sr.getDataEntrada());
+						if(dataEntrada.DATE== datahj.DATE ){
+							servico= sr;
+						}
+					}
+					
+					servico.setDataSaida(new Date(System.currentTimeMillis()));
+					servico.setHoraSaida(new Date(System.currentTimeMillis()));
+					servico.setConcluido(true);
+					ocorrencia.setServico(servico);
+					ocorrencia.setPrestador(prestador);
+					prestador.addOcorrencia(ocorrencia);
+					daoo.persist(ocorrencia);
+					daors.merge(servico);
+					dao.commit();
+					displayInfoMessageToUser("Ocorrência registrada com sucesso! ");
+					reset();
+				}
+	}
+	public void registrarMotivo3(){
+		System.out.println("registrando chegada do prestador atrasado.");
+		dao.open();
+		dao.begin();
+		
+			servicosAbertos= daors.findServicoEmAbertoByPrestador(prestador);
+			
+				if(!servicosAbertos.isEmpty()){
+					displayErrorMessageToUser("Já existe serviço(s) em aberto, por favor, finalize outro(s) serviços"
+							+ " antes de iniciar outro.");
+				}else{
+		
+						servico.setDataEntrada(new Date(System.currentTimeMillis()));
+						servico.setHoraEntrada(new Date(System.currentTimeMillis()));
+						servico.setPrestador(prestador);
+						servico.setConcluido(false);
+						prestador.setUltimoAcesso(new Date(System.currentTimeMillis()));
+						prestador.addServico(servico);
+						ocorrencia.setPrestador(prestador);
+						ocorrencia.setServico(servico);
+						prestador.addOcorrencia(ocorrencia);
+					daop.merge(prestador);
+					daoo.persist(ocorrencia);
+					daors.persist(servico);
+					dao.commit();
+					displayInfoMessageToUser("Ocorrência registrada com sucesso!");
+					reset();
+				}
+		
+	}
+	public void registrarMotivo4(){
+		System.out.println("registrando saída do prestador mais tarde.");
+		dao.open();
+		dao.begin();
+	
+		servicosAbertos= daors.findServicoEmAbertoByPrestador(prestador);
+			if(servicosAbertos.isEmpty()){
+				displayErrorMessageToUser("Não existe nenhum serviço em aberto, por favor, registre a entrada "
+						+ "antes de finalizar um serviço.");
+			}else{
+				Calendar datahj= Calendar.getInstance();
+				for(ServicoResidencia sr: servicosAbertos){
+					Calendar dataEntrada= Calendar.getInstance();
+					dataEntrada.setTime(sr.getDataEntrada());
+					if(dataEntrada.DATE== datahj.DATE ){
+						servico= sr;
+					}
+				}
+				
+				servico.setDataSaida(new Date(System.currentTimeMillis()));
+				servico.setHoraSaida(new Date(System.currentTimeMillis()));
+				servico.setConcluido(true);
+				ocorrencia.setServico(servico);
+				ocorrencia.setPrestador(prestador);
+				prestador.addOcorrencia(ocorrencia);
+				daoo.persist(ocorrencia);
+				daors.merge(servico);
+				dao.commit();
+				displayInfoMessageToUser("Ocorrência registrada com sucesso! ");
+				reset();
+			}
+		
+	}
+	public void registrarMotivo5(){
+		
+	}
+	public void registrarMotivo6(){
+		
+	}
 	
 	
-	
-	
+	public void reset(){
+		iniciarOcorrencia= false;
+		motivo1= false;
+		motivo2= false;
+		motivo3= false;
+		motivo4= false;
+		motivo5= false;
+		motivo6= false;
+		ocorrencia= new OcorrenciaPrestadorServico();
+		servico= new ServicoResidencia();
+		servicosAbertos= new ArrayList<ServicoResidencia>();
+		senha= null;
+	}
 	
 	public OcorrenciaPrestadorServico getOcorrencia() {
 		return ocorrencia;

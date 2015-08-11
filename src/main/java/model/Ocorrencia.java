@@ -21,10 +21,10 @@ public class Ocorrencia {
 	private long id;
 	@Temporal(TemporalType.DATE)
 	private Date dataOcorrencia;
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIME)
 	private Date horaOcorrencia;
 	private String descricao;
-	@ManyToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE},fetch=FetchType.LAZY)
+	@ManyToOne(cascade={CascadeType.MERGE},fetch=FetchType.LAZY)
 	private Usuario usuario;
 	
 	
