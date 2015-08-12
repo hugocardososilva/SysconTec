@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import model.Pessoa;
 import model.Prestador;
 import model.ServicoResidencia;
 
@@ -46,7 +47,25 @@ public class DAOServicoResidencia extends DAO<ServicoResidencia> {
 		}
 		
 	}
-	
+	public List<ServicoResidencia> findServicoByPrestadorData(Pessoa p, Date data) throws NullPointerException{
+		try {
+//		Query q = manager.createQuery("Select S from ServicoResidencia S, IN(S.prestador) P  where  P.id = :id and S.concluido = FALSE");
+			Query q = manager.createQuery("Select S from ServicoResidencia S where S.prestador.id = :id and S.dataEntrada = :data"  );
+		String prepared= "%";
+		prepared+= p.getId();
+		prepared+= "%";
+		
+		q.setParameter("id", p.getId());
+		q.setParameter("data", data);
+		
+		System.out.println(q.getResultList().toString());
+		return q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println(e.toString());
+			return null;
+		}
+		
+	}
 	
 
 }
