@@ -18,7 +18,7 @@
 			
 			</p:confirmDialog>
 			
-			<p:panel>
+			<p:panel styleClass="botoes">
 			
 				<p:panelGrid columns="2">
 				
@@ -45,8 +45,8 @@
 			
 				
 				
-			<p:panel rendered="#{ocorrenciaPrestadorMB.motivo1 eq true}">
-				<p:panelGrid columns="2">
+			<p:panel styleClass="botoes" >
+				<p:panelGrid columns="2" rendered="#{ocorrenciaPrestadorMB.motivo1 eq true}">
 				<h:outputText value="Horário de Entrada: "></h:outputText>
 					
 						<p:clock id="horaIdClockEntrada" mode="server" pattern="dd/MM/yyyy HH:mm:ss"></p:clock>
@@ -55,12 +55,15 @@
 				<p:inputTextarea id="descricaoMotivo1" value="#{ocorrenciaPrestadorMB.ocorrencia.descricao}"/>
 				<p:commandButton icon="fa fa-plus" styleClass="btn btn-success btn-lg" value="Registrar" 
 					update=":ocorrenciaPrestador" action="#{ocorrenciaPrestadorMB.registrarMotivo1}"  ajax="false" />
+					<p:commandButton icon="fa fa-close" immediate="true" styleClass="btn btn-warning"  value="Cancelar" action="ocorrencia-prestador"  update=":ocorrenciaPrestador" >
+						<p:confirm header="Cancelar" message="Deseja mesmo cancelar?" icon="fa fa-warning" />
+					</p:commandButton>
 				</p:panelGrid>
 			
 			</p:panel>
 			
-				<p:panel rendered="#{ocorrenciaPrestadorMB.motivo2 eq true}">
-					<p:panelGrid columns="2">
+				<p:panel styleClass="botoes">
+					<p:panelGrid columns="2" rendered="#{ocorrenciaPrestadorMB.motivo2 eq true}">
 						<h:outputText value="Horário de Saída: "></h:outputText>
 							
 								<p:clock id="horaIdClockSaida" mode="server" pattern="dd/MM/yyyy HH:mm:ss"></p:clock>
@@ -69,11 +72,14 @@
 						<p:inputTextarea id="descricaoMotivo2" value="#{ocorrenciaPrestadorMB.ocorrencia.descricao}"/>
 						<p:commandButton icon="fa fa-plus" styleClass="btn btn-success btn-lg" value="Registrar" 
 							update=":ocorrenciaPrestador" action="#{ocorrenciaPrestadorMB.registrarMotivo2}"  ajax="false" />
+							<p:commandButton icon="fa fa-close" immediate="true" styleClass="btn btn-warning"  value="Cancelar" action="ocorrencia-prestador"  update=":ocorrenciaPrestador" >
+						<p:confirm header="Cancelar" message="Deseja mesmo cancelar?" icon="fa fa-warning" />
+					</p:commandButton>
 					</p:panelGrid>
 			
 				</p:panel>
 				
-				<p:panel rendered="#{ocorrenciaPrestadorMB.motivo3 eq true}">
+				<p:panel styleClass="botoes" rendered="#{ocorrenciaPrestadorMB.motivo3 eq true}">
 				<p:panelGrid columns="2">
 				<h:outputText value="Horário de Entrada: "></h:outputText>
 					
@@ -83,10 +89,13 @@
 				<p:inputTextarea id="descricaoMotivo3" value="#{ocorrenciaPrestadorMB.ocorrencia.descricao}"/>
 				<p:commandButton icon="fa fa-plus" styleClass="btn btn-success btn-lg" value="Registrar" 
 					update=":ocorrenciaPrestador" action="#{ocorrenciaPrestadorMB.registrarMotivo3}"  ajax="false" />
+					<p:commandButton icon="fa fa-close" immediate="true" styleClass="btn btn-warning"  value="Cancelar" action="ocorrencia-prestador"  update=":ocorrenciaPrestador" >
+						<p:confirm header="Cancelar" message="Deseja mesmo cancelar?" icon="fa fa-warning" />
+					</p:commandButton>
 				</p:panelGrid>
 			
 			</p:panel>
-			<p:panel rendered="#{ocorrenciaPrestadorMB.motivo4 eq true}">
+			<p:panel styleClass="botoes" rendered="#{ocorrenciaPrestadorMB.motivo4 eq true}">
 					<p:panelGrid columns="2">
 						<h:outputText value="Horário de Saída: "></h:outputText>
 							
@@ -96,11 +105,14 @@
 						<p:inputTextarea id="descricaoMotivo4" value="#{ocorrenciaPrestadorMB.ocorrencia.descricao}"/>
 						<p:commandButton icon="fa fa-plus" styleClass="btn btn-success btn-lg" value="Registrar" 
 							update=":ocorrenciaPrestador" action="#{ocorrenciaPrestadorMB.registrarMotivo4}"  ajax="false" />
+							<p:commandButton icon="fa fa-close" immediate="true" styleClass="btn btn-warning"  value="Cancelar" action="ocorrencia-prestador"  update=":ocorrenciaPrestador" >
+						<p:confirm header="Cancelar" message="Deseja mesmo cancelar?" icon="fa fa-warning" />
+					</p:commandButton>
 					</p:panelGrid>
 			
 				</p:panel>
 				
-				<p:panel rendered="#{ocorrenciaPrestadorMB.motivo5 eq true}">
+				<p:panel styleClass="botoes" rendered="#{ocorrenciaPrestadorMB.motivo5 eq true}">
 				<p:panelGrid columns="2">
 				<h:outputText value="Horário aproximado da entrada: "></h:outputText>
 					
@@ -117,11 +129,14 @@
 				<p:inputTextarea id="descricaoMotivo5" value="#{ocorrenciaPrestadorMB.ocorrencia.descricao}"/>
 				<p:commandButton icon="fa fa-plus" styleClass="btn btn-success btn-lg" value="Registrar" 
 					update=":ocorrenciaPrestador" action="#{ocorrenciaPrestadorMB.registrarMotivo5}"  ajax="false" />
+					<p:commandButton icon="fa fa-close" immediate="true" styleClass="btn btn-warning"  value="Cancelar" action="ocorrencia-prestador"  update=":ocorrenciaPrestador" >
+						<p:confirm header="Cancelar" message="Deseja mesmo cancelar?" icon="fa fa-warning" />
+					</p:commandButton>
 				</p:panelGrid>
 			
 			</p:panel>
 			
-				<p:panel rendered="#{ocorrenciaPrestadorMB.motivo6 eq true}">
+				<p:panel styleClass="botoes" rendered="#{ocorrenciaPrestadorMB.motivo6 eq true}">
 				<p:panelGrid columns="2">
 				<h:outputText value="Horário aproximado da saída: "></h:outputText>
 					
@@ -138,6 +153,9 @@
 				<p:inputTextarea id="descricaoMotivo6" value="#{ocorrenciaPrestadorMB.ocorrencia.descricao}"/>
 				<p:commandButton icon="fa fa-plus" styleClass="btn btn-success btn-lg" value="Registrar" 
 					update=":ocorrenciaPrestador" action="#{ocorrenciaPrestadorMB.registrarMotivo6}"  ajax="false" />
+					<p:commandButton icon="fa fa-close" immediate="true" styleClass="btn btn-warning"  value="Cancelar" action="ocorrencia-prestador"  update=":ocorrenciaPrestador" >
+						<p:confirm header="Cancelar" message="Deseja mesmo cancelar?" icon="fa fa-warning" />
+					</p:commandButton>
 				</p:panelGrid>
 			
 			</p:panel>

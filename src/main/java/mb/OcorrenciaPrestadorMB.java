@@ -13,6 +13,9 @@ import javax.faces.bean.ViewScoped;
 
 
 
+
+import org.joda.time.DateTime;
+
 import dao.DAO;
 import dao.DAOOcorrenciaPrestador;
 import dao.DAOPrestadorPessoa;
@@ -166,38 +169,63 @@ public class OcorrenciaPrestadorMB extends AbstractMB implements Serializable{
 	public void registrarMotivo1(){
 		
 		System.out.println("registrando chegada do prestador mais cedo.");
-		dao.open();
-		dao.begin();
 		
-			servicosAbertos= daors.findServicoEmAbertoByPrestador(prestador);
+		
+		servico.setDataEntrada(new Date(System.currentTimeMillis()));
+		servico.setHoraEntrada(new Date(System.currentTimeMillis()));
+		DateTime horarioEntradaServico= new DateTime(servico.getHoraEntrada());
+		DateTime horarioEntradaPrestador= new DateTime(prestador.getHoraEntrada());
+		
+		if(horarioEntradaServico.getMinuteOfDay() > horarioEntradaPrestador.getMinuteOfDay() ){
+			displayErrorMessageToUser("O horário de entrada do serviço é maior que o horário de entrada do prestador,"
+					+ " portanto, ele está atrasado. Altere a configuração da ocorrência para uma apropriada.");
+		}else{
+				dao.open();
+				dao.begin();
 			
-				if(!servicosAbertos.isEmpty()){
-					displayErrorMessageToUser("Já existe serviço(s) em aberto, por favor, finalize outro(s) serviços"
-							+ " antes de iniciar outro.");
-				}else{
-		
-						servico.setDataEntrada(new Date(System.currentTimeMillis()));
-						servico.setHoraEntrada(new Date(System.currentTimeMillis()));
-						servico.setPrestador(prestador);
-						servico.setConcluido(false);
-						prestador.setUltimoAcesso(new Date(System.currentTimeMillis()));
-						prestador.addServico(servico);
-						ocorrencia.setPrestador(prestador);
-						ocorrencia.setServico(servico);
-						prestador.addOcorrencia(ocorrencia);
-					daop.merge(prestador);
-					daoo.persist(ocorrencia);
-					daors.persist(servico);
-					dao.commit();
-					displayInfoMessageToUser("Ocorrência registrada com sucesso!");
-					reset();
-				}
-		
+				servicosAbertos= daors.findServicoEmAbertoByPrestador(prestador);
+				
+					if(!servicosAbertos.isEmpty()){
+						displayErrorMessageToUser("Já existe serviço(s) em aberto, por favor, finalize outro(s) serviços"
+								+ " antes de iniciar outro.");
+					}else{
+			
+							
+							servico.setPrestador(prestador);
+							servico.setConcluido(false);
+							prestador.setUltimoAcesso(new Date(System.currentTimeMillis()));
+							prestador.addServico(servico);
+							ocorrencia.setPrestador(prestador);
+							ocorrencia.setServico(servico);
+							prestador.addOcorrencia(ocorrencia);
+						daop.merge(prestador);
+						daoo.persist(ocorrencia);
+						daors.persist(servico);
+						dao.commit();
+						displayInfoMessageToUser("Ocorrência registrada com sucesso!");
+						reset();
+					}
+		}
+		reset();
 	}
 	public void registrarMotivo2(){
 		System.out.println("registrando saída do prestador mais cedo.");
+			
+			servico.setDataSaida(new Date(System.currentTimeMillis()));
+			servico.setHoraSaida(new Date(System.currentTimeMillis()));
+			DateTime horarioSaidaServico= new DateTime(servico.getHoraSaida());
+			DateTime horarioSaidaPrestador= new DateTime(prestador.getHoraSaida());
+			
+			if(horarioSaidaPrestador.getMinuteOfDay() < horarioSaidaServico.getMinuteOfDay()){
+				displayErrorMessageToUser("O horário de saída do serviço é maior que o horário de saída do prestador, "
+						+ "portanto, ele está saindo atrasado. Altere a configuração da ocorrência para uma apropriada.");
+			}else{
+			
+			
 			dao.open();
 			dao.begin();
+			
+			
 		
 			servicosAbertos= daors.findServicoEmAbertoByPrestador(prestador);
 				if(servicosAbertos.isEmpty()){
@@ -226,6 +254,8 @@ public class OcorrenciaPrestadorMB extends AbstractMB implements Serializable{
 					displayInfoMessageToUser("Ocorrência registrada com sucesso! ");
 					reset();
 				}
+			}
+			reset();
 	}
 	public void registrarMotivo3(){
 		System.out.println("registrando chegada do prestador atrasado.");
